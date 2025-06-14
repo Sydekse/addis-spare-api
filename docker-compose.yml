@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=production
+      - DATABASE_HOST=postgres
+      - DATABASE_PORT=5432
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=postgres
+      - DATABASE_NAME=addis_spare
+    depends_on:
+      - postgres
+    networks:
+      - addis-spare-network
+
+  postgres:
+    image: postgres:15-alpine
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=addis_spare
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - addis-spare-network
+
+volumes:
+  postgres_data:
+
+networks:
+  addis-spare-network:
+    driver: bridge
