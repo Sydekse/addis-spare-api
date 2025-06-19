@@ -12,8 +12,8 @@ import { FindUserDto } from 'src/modules/module/application/dto/find-user.dto';
 import { CreateUserUseCase } from 'src/modules/module/application/use-cases/users/create-user.use-case';
 import { DeleteUserUseCase } from 'src/modules/module/application/use-cases/users/delete-user.use-case';
 import { FindUserUseCase } from 'src/modules/module/application/use-cases/users/find-user.use-case';
-import { UpdateUserUseCase } from 'src/modules/module/application/use-cases/users/update-user.use-case';
-import { User } from 'src/modules/module/domain/entities/user.entity';
+import { UpdateUserUseCase } from 'src/modules/users/application/usecase/users/update-user.use-case';
+import { User } from 'src/modules/users/domain/entity/user.entity';
 
 @Controller('users')  
 export class UserController {
