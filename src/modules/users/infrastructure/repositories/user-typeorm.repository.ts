@@ -4,6 +4,7 @@ import { User } from "src/modules/users/domain/entity/user.entity";
 import { UserRepository } from "src/modules/users/domain/repository/user.repository";
 import { Repository } from "typeorm";
 import { UserTypeOrmEntity } from "../typeorm/user-typeorm.entity";
+import { UserContact } from "../../domain/entity/user-data-types";
 
 @Injectable()
 
@@ -18,15 +19,17 @@ export class UserTypeOrmRepository implements UserRepository {
             user.id,
             user.email,
             user.name,
-            user.phone
-            );
+            user.passwordHash,
+            user.contact as UserContact
+        );
     }
     async save(user: User): Promise<void> {
         const userEntity = new UserTypeOrmEntity();
         userEntity.id = user.getId();
         userEntity.email = user.getEmail();
         userEntity.name = user.getName();
-        userEntity.phone = user.getPhone();
+        userEntity.passwordHash = user.getPasswordHash();
+        userEntity.contact = user.getContact();
         await this.repository.save(userEntity);
     }
     async update(user: User): Promise<void> {
@@ -34,7 +37,7 @@ export class UserTypeOrmRepository implements UserRepository {
         if (!entity) throw new Error('User not found');
         entity.name = user.getName();
         entity.email = user.getEmail();
-        entity.phone = user.getPhone();
+        entity.contact = user.getContact();
         entity.updatedAt = new Date();
         await this.repository.save(entity);
     }

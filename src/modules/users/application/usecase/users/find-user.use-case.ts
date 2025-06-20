@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { UserRepository } from '../../../domain/repositories/user.repository';
-import { FindUserDto } from '../../dto/find-user.dto';
-import { User } from '../../../domain/entities/user.entity';
+import { UserRepository } from 'src/modules/users/domain/repository/user.repository';
+import { FindUserDto } from 'src/modules/users/application/dto/users/find-user.dto';
+import { User } from 'src/modules/users/domain/entity/user.entity';
 @Injectable()
 export class FindUserUseCase {
     constructor(private readonly userRepository: UserRepository) {}

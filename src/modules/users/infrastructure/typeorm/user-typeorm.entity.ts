@@ -18,10 +18,15 @@ export class UserTypeOrmEntity {
     email: string;
 
     @Column({ length: 255 })
-    password: string;
+    passwordHash: string;
 
-    @Column({ length: 15, nullable: true })
-    phone: string;
+
+    @Column('jsonb', { nullable: true })
+    contact: {
+        phone: string;
+        city: string;
+        country: string;
+    };
 
     @CreateDateColumn()
     createdAt: Date;

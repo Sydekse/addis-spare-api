@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { UserRepository } from '../../../domain/repositories/user.repository';
-import { DeleteUserDto } from '../../dto/delete-user.dto';
+import { UserRepository } from 'src/modules/users/domain/repository/user.repository';
+import { DeleteUserDto } from 'src/modules/users/application/dto/users/delete-user.dto';
 
 
 @Injectable()
