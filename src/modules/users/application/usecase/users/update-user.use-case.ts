@@ -15,6 +15,7 @@ export class UpdateUserUseCase {
             userToUpdate.name,
             userToUpdate.passwordHash,
             userToUpdate.contact,
+            userToUpdate.role
         );
         await this.userRepository.update(user);
     }

@@ -1,6 +1,7 @@
-import { IsEmail, IsNotEmpty, IsString, MaxLength, Matches, ValidateNested, MinLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString, MaxLength, Matches, ValidateNested, MinLength, IsEnum } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ContactDto } from './user-contact.dto';
+import { UserRole } from 'src/modules/users/domain/entity/user-data-types';
     
 export class UpdateUserDto {
     @IsNotEmpty()
@@ -25,6 +26,12 @@ export class UpdateUserDto {
         message: 'Password must not exceed 255 characters',
     })
     passwordHash: string;
+
+    @IsNotEmpty()
+    @IsEnum(UserRole, {
+        message: 'Role must be a valid UserRole',
+    })
+    role: UserRole;
         
     @ValidateNested()
     @Type(() => ContactDto)
