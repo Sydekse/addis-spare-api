@@ -5,6 +5,7 @@ import {
     CreateDateColumn, 
     UpdateDateColumn,
 } from 'typeorm';
+import { UserRole } from '../../domain/entity/user-data-types';
 
 @Entity('users')
 export class UserTypeOrmEntity {
@@ -18,10 +19,18 @@ export class UserTypeOrmEntity {
     email: string;
 
     @Column({ length: 255 })
-    password: string;
+    passwordHash: string;
 
-    @Column({ length: 15, nullable: true })
-    phone: string;
+
+    @Column('jsonb', { nullable: true })
+    contact: {
+        phone: string;
+        city: string;
+        country: string;
+    };
+
+    @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
+    role: UserRole;
 
     @CreateDateColumn()
     createdAt: Date;

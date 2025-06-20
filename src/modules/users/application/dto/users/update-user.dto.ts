@@ -1,5 +1,8 @@
-import { IsEmail, IsNotEmpty, IsString, MaxLength, Matches } from 'class-validator';
-
+import { IsEmail, IsNotEmpty, IsString, MaxLength, Matches, ValidateNested, MinLength, IsEnum } from 'class-validator';
+import { Type } from 'class-transformer';
+import { ContactDto } from './user-contact.dto';
+import { UserRole } from 'src/modules/users/domain/entity/user-data-types';
+    
 export class UpdateUserDto {
     @IsNotEmpty()
     id: string;
@@ -16,11 +19,21 @@ export class UpdateUserDto {
     name: string;
 
     @IsString()
-    @MaxLength(15, {
-        message: 'Phone number must not exceed 15 characters',
+    @MinLength(8, {
+        message: 'Password must be at least 8 characters long',
     })
-    @Matches(/^\+?[1-9]\d{7,14}$/, {
-        message: 'Phone number must be valid (e.g., +1234567890)',
+    @MaxLength(255, {
+        message: 'Password must not exceed 255 characters',
     })
-    phone: string;
+    passwordHash: string;
+
+    @IsNotEmpty()
+    @IsEnum(UserRole, {
+        message: 'Role must be a valid UserRole',
+    })
+    role: UserRole;
+        
+    @ValidateNested()
+    @Type(() => ContactDto)
+    contact: ContactDto;
 }

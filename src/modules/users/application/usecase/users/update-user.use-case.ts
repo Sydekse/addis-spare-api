@@ -1,7 +1,7 @@
 import {Injectable } from '@nestjs/common';
-import { User } from '../../../domain/entities/user.entity';
-import { UserRepository } from '../../../domain/repositories/user.repository';
-import { UpdateUserDto } from '../../dto/update-user.dto';
+import { User } from 'src/modules/users/domain/entity/user.entity';
+import { UserRepository } from 'src/modules/users/domain/repository/user.repository';
+import { UpdateUserDto } from 'src/modules/users/application/dto/users/update-user.dto';
 
 @Injectable()
 export class UpdateUserUseCase {
@@ -13,7 +13,9 @@ export class UpdateUserUseCase {
             userToUpdate.id,
             userToUpdate.email,
             userToUpdate.name,
-            userToUpdate.phone,
+            userToUpdate.passwordHash,
+            userToUpdate.contact,
+            userToUpdate.role
         );
         await this.userRepository.update(user);
     }

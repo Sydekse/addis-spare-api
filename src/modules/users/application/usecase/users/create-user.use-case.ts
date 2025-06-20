@@ -1,7 +1,8 @@
 import { Injectable } from "@nestjs/common";
-import { User } from "../../../domain/entities/user.entity";
-import { UserRepository } from "../../../domain/repositories/user.repository";
-import { CreateUserDto } from "../../dto/create-user.dto";
+import { User } from "src/modules/users/domain/entity/user.entity";
+import { UserRepository } from "src/modules/users/domain/repository/user.repository";
+import { CreateUserDto } from "src/modules/users/application/dto/users/create-user.dto";
+import { create } from "domain";
 
 @Injectable()
 export class CreateUserUseCase {
@@ -12,7 +13,9 @@ export class CreateUserUseCase {
             createUserDto.id,
             createUserDto.email,
             createUserDto.name,
-            createUserDto.phone,
+            createUserDto.passwordHash,
+            createUserDto.contact,
+            createUserDto.role,
         );
         await this.userRepository.save(user);
         return user;

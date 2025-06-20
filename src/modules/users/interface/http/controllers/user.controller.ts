@@ -7,11 +7,13 @@ import {
   Body,
   Param,
 } from '@nestjs/common';
-import { CreateUserDto } from 'src/modules/module/application/dto/create-user.dto';
-import { FindUserDto } from 'src/modules/module/application/dto/find-user.dto';
-import { CreateUserUseCase } from 'src/modules/module/application/use-cases/users/create-user.use-case';
-import { DeleteUserUseCase } from 'src/modules/module/application/use-cases/users/delete-user.use-case';
-import { FindUserUseCase } from 'src/modules/module/application/use-cases/users/find-user.use-case';
+import { CreateUserDto } from 'src/modules/users/application/dto/users/create-user.dto';
+import { DeleteUserDto } from 'src/modules/users/application/dto/users/delete-user.dto';
+import { FindUserDto } from 'src/modules/users/application/dto/users/find-user.dto';
+import { UpdateUserDto } from 'src/modules/users/application/dto/users/update-user.dto';
+import { CreateUserUseCase } from 'src/modules/users/application/usecase/users/create-user.use-case';
+import { DeleteUserUseCase } from 'src/modules/users/application/usecase/users/delete-user.use-case';
+import { FindUserUseCase } from 'src/modules/users/application/usecase/users/find-user.use-case';
 import { UpdateUserUseCase } from 'src/modules/users/application/usecase/users/update-user.use-case';
 import { User } from 'src/modules/users/domain/entity/user.entity';
 
@@ -34,14 +36,14 @@ export class UserController {
   }
 
   @Post('delete')
-  async delete(@Body() dto: FindUserDto): Promise<void> {
+  async delete(@Body() dto: DeleteUserDto): Promise<void> {
     return await this.deleteUserUseCase.execute(dto);
   }
 
   @Put(':id')
   async update(
     @Param('id') id:  string,
-    @Body() dto: CreateUserDto,
+    @Body() dto: UpdateUserDto,
   ): Promise<void> {
     dto.id = id; 
     return await this.updateUserUseCase.execute(dto);
