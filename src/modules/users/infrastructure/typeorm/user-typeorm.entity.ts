@@ -1,40 +1,39 @@
 import {
-    Entity, 
-    Column, 
-    PrimaryGeneratedColumn, 
-    CreateDateColumn, 
-    UpdateDateColumn,
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { UserRole } from '../../domain/entity/user-data-types';
 
 @Entity('users')
 export class UserTypeOrmEntity {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @Column({ length: 100 })
-    name: string;
+  @Column({ length: 100 })
+  name: string;
 
-    @Column({ length: 100, unique: true })
-    email: string;
+  @Column({ length: 100, unique: true })
+  email: string;
 
-    @Column({ length: 255 })
-    passwordHash: string;
+  @Column({ length: 255 })
+  passwordHash: string;
 
+  @Column('jsonb', { nullable: true })
+  contact: {
+    phone: string;
+    city: string;
+    country: string;
+  } | null;
 
-    @Column('jsonb', { nullable: true })
-    contact: {
-        phone: string;
-        city: string;
-        country: string;
-    };
+  @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
+  role: UserRole;
 
-    @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
-    role: UserRole;
+  @CreateDateColumn()
+  createdAt: Date;
 
-    @CreateDateColumn()
-    createdAt: Date;
-
-    @UpdateDateColumn()
-    updatedAt: Date;
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

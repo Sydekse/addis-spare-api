@@ -1,6 +1,6 @@
 import { IsNotEmpty } from 'class-validator';
 
 export class DeleteUserDto {
-    @IsNotEmpty()
-    id: string;
+  @IsNotEmpty()
+  id: string;
 }
