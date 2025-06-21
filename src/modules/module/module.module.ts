@@ -11,11 +11,11 @@ import { ModuleRepository } from './domain/repositories/module.repository';
   controllers: [ModuleController],
   providers: [
     CreateModuleUseCase,
-    {
-      provide: ModuleRepository,
-      useClass: ModuleTypeOrmRepository,
-    },
+    // {
+    //   provide: ModuleRepository,
+    //   useClass: ModuleTypeOrmRepository,
+    // },
   ],
-  exports: [ModuleRepository],
+  // exports: [ModuleRepository],
 })
 export class ModuleModule {}
