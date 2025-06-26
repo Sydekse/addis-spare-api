@@ -17,13 +17,14 @@ import { FindUserUseCase } from 'src/modules/users/application/usecase/users/fin
 import { UpdateUserUseCase } from 'src/modules/users/application/usecase/users/update-user.use-case';
 import { User } from 'src/modules/users/domain/entity/user.entity';
 
-@Controller('users')  
+@Controller('users')
 export class UserController {
-  constructor(private readonly createUserUseCase: CreateUserUseCase,
+  constructor(
+    private readonly createUserUseCase: CreateUserUseCase,
     private readonly updateUserUseCase: UpdateUserUseCase,
     private readonly findUserById: FindUserUseCase,
-    private readonly deleteUserUseCase: DeleteUserUseCase) {}
-
+    private readonly deleteUserUseCase: DeleteUserUseCase,
+  ) {}
 
   @Post()
   async create(@Body() dto: CreateUserDto): Promise<User> {
@@ -42,10 +43,10 @@ export class UserController {
 
   @Put(':id')
   async update(
-    @Param('id') id:  string,
+    @Param('id') id: string,
     @Body() dto: UpdateUserDto,
   ): Promise<void> {
-    dto.id = id; 
+    dto.id = id;
     return await this.updateUserUseCase.execute(dto);
   }
 }

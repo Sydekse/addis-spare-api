@@ -1,11 +1,11 @@
 export interface UserContact {
-    phone: string;
-    address: string;
-    country: string;
-    city: string;
+  phone: string;
+  address: string;
+  country: string;
+  city: string;
 }
 
 export enum UserRole {
-    USER = 'user',
-    ADMIN = 'admin',
+  USER = 'user',
+  ADMIN = 'admin',
 }
