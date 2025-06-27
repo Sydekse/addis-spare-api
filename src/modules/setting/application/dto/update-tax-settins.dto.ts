@@ -2,7 +2,7 @@ import { Type } from "class-transformer";
 import { IsNotEmpty, ValidateNested } from "class-validator";
 import { TaxRule } from "./tax-rule.dto";
 
-export class UpdateTaxSettings {
+export class UpdateTaxSettingsDto {
     @IsNotEmpty()
     userId: string;
     @ValidateNested()
