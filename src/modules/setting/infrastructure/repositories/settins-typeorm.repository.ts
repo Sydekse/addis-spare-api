@@ -2,9 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { Repository } from "typeorm";
 import { SystemSettings } from "../../domain/entities/settins.entity";
 import { SettingsTypeOrmEntity } from "../typeorm/settings-typeorm.entity";
-import { DeliveryZone, UserPermission } from "../../domain/entities/setting-data-types";
-import { UserRole } from "src/modules/users/domain/entity/user-data-types";
-import { TaxRule } from "../../application/dto/tax-rule.dto";
+import { CurrencySettings, DeliveryZone, NotificationSettings, TaxRule, UserPermission } from "src/modules/setting/domain/entities/setting-data-types";
 
 @Injectable()
 class SettingsTypeOrmRepository {
