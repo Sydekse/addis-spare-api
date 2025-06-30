@@ -5,7 +5,7 @@ import { SettingsTypeOrmEntity } from "../typeorm/settings-typeorm.entity";
 import { CurrencySettings, DeliveryZone, NotificationSettings, TaxRule, UserPermission } from "src/modules/setting/domain/entities/setting-data-types";
 
 @Injectable()
-class SettingsTypeOrmRepository {
+export class SettingsTypeOrmRepository {
     constructor(private readonly repository: Repository<SettingsTypeOrmEntity>) {
         // Inject the TypeORM repository for settings
     }   

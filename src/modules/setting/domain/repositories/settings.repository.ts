@@ -3,6 +3,8 @@ import { CurrencySettings, DeliveryZone, NotificationSettings } from "../entitie
 import { SystemSettings } from "../entities/settins.entity";
 import { TaxRule } from "../../application/dto/tax-rule.dto";
 
+export const SETTINGS_REPOSITORY = Symbol.for('SettingsRepository');
+
 export interface SettingsRepository {
     findByUserId(userId: string): Promise<SystemSettings | null>;
     findById(id: string): Promise<SystemSettings | null>;
