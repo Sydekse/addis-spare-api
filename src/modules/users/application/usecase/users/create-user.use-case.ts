@@ -5,7 +5,6 @@ import {
   UserRepository,
 } from 'src/modules/users/domain/repository/user.repository';
 import { CreateUserDto } from 'src/modules/users/application/dto/users/create-user.dto';
-import { create } from 'domain';
 
 @Injectable()
 export class CreateUserUseCase {
