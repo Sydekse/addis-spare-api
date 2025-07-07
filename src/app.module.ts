@@ -9,6 +9,7 @@ import roles from './modules/auth/infrastructure/access-control/access-control';
 import { ModuleModule } from './modules/module/module.module';
 import { ProductModule } from './modules/product/product.module';
 import { InventoryModule } from './modules/inventory/inventory.module';
+import { OrderModule } from './modules/order/order.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { InventoryModule } from './modules/inventory/inventory.module';
     ModuleModule,
     InventoryModule,
     ProductModule,
+    OrderModule,
     UserModule,
     AuthModule,
   ],
