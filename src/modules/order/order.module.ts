@@ -7,19 +7,28 @@ import { FindOrderByIdUseCase } from './application/use-cases/create-module/find
 import { FindAllOrdersUseCase } from './application/use-cases/create-module/all-orders.use-case';
 import { DeleteOrderUseCase } from './application/use-cases/create-module/delete-order.use-case';
 import { PlaceOrderUseCase } from './application/use-cases/create-module/create-order.use-case';
-import { UpdateOrderUseCase } from './application/use-cases/create-module/update-order.use-case';
 import { ORDER_REPOSITORY } from './domain/repositories/order.repository';
 import { OrderTypeOrmRepository } from './infrastructure/persistence/repositories/order-typeorm.repository';
+import { UserModule } from '../users/user.module';
+import { InventoryModule } from '../inventory/inventory.module';
+import { FindOrderByUserIdUseCase } from './application/use-cases/create-module/find-order-by-user-id.use-case';
+import { CancelOrderUseCase } from './application/use-cases/create-module/cancel-order.use-case';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([OrderTypeOrmEntity]), ProductModule],
+  imports: [
+    TypeOrmModule.forFeature([OrderTypeOrmEntity]),
+    ProductModule,
+    InventoryModule,
+    UserModule,
+  ],
   controllers: [OrderController],
   providers: [
     PlaceOrderUseCase,
     FindOrderByIdUseCase,
     FindAllOrdersUseCase,
     DeleteOrderUseCase,
-    UpdateOrderUseCase,
+    CancelOrderUseCase,
+    FindOrderByUserIdUseCase,
     {
       provide: ORDER_REPOSITORY,
       useClass: OrderTypeOrmRepository,

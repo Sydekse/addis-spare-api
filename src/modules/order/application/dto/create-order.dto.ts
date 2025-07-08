@@ -1,12 +1,23 @@
-import { Type } from "class-transformer";
-import { IsUUID, IsString, IsInt, Min, IsNumber, IsArray, ArrayMinSize, ValidateNested, IsOptional, IsEnum } from "class-validator";
+import { Type } from 'class-transformer';
+import {
+  IsUUID,
+  IsString,
+  IsInt,
+  Min,
+  IsNumber,
+  IsArray,
+  ArrayMinSize,
+  ValidateNested,
+  IsOptional,
+  IsEnum,
+} from 'class-validator';
 
 export enum OrderStatus {
-  PENDING = 'pending',
-  PAID = 'paid',
-  SHIPPED = 'shipped',
-  DELIVERED = 'delivered',
-  CANCELLED = 'cancelled',
+  PENDING = 'PENDING',
+  PAID = 'PAID',
+  SHIPPED = 'SHIPPED',
+  DELIVERED = 'DELIVERED',
+  CANCELLED = 'CANCELLED',
 }
 
 export class OrderItemDto {
@@ -38,8 +49,8 @@ export class OrderDiscountDto {
 }
 
 export class CreateOrderDto {
-  @IsUUID()
-  userId: string;
+  // @IsUUID()
+  // userId: string;
 
   @IsArray()
   @ArrayMinSize(1)

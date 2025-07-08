@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import {  Repository } from 'typeorm';
+import { EntityManager, Repository } from 'typeorm';
 import { OrderRepository } from 'src/modules/order/domain/repositories/order.repository';
 import { Order } from 'src/modules/order/domain/entities/order.entity';
 import { OrderTypeOrmEntity } from '../typeorm/order-typeorm.entity';
@@ -8,16 +8,41 @@ import { OrderTypeOrmEntity } from '../typeorm/order-typeorm.entity';
 @Injectable()
 export class OrderTypeOrmRepository implements OrderRepository {
   constructor(
-    @InjectRepository(Order)
+    @InjectRepository(OrderTypeOrmEntity)
     private readonly repository: Repository<OrderTypeOrmEntity>,
   ) {}
+  async findByUserId(id: string): Promise<Order[]> {
+    const orders = await this.repository.find({ where: { userId: id } });
+    return orders.map(
+      (entity) =>
+        new Order(
+          entity.id,
+          entity.userId,
+          entity.items,
+          entity.subtotal,
+          entity.tax,
+          entity.shippingFee,
+          entity.total,
+          entity.status,
+          entity.discounts,
+        ),
+    );
+  }
 
   async findById(id: string): Promise<Order | null> {
     const entity = await this.repository.findOne({ where: { id } });
     if (!entity) return null;
 
     return new Order(
-      entity.id, entity.userId, entity.items, entity.subtotal, entity.tax, entity.shippingFee, entity.total, entity.status, entity.discounts
+      entity.id,
+      entity.userId,
+      entity.items,
+      entity.subtotal,
+      entity.tax,
+      entity.shippingFee,
+      entity.total,
+      entity.status,
+      entity.discounts,
     );
   }
 
@@ -26,15 +51,20 @@ export class OrderTypeOrmRepository implements OrderRepository {
     return entities.map(
       (entity) =>
         new Order(
-          entity.id, entity.userId, 
-          entity.items, entity.subtotal, 
-          entity.tax, entity.shippingFee, 
-          entity.total, entity.status, entity.discounts
+          entity.id,
+          entity.userId,
+          entity.items,
+          entity.subtotal,
+          entity.tax,
+          entity.shippingFee,
+          entity.total,
+          entity.status,
+          entity.discounts,
         ),
     );
   }
 
-  async save(order: Order): Promise<void> {
+  async save(order: Order, manager: EntityManager): Promise<void> {
     const entity = new OrderTypeOrmEntity();
     entity.id = order.getId();
     entity.userId = order.getUserId();
@@ -46,7 +76,8 @@ export class OrderTypeOrmRepository implements OrderRepository {
     entity.total = order.getTotal();
     entity.status = order.getStatus();
 
-    await this.repository.save(entity);
+    await manager.save(entity);
+    // await this.repository.save(entity);
   }
 
   async update(order: Order): Promise<void> {
@@ -64,7 +95,6 @@ export class OrderTypeOrmRepository implements OrderRepository {
     entity.shippingFee = order.getShippingFee();
     entity.total = order.getTotal();
     entity.status = order.getStatus();
-
 
     await this.repository.save(entity);
   }

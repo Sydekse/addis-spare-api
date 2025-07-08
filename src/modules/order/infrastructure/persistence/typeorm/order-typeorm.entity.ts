@@ -22,11 +22,11 @@ import { Type } from 'class-transformer';
 import { UserTypeOrmEntity } from 'src/modules/users/infrastructure/typeorm/user-typeorm.entity';
 
 enum OrderStatus {
-  PENDING = 'pending',
-  PAID = 'paid',
-  SHIPPED = 'shipped',
-  DELIVERED = 'delivered',
-  CANCELLED = 'cancelled',
+  PENDING = 'PENDING',
+  PAID = 'PAID',
+  SHIPPED = 'SHIPPED',
+  DELIVERED = 'DELIVERED',
+  CANCELLED = 'CANCELLED',
 }
 
 class OrderItem {
@@ -44,6 +44,8 @@ class OrderItem {
   @IsNumber({ maxDecimalPlaces: 2 })
   @Min(0)
   unitPrice: number;
+
+  inventories: OrderInventory[];
 }
 
 class OrderDiscount {
@@ -52,6 +54,18 @@ class OrderDiscount {
   @IsNumber({ maxDecimalPlaces: 2 })
   @Min(0)
   amount: number;
+}
+
+export class OrderInventory {
+  public constructor(id: string, quantity: number) {
+    this.id = id;
+    this.quantity = quantity;
+  }
+  id: string;
+
+  @IsNumber()
+  @Min(1)
+  quantity: number;
 }
 
 @Entity('orders')

@@ -3,19 +3,41 @@ import { OrderUpdatedEvent } from '../events/order-updated.event';
 import { OrderCreatedEvent } from '../events/order-created.event';
 
 enum OrderStatus {
-  PENDING = 'pending',
-  PAID = 'paid',
-  SHIPPED = 'shipped',
-  DELIVERED = 'delivered',
-  CANCELLED = 'cancelled',
+  PENDING = 'PENDING',
+  PAID = 'PAID',
+  SHIPPED = 'SHIPPED',
+  DELIVERED = 'DELIVERED',
+  CANCELLED = 'CANCELLED',
 }
 
-class OrderItem {
+class OrderInventory {
+  id: string;
+  quantity: number;
+}
+
+export class OrderItem {
+  public constructor(
+    productId: string,
+    sku: string,
+    name: string,
+    quantity: number,
+    unitPrice: number,
+    inventories: OrderInventory[],
+  ) {
+    this.productId = productId;
+    this.sku = sku;
+    this.name = name;
+    this.quantity = quantity;
+    this.unitPrice = unitPrice;
+    this.inventories = inventories;
+  }
+
   productId: string;
   sku: string;
   name: string;
   quantity: number;
   unitPrice: number;
+  inventories: OrderInventory[];
 }
 
 class OrderDiscount {
@@ -24,7 +46,7 @@ class OrderDiscount {
 }
 
 export class Order extends AggregateRoot {
- id: string;
+  id: string;
   userId: string;
   items: OrderItem[];
   subtotal: number;
@@ -61,39 +83,39 @@ export class Order extends AggregateRoot {
     this.updatedAt = new Date();
   }
 
-  public getPlacedAt() : Date {
+  public getPlacedAt(): Date {
     return this.placedAt;
   }
 
-  public getUpdatedAt() : Date {
+  public getUpdatedAt(): Date {
     return this.updatedAt;
   }
 
-  public getStatus() : OrderStatus {
+  public getStatus(): OrderStatus {
     return this.status;
   }
 
-  public getTotal() : number {
+  public getTotal(): number {
     return this.total;
   }
 
-  public getDiscounts() : OrderDiscount[] | undefined {
+  public getDiscounts(): OrderDiscount[] | undefined {
     return this.discounts;
   }
 
-  public getTax() : number {
+  public getTax(): number {
     return this.tax;
   }
 
-  public getShippingFee() : number {
+  public getShippingFee(): number {
     return this.shippingFee;
   }
 
-  public getSubtotal() : number {
+  public getSubtotal(): number {
     return this.subtotal;
   }
 
-  public getItems() : OrderItem[] {
+  public getItems(): OrderItem[] {
     return this.items;
   }
 
@@ -139,7 +161,15 @@ export class Order extends AggregateRoot {
     discounts?: OrderDiscount[],
   ): Order {
     const order = new Order(
-      id, userId, items, subtotal, tax, shippingFee, total, status, discounts
+      id,
+      userId,
+      items,
+      subtotal,
+      tax,
+      shippingFee,
+      total,
+      status,
+      discounts,
     );
     order.apply(new OrderCreatedEvent(order));
     return order;
