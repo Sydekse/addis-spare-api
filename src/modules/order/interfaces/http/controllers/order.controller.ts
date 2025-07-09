@@ -8,6 +8,8 @@ import {
   Param,
   UseGuards,
   Req,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { ACGuard, UseRoles } from 'nest-access-control';
 import { JwtAuthGuard } from 'src/modules/auth/infrastructure/jwt/jwt.guard';
@@ -23,6 +25,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 @Controller('orders')
 @UseGuards(JwtAuthGuard, ACGuard)
+@UsePipes(new ValidationPipe())
 export class OrderController {
   constructor(
     private readonly placeOrderUseCase: PlaceOrderUseCase,
