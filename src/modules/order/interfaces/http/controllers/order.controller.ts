@@ -14,12 +14,12 @@ import {
 import { ACGuard, UseRoles } from 'nest-access-control';
 import { JwtAuthGuard } from 'src/modules/auth/infrastructure/jwt/jwt.guard';
 import { CreateOrderDto } from 'src/modules/order/application/dto/create-order.dto';
-import { FindAllOrdersUseCase } from 'src/modules/order/application/use-cases/create-module/all-orders.use-case';
-import { CancelOrderUseCase } from 'src/modules/order/application/use-cases/create-module/cancel-order.use-case';
-import { PlaceOrderUseCase } from 'src/modules/order/application/use-cases/create-module/create-order.use-case';
-import { DeleteOrderUseCase } from 'src/modules/order/application/use-cases/create-module/delete-order.use-case';
-import { FindOrderByUserIdUseCase } from 'src/modules/order/application/use-cases/create-module/find-order-by-user-id.use-case';
-import { FindOrderByIdUseCase } from 'src/modules/order/application/use-cases/create-module/find-order.use-case';
+import { FindAllOrdersUseCase } from 'src/modules/order/application/use-cases/find/all-orders.use-case';
+import { CancelOrderUseCase } from 'src/modules/order/application/use-cases/update/cancel-order.use-case';
+import { PlaceOrderUseCase } from 'src/modules/order/application/use-cases/create/create-order.use-case';
+import { DeleteOrderUseCase } from 'src/modules/order/application/use-cases/delete/delete-order.use-case';
+import { FindOrderByUserIdUseCase } from 'src/modules/order/application/use-cases/find/find-order-by-user-id.use-case';
+import { FindOrderByIdUseCase } from 'src/modules/order/application/use-cases/find/find-order.use-case';
 import { Order } from 'src/modules/order/domain/entities/order.entity';
 import { v4 as uuidv4 } from 'uuid';
 
