@@ -26,7 +26,7 @@ import {
   USER_REPOSITORY,
   UserRepository,
 } from 'src/modules/users/domain/repository/user.repository';
-import { DataSource } from 'typeorm';
+import { DataSource, LessThan } from 'typeorm';
 
 @Injectable()
 export class PlaceOrderUseCase {
@@ -92,12 +92,19 @@ export class PlaceOrderUseCase {
             orderInventories,
           ),
         );
-        subtotal += product.getPrice() * item.quantity;
+        subtotal += item.unitPrice * item.quantity;
       }
 
       const tax = TAX_RATE * subtotal;
-      const discount = 0;
-      const total = subtotal + tax + dto.shippingFee - discount;
+      let discountPrice = 0;
+
+      if (dto.discounts) {
+        for (const discount of dto.discounts) {
+          discountPrice += discount.amount;
+        }
+      }
+
+      const total = subtotal + tax + dto.shippingFee - discountPrice;
       const order = Order.create(
         uuidv4(),
         user.getId(),
