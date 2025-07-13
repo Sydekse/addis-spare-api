@@ -10,14 +10,25 @@ import { FindReportByIdUseCase } from './application/use-cases/find/find-report-
 import { UpdateReportUseCase } from './application/use-cases/update/update-report.use-case';
 import { DeleteReportUseCase } from './application/use-cases/delete/delete-report.use-case';
 import { UserModule } from '../users/user.module';
+import { GenerateReportUseCase } from './application/use-cases/find/generate-report.use-case';
+import { ProductModule } from '../product/product.module';
+import { InventoryModule } from '../inventory/inventory.module';
+import { OrderModule } from '../order/order.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ReportTypeOrmEntity]), UserModule],
+  imports: [
+    TypeOrmModule.forFeature([ReportTypeOrmEntity]),
+    UserModule,
+    ProductModule,
+    InventoryModule,
+    OrderModule,
+  ],
   controllers: [ReportController],
   providers: [
     CreateReportUseCase,
     AllReportsUseCase,
     FindReportByIdUseCase,
+    GenerateReportUseCase,
     UpdateReportUseCase,
     DeleteReportUseCase,
     {

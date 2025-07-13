@@ -23,6 +23,10 @@ import { ReportPipe } from '../pipes/report.pipes';
 import { JwtAuthGuard } from 'src/modules/auth/infrastructure/jwt/jwt.guard';
 import { ACGuard } from 'nest-access-control';
 import { v4 as uuidv4 } from 'uuid';
+import { GenerateReportUseCase } from 'src/modules/report/application/use-cases/find/generate-report.use-case';
+import { Inventory } from 'src/modules/inventory/domain/entities/inventory.entity';
+import { Order } from 'src/modules/order/domain/entities/order.entity';
+import { Product } from 'src/modules/product/domain/entities/product.entity';
 
 @Controller('reports')
 @UseGuards(JwtAuthGuard, ACGuard)
@@ -33,6 +37,7 @@ export class ReportController {
     private readonly updateReportUseCase: UpdateReportUseCase,
     private readonly deleteReportUseCase: DeleteReportUseCase,
     private readonly findReportByIdUseCase: FindReportByIdUseCase,
+    private readonly generateReportUseCase: GenerateReportUseCase,
   ) {}
 
   @Post()
@@ -40,6 +45,13 @@ export class ReportController {
   async create(@Req() req, @Body() dto: CreateReportDto): Promise<Report> {
     const userId: string = req.user.id || uuidv4();
     return this.createReportUseCase.execute(userId, dto);
+  }
+
+  @Get(':id/generate')
+  async generate(
+    @Param('id') id: string,
+  ): Promise<Product[] | Order[] | Inventory[]> {
+    return this.generateReportUseCase.execute(id);
   }
 
   @Get(':id')
