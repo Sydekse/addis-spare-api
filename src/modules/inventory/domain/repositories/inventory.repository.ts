@@ -1,6 +1,7 @@
 import { EntityManager } from 'typeorm';
 import { Inventory } from '../entities/inventory.entity';
 import { OrderInventory } from 'src/modules/order/infrastructure/persistence/typeorm/order-typeorm.entity';
+import { Filter } from 'src/modules/report/application/dto/create-report.dto';
 
 export const INVENTORY_REPOSITORY = Symbol.for('InventoryRepository');
 
@@ -20,4 +21,5 @@ export interface InventoryRepository {
     orderInventories: OrderInventory[],
     manager: EntityManager,
   ): Promise<void>;
+  filterInventory(filters: Filter[]): Promise<Inventory[]>;
 }

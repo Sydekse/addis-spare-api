@@ -1,5 +1,6 @@
 import { EntityManager } from 'typeorm';
 import { Order } from '../entities/order.entity';
+import { Filter } from 'src/modules/report/application/dto/create-report.dto';
 
 export const ORDER_REPOSITORY = Symbol.for('OrderRepository');
 export interface OrderRepository {
@@ -9,4 +10,5 @@ export interface OrderRepository {
   findByUserId(id: string): Promise<Order[]>;
   update(order: Order): Promise<void>;
   delete(id: string): Promise<void>;
+  filterOrder(filters: Filter[]): Promise<Order[]>;
 }

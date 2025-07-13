@@ -5,13 +5,54 @@ import { Product } from '../../../domain/entities/product.entity';
 import { ProductRepository } from '../../../domain/repositories/product.repository';
 import { ProductTypeOrmEntity } from '../typeorm/product-typeorm.entity';
 import { FilterProductHelper } from 'src/modules/product/application/helper/filter-products.helper';
+import { Filter } from 'src/modules/report/application/dto/create-report.dto';
+import { Filterable } from 'src/modules/report/infrastructure/persistence/repositories/filters-typeorm.repository';
 
 @Injectable()
-export class ProductTypeOrmRepository implements ProductRepository {
+export class ProductTypeOrmRepository
+  extends Filterable
+  implements ProductRepository
+{
   constructor(
     @InjectRepository(ProductTypeOrmEntity)
     private readonly repository: Repository<ProductTypeOrmEntity>,
-  ) {}
+  ) {
+    super();
+  }
+  async filterProduct(filters: Filter[]): Promise<Product[]> {
+    const alias = 'product';
+
+    const schema = {
+      sku: 'string',
+      brand: 'string',
+      category: 'string',
+      price: 'number',
+      stockControlled: 'boolean',
+      createdAt: 'Date',
+      updatedAt: 'Date',
+    };
+
+    const qb = this.repository.createQueryBuilder(alias);
+    this.applyFilters(qb, alias, filters, schema);
+    const products = await qb.getMany();
+
+    return products.map(
+      (entity) =>
+        new Product(
+          entity.id,
+          entity.name,
+          entity.description,
+          entity.sku,
+          entity.brand,
+          entity.category,
+          entity.price,
+          entity.images,
+          entity.attributes,
+          entity.tags,
+          entity.stockControlled,
+        ),
+    );
+  }
 
   async findProdutByFilters(
     filters: Record<string, string>,

@@ -1,3 +1,4 @@
+import { Filter } from 'src/modules/report/application/dto/create-report.dto';
 import { Product } from '../entities/product.entity';
 
 export const PRODUCT_REPOSITORY = Symbol.for('ProductRepository');
@@ -11,4 +12,5 @@ export interface ProductRepository {
   save(product: Product): Promise<void>;
   update(product: Product): Promise<void>;
   delete(id: string): Promise<void>;
+  filterProduct(filters: Filter[]): Promise<Product[]>;
 }
