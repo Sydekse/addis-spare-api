@@ -1,7 +1,5 @@
-import {
-  BadRequestException,
-  PipeTransform,
-} from '@nestjs/common';
+import { BadRequestException, PipeTransform } from '@nestjs/common';
+import { isBoolean } from 'class-validator';
 import {
   CreateReportDto,
   Filter,
@@ -71,6 +69,33 @@ const validReportSchema = {
   },
 };
 
+const invalidDate = (text: string) => {
+  const date = Date.parse(text);
+  return isNaN(date);
+};
+
+const isNumber = (value: any): boolean => {
+  return (
+    typeof value === 'number' && !Number.isNaN(value) && Number.isFinite(value)
+  );
+};
+
+function validRange<T>(n1: T, n2: T): boolean {
+  if (typeof n1 !== typeof n2) {
+    throw new Error(`Type mismatch: '${typeof n1}' vs '${typeof n2}'`);
+  }
+
+  if (typeof n1 === 'number' || typeof n1 === 'string') {
+    return n1 <= n2;
+  }
+
+  if (n1 instanceof Date && n2 instanceof Date) {
+    return n1.getTime() <= n2.getTime();
+  }
+
+  throw new Error(`Unsupported type for range comparison: ${typeof n1}`);
+}
+
 const validateFilters = (filters: Filter[], schema: Record<string, string>) => {
   const errors: string[] = [];
   const unknownField = 'unknown';
@@ -93,19 +118,73 @@ const validateFilters = (filters: Filter[], schema: Record<string, string>) => {
         break;
 
       case 'number':
+        {
+          if (![FilterTypeEnum.RANGE].includes(filter.type)) {
+            errors.push(
+              `'${filter.type}' is not supported on ${fieldType} field '${filter.field}'`,
+            );
+            break;
+          }
+
+          if (!isNumber(filter?.range?.max) || !isNumber(filter?.range?.min)) {
+            errors.push(
+              `expecting 'range.max' and 'range.min' to be number on a numeric field '${filter.field}'`,
+            );
+            break;
+          }
+
+          if (!validRange<number>(filter.range?.min, filter.range?.max)) {
+            errors.push(
+              `expecting 'range.max' to be greater than or equal to 'range.min' on a numeric field '${filter.field}'`,
+            );
+          }
+        }
+        break;
       case 'Date':
-        if (![FilterTypeEnum.RANGE].includes(filter.type)) {
-          errors.push(
-            `'${filter.type}' is not supported on ${fieldType} field '${filter.field}'`,
-          );
+        {
+          if (![FilterTypeEnum.RANGE].includes(filter.type)) {
+            errors.push(
+              `'${filter.type}' is not supported on ${fieldType} field '${filter.field}'`,
+            );
+            break;
+          }
+
+          if (
+            invalidDate(filter?.range?.max || '') ||
+            invalidDate(filter?.range?.min)
+          ) {
+            errors.push(
+              `expecting 'range.max' and 'range.min' to be date on a date field '${filter.field}'`,
+            );
+          }
+
+          if (
+            !validRange<Date>(
+              new Date(filter.range?.min),
+              new Date(filter.range?.max),
+            )
+          ) {
+            errors.push(
+              `expecting 'range.max' to be greater than or equal to 'range.min' on a date field '${filter.field}'`,
+            );
+          }
         }
         break;
 
       case 'boolean':
-        if (filter.type !== FilterTypeEnum.EQ) {
-          errors.push(
-            `Only 'EQ' filter is supported on boolean field '${filter.field}'`,
-          );
+        {
+          if (filter.type !== FilterTypeEnum.EQ) {
+            errors.push(
+              `Only 'EQ' filter is supported on boolean field '${filter.field}'`,
+            );
+            break;
+          }
+
+          if (!isBoolean(filter.eq)) {
+            errors.push(
+              `expecting 'eq' to be boolean on a boolean field '${filter.field}'`,
+            );
+          }
         }
         break;
 
