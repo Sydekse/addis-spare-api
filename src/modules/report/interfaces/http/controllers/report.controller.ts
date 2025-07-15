@@ -21,7 +21,7 @@ import { UpdateReportUseCase } from 'src/modules/report/application/use-cases/up
 import { Report } from 'src/modules/report/domain/entities/report.entity';
 import { ReportPipe } from '../pipes/report.pipes';
 import { JwtAuthGuard } from 'src/modules/auth/infrastructure/jwt/jwt.guard';
-import { ACGuard } from 'nest-access-control';
+import { ACGuard, UseRoles } from 'nest-access-control';
 import { v4 as uuidv4 } from 'uuid';
 import { GenerateReportUseCase } from 'src/modules/report/application/use-cases/find/generate-report.use-case';
 import { Inventory } from 'src/modules/inventory/domain/entities/inventory.entity';
@@ -38,9 +38,14 @@ export class ReportController {
     private readonly deleteReportUseCase: DeleteReportUseCase,
     private readonly findReportByIdUseCase: FindReportByIdUseCase,
     private readonly generateReportUseCase: GenerateReportUseCase,
-  ) {}
+  ) { }
 
   @Post()
+  @UseRoles({
+    resource: "reviews",
+    possession: "own",
+    action: "create"
+  })
   @UsePipes(new ValidationPipe(), new ReportPipe())
   async create(@Req() req, @Body() dto: CreateReportDto): Promise<Report> {
     const userId: string = req.user.id || uuidv4();
@@ -48,6 +53,11 @@ export class ReportController {
   }
 
   @Get(':id/generate')
+  @UseRoles({
+    resource: "reviews",
+    possession: "own",
+    action: "read"
+  })
   async generate(
     @Param('id') id: string,
   ): Promise<Product[] | Order[] | Inventory[]> {
@@ -55,16 +65,31 @@ export class ReportController {
   }
 
   @Get(':id')
+  @UseRoles({
+    resource: "reviews",
+    possession: "own",
+    action: "read"
+  })
   async findOne(@Param('id') id: string): Promise<Report> {
     return this.findReportByIdUseCase.execute(id);
   }
 
   @Get()
+  @UseRoles({
+    resource: "reviews",
+    possession: "any",
+    action: "read"
+  })
   async findAll(): Promise<Report[]> {
     return this.findAllReportsUseCase.execute();
   }
 
   @Put(':id')
+  @UseRoles({
+    resource: "review",
+    possession: "own",
+    action: "update"
+  })
   async update(
     @Req() req,
     @Param('id') id: string,
@@ -76,6 +101,11 @@ export class ReportController {
   }
 
   @Delete(':id')
+  @UseRoles({
+    resource: "review",
+    possession: "own",
+    action: "delete"
+  })
   async delete(@Req() req, @Param('id') id: string): Promise<void> {
     const userId: string = req.user.id || uuidv4();
     return this.deleteReportUseCase.execute(userId, id);
