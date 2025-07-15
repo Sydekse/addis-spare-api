@@ -1,14 +1,7 @@
 import { AggregateRoot } from '@nestjs/cqrs';
 import { OrderUpdatedEvent } from '../events/order-updated.event';
 import { OrderCreatedEvent } from '../events/order-created.event';
-
-enum OrderStatus {
-  PENDING = 'PENDING',
-  PAID = 'PAID',
-  SHIPPED = 'SHIPPED',
-  DELIVERED = 'DELIVERED',
-  CANCELLED = 'CANCELLED',
-}
+import { OrderStatus } from '../../application/dto/create-order.dto';
 
 class OrderInventory {
   id: string;
@@ -125,6 +118,12 @@ export class Order extends AggregateRoot {
 
   public getUserId(): string {
     return this.userId;
+  }
+
+  public changeStatus(status: OrderStatus): void {
+    this.status = status;
+    this.updatedAt = new Date();
+    this.apply(new OrderUpdatedEvent(this));
   }
 
   public update(

@@ -26,7 +26,7 @@ import {
   USER_REPOSITORY,
   UserRepository,
 } from 'src/modules/users/domain/repository/user.repository';
-import { DataSource, LessThan } from 'typeorm';
+import { DataSource } from 'typeorm';
 
 @Injectable()
 export class PlaceOrderUseCase {

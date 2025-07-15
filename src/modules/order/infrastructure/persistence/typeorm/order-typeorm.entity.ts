@@ -20,14 +20,7 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { UserTypeOrmEntity } from 'src/modules/users/infrastructure/typeorm/user-typeorm.entity';
-
-enum OrderStatus {
-  PENDING = 'PENDING',
-  PAID = 'PAID',
-  SHIPPED = 'SHIPPED',
-  DELIVERED = 'DELIVERED',
-  CANCELLED = 'CANCELLED',
-}
+import { OrderStatus } from 'src/modules/order/application/dto/create-order.dto';
 
 class OrderItem {
   @IsUUID()

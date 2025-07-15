@@ -18,6 +18,6 @@ export class DeleteOrderUseCase {
       throw new NotFoundException('order not found');
     }
 
-    this.orderRepository.delete(id);
+    await this.orderRepository.delete(id);
   }
 }
