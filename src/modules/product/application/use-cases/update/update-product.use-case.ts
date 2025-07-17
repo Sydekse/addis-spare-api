@@ -40,6 +40,7 @@ export class UpdateProductUseCase {
       dto.attributes,
       dto.tags,
       dto.stockControlled,
+      dto.compatibility,
     );
 
     await this.productRepository.update(product);

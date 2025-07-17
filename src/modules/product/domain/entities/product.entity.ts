@@ -2,6 +2,12 @@ import { AggregateRoot } from '@nestjs/cqrs';
 import { ProductCreatedEvent } from '../events/product-created.event';
 import { ProductUpdatedEvent } from '../events/product-updated.event';
 
+class CompatibilityData {
+  make: string;
+  model: string;
+  year: number;
+}
+
 export class Product extends AggregateRoot {
   private id: string;
   private name: string;
@@ -11,11 +17,12 @@ export class Product extends AggregateRoot {
   private category: string;
   private price: number;
   private images: string[];
-  private attributes: string[];
+  private attributes: Record<string, any>;
   private tags: string[];
   private stockControlled: boolean;
   private createdAt: Date;
   private updatedAt: Date;
+  private compatibility: CompatibilityData[];
 
   constructor(
     id: string,
@@ -26,15 +33,17 @@ export class Product extends AggregateRoot {
     category: string,
     price: number,
     images: string[],
-    attributes: string[],
+    attributes: Record<string, any>,
     tags: string[],
     stockControlled: boolean,
+    compatibility: CompatibilityData[],
   ) {
     super();
     this.id = id;
     this.name = name;
     this.description = description;
     this.sku = sku;
+    this.compatibility = compatibility;
     this.brand = brand;
     this.category = category;
     this.price = price;
@@ -60,6 +69,10 @@ export class Product extends AggregateRoot {
 
   public getBrand(): string {
     return this.brand;
+  }
+
+  public getCompatibility(): CompatibilityData[] {
+    return this.compatibility;
   }
 
   public getStockControlled(): boolean {
@@ -90,7 +103,7 @@ export class Product extends AggregateRoot {
     return this.tags;
   }
 
-  public getAttributes(): string[] {
+  public getAttributes(): Record<string, any> {
     return this.attributes;
   }
 
@@ -106,9 +119,10 @@ export class Product extends AggregateRoot {
     category: string,
     price: number,
     images: string[],
-    attributes: string[],
+    attributes: Record<string, any>,
     tags: string[],
     stockControlled: boolean,
+    compatibility: CompatibilityData[],
   ): void {
     this.name = name;
     this.description = description;
@@ -118,6 +132,7 @@ export class Product extends AggregateRoot {
     this.category = category;
     this.tags = tags;
     this.price = price;
+    this.compatibility = compatibility;
     this.stockControlled = stockControlled;
     this.attributes = attributes;
     this.images = images;
@@ -133,9 +148,10 @@ export class Product extends AggregateRoot {
     category: string,
     price: number,
     images: string[],
-    attributes: string[],
+    attributes: Record<string, any>,
     tags: string[],
     stockControlled: boolean,
+    compatibility: CompatibilityData[],
   ): Product {
     const product = new Product(
       id,
@@ -149,6 +165,7 @@ export class Product extends AggregateRoot {
       attributes,
       tags,
       stockControlled,
+      compatibility,
     );
     product.apply(new ProductCreatedEvent(product));
     return product;

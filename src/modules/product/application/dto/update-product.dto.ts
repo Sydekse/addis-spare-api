@@ -8,7 +8,23 @@ import {
   Matches,
   MaxLength,
   IsOptional,
+  ValidateNested,
+  IsObject,
 } from 'class-validator';
+
+class CompatibilityData {
+  @IsString()
+  @IsNotEmpty()
+  make: string;
+
+  @IsString()
+  @IsNotEmpty()
+  model: string;
+
+  @IsNumber()
+  @IsNotEmpty()
+  year: number;
+}
 
 export class UpdateProductDto {
   @IsString()
@@ -44,9 +60,9 @@ export class UpdateProductDto {
   @IsString({ each: true })
   images: string[];
 
-  @IsArray()
-  @IsString({ each: true })
-  attributes: string[];
+  @IsOptional()
+  @IsObject()
+  attributes: Record<string, any>;
 
   @IsArray()
   @IsOptional()
@@ -56,4 +72,9 @@ export class UpdateProductDto {
   @IsBoolean()
   @IsNotEmpty()
   stockControlled: boolean;
+
+  @IsNotEmpty()
+  @IsArray()
+  @ValidateNested({ each: true })
+  compatibility: CompatibilityData[];
 }

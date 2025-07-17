@@ -27,6 +27,7 @@ export class CreateProductUseCase {
       dto.attributes,
       dto.tags,
       dto.stockControlled,
+      dto.compatibility,
     );
     await this.productRepository.save(product);
     return product;

@@ -7,6 +7,12 @@ export interface ProductRepository {
   findById(id: string): Promise<Product | null>;
   findAll(): Promise<Product[]>;
   findProdutByFilters(filters: Record<string, string>): Promise<Product[]>;
+  findCompatibleProducts(compatable: {
+    make: string;
+    model: string;
+    year: number;
+    useOr: boolean;
+  }): Promise<Product[]>;
   findBySKU(sku: string): Promise<Product | null>;
   search(query: string): Promise<Product[]>;
   save(product: Product): Promise<void>;
