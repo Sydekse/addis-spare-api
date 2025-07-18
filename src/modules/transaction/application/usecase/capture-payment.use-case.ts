@@ -5,6 +5,7 @@ import { PaymentGatewayService } from 'src/modules/transaction/infrastructure/se
 import { TransactionRepository } from 'src/modules/transaction/domain/repository/transaction.repository';
 import { Transaction } from 'src/modules/transaction/domain/entity/transaction.entity';
 import { TransactionStatus, TransactionType } from 'src/modules/transaction/domain/entity/enums';
+import { CreateTransactionDto } from '../dto/create-transaction.dto';
 
 @Injectable()
 export class CapturePaymentUseCase {
@@ -14,8 +15,8 @@ export class CapturePaymentUseCase {
     private readonly orderService: OrderService,
   ) {}
 
-  async execute(orderId: string, amount: number, currency: string): Promise<Transaction> {
-    const order = await this.orderService.getOrder(orderId);
+  async execute(captureTrans : CreateTransactionDto): Promise<Transaction> {
+    const order = await this.orderService.getOrder(captureTrans.orderId);
     if (!order) {
       throw new Error('Order not found');
     }
@@ -25,10 +26,10 @@ export class CapturePaymentUseCase {
 
     const transaction = new Transaction(
       uuidv4(),
-      orderId,
-      amount,
-      currency,
-      TransactionType.CAPTURE,
+      captureTrans.orderId,
+      captureTrans.amount,
+      captureTrans.currency,
+      captureTrans.type || TransactionType.CAPTURE,
       TransactionStatus.PENDING,
       '',
       new Date(),
