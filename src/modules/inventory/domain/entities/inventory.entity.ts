@@ -1,6 +1,7 @@
 import { AggregateRoot } from '@nestjs/cqrs';
 import { InventoryUpdatedEvent } from '../events/inventory-updated.event';
 import { InventoryCreatedEvent } from '../events/inventory-created.event';
+import { LowStockEvent } from '../events/low-stock.event';
 
 export class Inventory extends AggregateRoot {
   private id: string;
@@ -63,14 +64,18 @@ export class Inventory extends AggregateRoot {
     quantity: number,
     reorderTreshould: number,
     supplierId?: string,
-  ): void {
+  ): Inventory {
     this.productId = productId;
     this.location = location;
     this.quantity = quantity;
     this.reorderTreshould = reorderTreshould;
     this.supplierId = supplierId;
     this.lastUpdated = new Date();
+    if (this.reorderTreshould >= this.quantity) {
+      this.apply(new LowStockEvent(this));
+    }
     this.apply(new InventoryUpdatedEvent(this));
+    return this;
   }
 
   public static create(
