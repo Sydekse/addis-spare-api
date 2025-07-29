@@ -13,6 +13,8 @@ import { OrderModule } from './modules/order/order.module';
 import { RatingModule } from './modules/rating/rating.module';
 import { ReportModule } from './modules/report/report.module';
 import { ValidationModule } from './modules/validation/validation.module';
+import { NotificationModule } from './modules/notification/notification.module';
+import { CqrsModule } from '@nestjs/cqrs';
 
 @Module({
   imports: [
@@ -22,7 +24,7 @@ import { ValidationModule } from './modules/validation/validation.module';
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: 'postgres',
+      password: 'user',
       database: 'addis_spare',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true, // Set to false in production
@@ -35,7 +37,9 @@ import { ValidationModule } from './modules/validation/validation.module';
     ReportModule,
     RatingModule,
     UserModule,
+    NotificationModule,
     AuthModule,
+    CqrsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
