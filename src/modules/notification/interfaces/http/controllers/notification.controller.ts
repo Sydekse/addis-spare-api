@@ -7,15 +7,15 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { CreateNotificationUseCase } from '../../../application/use-cases/create-module/create-notification.use-case';
+import { CreateNotificationUseCase } from '../../../application/use-cases/create/create-notification.use-case';
 import { CreateNotificationDto } from '../../../application/dto/create-notification.dto';
 import { UpdateNotificationDto } from '../../../application/dto/update-notification.dto';
 import { Notification } from '../../../domain/entities/notification.entity';
-import { UpdateNotificationUseCase } from '../../../application/use-cases/create-module/update-notification.use-case';
-import { DeleteNotificationUseCase } from '../../../application/use-cases/create-module/delete-notification.use-case';
-import { FindNotificationByIdUseCase } from '../../../application/use-cases/create-module/find-notification-by-id.use-case';
-import { FindAllNotificationsUseCase } from '../../../application/use-cases/create-module/find-all-notification.use-case';
-import { FindInAppNotificationsUseCase } from 'src/modules/notification/application/use-cases/create-module/find-in-app-notification.use-case';
+import { UpdateNotificationUseCase } from '../../../application/use-cases/update/update-notification.use-case';
+import { DeleteNotificationUseCase } from '../../../application/use-cases/delete/delete-notification.use-case';
+import { FindNotificationByIdUseCase } from '../../../application/use-cases/find/find-notification-by-id.use-case';
+import { FindAllNotificationsUseCase } from '../../../application/use-cases/find/find-all-notification.use-case';
+import { FindInAppNotificationsUseCase } from 'src/modules/notification/application/use-cases/find/find-in-app-notification.use-case';
 import { UseRoles } from 'nest-access-control';
 
 @Controller('notifications')
