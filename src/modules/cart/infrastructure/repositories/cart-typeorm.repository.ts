@@ -66,7 +66,7 @@ export class CartTypeOrmRepository {
             throw new Error(`Cart with ID ${cartID} not found`);
         }
 
-        cart.items = (cart.items ?? []).filter((cartItem) => cartItem.id !== itemID);
+        cart.items = (cart.items ?? []).filter((cartItem) => cartItem.getProductId() !== itemID);
         await this.repository.save(cart);
     }
 
