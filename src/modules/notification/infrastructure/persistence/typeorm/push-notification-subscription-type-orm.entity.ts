@@ -12,6 +12,9 @@ export class PushNotificationSubscriptionTypeOrmEntity {
   id: string;
 
   @Column()
+  userId: string;
+
+  @Column()
   endpoint: string;
 
   @Column()
