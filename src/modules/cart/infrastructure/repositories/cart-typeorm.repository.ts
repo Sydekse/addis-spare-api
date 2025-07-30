@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { UserTypeOrmEntity } from "src/modules/users/infrastructure/typeorm/user-typeorm.entity";
-import { Repository } from "typeorm";
+import { LessThan, Repository } from "typeorm";
 import { Cart } from "src/modules/cart/domain/entities/cart.entity";
 import { CartTypeOrmEntity } from "../typeorm/cart-typeorm.entity";
 import { CartItem } from "../../domain/entities/cart-item.entity";
@@ -83,6 +83,29 @@ export class CartTypeOrmRepository {
         cartEntity.expiresAt = cart.getExpiresAt();
 
         await this.repository.save(cartEntity);
+    }
+
+    async findExpiredCarts(expiryDate: Date): Promise<Cart[]> {
+        const expiredCarts = await this.repository.find({ where: { expiresAt: LessThan(expiryDate) } });
+        return expiredCarts.map(cart => new Cart(
+            cart.id,
+            cart.userId,
+            cart.sessionId,
+            cart.items ?? [],
+            cart.couponCode,
+            cart.discountAmount,
+            cart.createdAt,
+            cart.updatedAt,
+            cart.expiresAt
+        ));
+    }
+
+    async removeCart(cartID: string): Promise<void> {
+        const cart = await this.repository.findOne({ where: { id: cartID } });
+        if (!cart) {
+            throw new Error(`Cart with ID ${cartID} not found`);
+        }
+        await this.repository.remove(cart);
     }
     
 }

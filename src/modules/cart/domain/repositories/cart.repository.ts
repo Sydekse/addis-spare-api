@@ -7,4 +7,6 @@ export interface CartRepository {
     addToCart(cartID: string, cart: CartItem): Promise<void>;
     removeFromCart(cartID:  string, itemID: string): Promise<void>;
     save(cart: Cart): Promise<void>;
+    findExpiredCarts(expiryDate: Date): Promise<Cart[]>;
+    removeCart(cartID: string): Promise<void>;
 }

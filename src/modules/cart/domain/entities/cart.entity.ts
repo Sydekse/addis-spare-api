@@ -90,4 +90,8 @@ export class Cart extends AggregateRoot {
   }
 
   // You can add methods for updating cart, adding/removing items, applying coupon, etc.
+
+  public clearItems(): void {
+    this.items = [];
+  }
 }
