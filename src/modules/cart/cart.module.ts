@@ -7,9 +7,10 @@ import { AddToCartUseCase } from "./application/use-cases/add-to-cart.use-case";
 import { RemoveFromCartUseCase } from "./application/use-cases/remove-from-cart.use-case";
 import { FindCartByIdUseCase } from "./application/use-cases/find-cart.use-case";
 import { CART_REPOSITORY } from "./domain/repositories/cart.repository";
+import { CartTypeOrmRepository } from "./infrastructure/repositories/cart-typeorm.repository";
 
 @Module({
-    imports: [ TypeOrmModule.forFeature([CartTypeOrmEntity]) ], // Add your TypeORM entities here
+    imports: [ TypeOrmModule.forFeature([CartTypeOrmEntity]) ], 
     controllers: [ CartController ],
     providers: [
         CreateCartUseCase, 
@@ -18,7 +19,7 @@ import { CART_REPOSITORY } from "./domain/repositories/cart.repository";
         FindCartByIdUseCase,
         {
             provide: 'CART_REPOSITORY',
-            useClass: CartTypeOrmEntity, // Replace with your actual repository implementation
+            useClass: CartTypeOrmRepository, 
         }
     ],
     exports: [CART_REPOSITORY],
