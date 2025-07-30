@@ -15,6 +15,7 @@ import { ReportModule } from './modules/report/report.module';
 import { ValidationModule } from './modules/validation/validation.module';
 import { NotificationModule } from './modules/notification/notification.module';
 import { CqrsModule } from '@nestjs/cqrs';
+import { MessageModule } from './modules/message/message.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { CqrsModule } from '@nestjs/cqrs';
     }),
     ValidationModule,
     ModuleModule,
+    MessageModule,
     InventoryModule,
     ProductModule,
     OrderModule,
