@@ -11,7 +11,7 @@ import {
 import { NotificationChannel } from '../../../domain/entities/notification.entity';
 import { SMSNotificationService } from 'src/modules/notification/infrastructure/sms-notification/sms-notification.service';
 import { InAppNotificationService } from 'src/modules/notification/infrastructure/in-app-notification/in-app-notification.service';
-import { EmailNotificationService } from 'src/modules/notification/infrastructure/in-app-notification/email-notification.service';
+import { EmailNotificationService } from 'src/modules/notification/infrastructure/email-notification/email-notification.service';
 import {
   USER_REPOSITORY,
   UserRepository,

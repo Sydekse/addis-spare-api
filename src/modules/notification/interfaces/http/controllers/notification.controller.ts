@@ -6,6 +6,8 @@ import {
   Param,
   Post,
   Put,
+  Req,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateNotificationUseCase } from '../../../application/use-cases/create/create-notification.use-case';
 import { CreateNotificationDto } from '../../../application/dto/create-notification.dto';
@@ -16,9 +18,14 @@ import { DeleteNotificationUseCase } from '../../../application/use-cases/delete
 import { FindNotificationByIdUseCase } from '../../../application/use-cases/find/find-notification-by-id.use-case';
 import { FindAllNotificationsUseCase } from '../../../application/use-cases/find/find-all-notification.use-case';
 import { FindInAppNotificationsUseCase } from 'src/modules/notification/application/use-cases/find/find-in-app-notification.use-case';
-import { UseRoles } from 'nest-access-control';
+import { ACGuard, UseRoles } from 'nest-access-control';
+import { PushNotificationSubscription } from 'src/modules/notification/domain/entities/push-notification-subscription.repository';
+import { PWDSubscribeDto } from 'src/modules/notification/application/dto/pwd-subscribe.dto';
+import { CreatePushNotificationUseCase } from 'src/modules/notification/application/use-cases/create/pwd-subscribe.use-case';
+import { JwtAuthGuard } from 'src/modules/auth/infrastructure/jwt/jwt.guard';
 
 @Controller('notifications')
+@UseGuards(JwtAuthGuard, ACGuard)
 export class NotificationController {
   constructor(
     private readonly createModuleUseCase: CreateNotificationUseCase,
@@ -27,6 +34,7 @@ export class NotificationController {
     private readonly findNotificationByIdUseCase: FindNotificationByIdUseCase,
     private readonly findAllNotificationsUseCase: FindAllNotificationsUseCase,
     private readonly findInAppNotificationForUserUseCase: FindInAppNotificationsUseCase,
+    private readonly subscribeNotificationUseCase: CreatePushNotificationUseCase,
   ) {}
 
   @Post()
@@ -67,6 +75,15 @@ export class NotificationController {
   })
   async findAll(): Promise<Notification[]> {
     return this.findAllNotificationsUseCase.execute();
+  }
+
+  @Post()
+  async subscribe(
+    @Req() req,
+    @Body() dto: PWDSubscribeDto,
+  ): Promise<PushNotificationSubscription> {
+    const userId = req.user?.id;
+    return this.subscribeNotificationUseCase.execute(userId, dto);
   }
 
   @Put(':id')

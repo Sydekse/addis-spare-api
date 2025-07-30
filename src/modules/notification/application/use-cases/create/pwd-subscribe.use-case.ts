@@ -14,7 +14,7 @@ import {
 import { PushNotificationSubscription } from 'src/modules/notification/domain/entities/push-notification-subscription.repository';
 
 @Injectable()
-export class CreateNotificationUseCase {
+export class CreatePushNotificationUseCase {
   constructor(
     @Inject(PUSH_NOTIFICATION_SUBSCRIPTION_REPOSITORY)
     private readonly subscriptionRepository: PushNotificationSubscriptionRepository,

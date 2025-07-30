@@ -6,12 +6,14 @@ import {
   NotificationRepository,
 } from '../../../domain/repositories/notification.repository';
 import { CreateNotificationDto } from '../../dto/create-notification.dto';
+import { SendNotificationUseCase } from '../update/send-notification.use-case';
 
 @Injectable()
 export class CreateNotificationUseCase {
   constructor(
     @Inject(NOTIFICATION_REPOSITORY)
     private readonly notificationRepository: NotificationRepository,
+    private readonly sendNotificationUseCase: SendNotificationUseCase,
   ) {}
 
   async execute(dto: CreateNotificationDto): Promise<Notification> {
@@ -26,6 +28,9 @@ export class CreateNotificationUseCase {
     );
 
     await this.notificationRepository.save(notification);
+
+    await this.sendNotificationUseCase.execute(notification.getId());
+
     return notification;
   }
 }
