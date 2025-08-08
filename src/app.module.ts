@@ -10,6 +10,7 @@ import { ModuleModule } from './modules/module/module.module';
 import { ProductModule } from './modules/product/product.module';
 import { InventoryModule } from './modules/inventory/inventory.module';
 import { OrderModule } from './modules/order/order.module';
+import { RatingModule } from './modules/rating/rating.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { OrderModule } from './modules/order/order.module';
     InventoryModule,
     ProductModule,
     OrderModule,
+    RatingModule,
     UserModule,
     AuthModule,
   ],
