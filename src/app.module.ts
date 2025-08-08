@@ -7,6 +7,15 @@ import { AuthModule } from './modules/auth/auth.module';
 import { AccessControlModule } from 'nest-access-control';
 import roles from './modules/auth/infrastructure/access-control/access-control';
 import { ModuleModule } from './modules/module/module.module';
+import { ProductModule } from './modules/product/product.module';
+import { InventoryModule } from './modules/inventory/inventory.module';
+import { OrderModule } from './modules/order/order.module';
+import { RatingModule } from './modules/rating/rating.module';
+import { ReportModule } from './modules/report/report.module';
+import { ValidationModule } from './modules/validation/validation.module';
+import { NotificationModule } from './modules/notification/notification.module';
+import { CqrsModule } from '@nestjs/cqrs';
+import { MessageModule } from './modules/message/message.module';
 
 @Module({
   imports: [
@@ -16,14 +25,23 @@ import { ModuleModule } from './modules/module/module.module';
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: 'postgres',
+      password: 'user',
       database: 'addis_spare',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true, // Set to false in production
     }),
+    ValidationModule,
     ModuleModule,
+    MessageModule,
+    InventoryModule,
+    ProductModule,
+    OrderModule,
+    ReportModule,
+    RatingModule,
     UserModule,
+    NotificationModule,
     AuthModule,
+    CqrsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

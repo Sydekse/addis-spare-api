@@ -41,6 +41,9 @@ importers:
       cookie-parser:
         specifier: ^1.4.7
         version: 1.4.7
+      currency-codes:
+        specifier: ^2.2.0
+        version: 2.2.0
       nest-access-control:
         specifier: ^3.1.0
         version: 3.1.0
@@ -1754,6 +1757,9 @@ packages:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
 
+  currency-codes@2.2.0:
+    resolution: {integrity: sha512-vpbQc5sEYHGdTVAYUhHnKv0DWiYLRvzl/KKyqeHzBh7HD/j3UlWoScpZ9tN/jG6w2feddWoObsBbaNVu5yDapg==}
+
   dayjs@1.11.13:
     resolution: {integrity: sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==}
 
@@ -2096,6 +2102,9 @@ packages:
   find-versions@5.1.0:
     resolution: {integrity: sha512-+iwzCJ7C5v5KgcBuueqVoNiHVoQpwiUK5XFLjf0affFTep+Wcw93tPvmb8tqujDNmzhBDPddnWV/qgWSXgq+Hg==}
     engines: {node: '>=12'}
+
+  first-match@0.0.1:
+    resolution: {integrity: sha512-VvKbnaxrC0polTFDC+teKPTdl2mn6B/KUW+WB3C9RzKDeNwbzfLdnUz3FxC+tnjvus6bI0jWrWicQyVIPdS37A==}
 
   flat-cache@4.0.1:
     resolution: {integrity: sha512-f7ccFPK3SXFHpx15UIGyRJ/FJQctuKZ0zVuN3frBo4HnK3cay9VEW0R6yPYFHC0AgqhukPzKjq22t5DmAyqGyw==}
@@ -2894,6 +2903,9 @@ packages:
   npm-run-path@4.0.1:
     resolution: {integrity: sha512-S48WzZW777zhNIrn7gxOlISNAqi9ZC/uQFnRdbeIHhZhCA6UqpkOT8T1G7BvfdgP4Er8gF4sUbaS0i7QvIfCWw==}
     engines: {node: '>=8'}
+
+  nub@0.0.0:
+    resolution: {integrity: sha512-dK0Ss9C34R/vV0FfYJXuqDAqHlaW9fvWVufq9MmGF2umCuDbd5GRfRD9fpi/LiM0l4ZXf8IBB+RYmZExqCrf0w==}
 
   oauth@0.10.2:
     resolution: {integrity: sha512-JtFnB+8nxDEXgNyniwz573xxbKSOu3R8D40xQKqcjwJ2CDkYqUDI53o6IuzDJBx60Z8VKCm271+t8iFjakrl8Q==}
@@ -5710,6 +5722,11 @@ snapshots:
       shebang-command: 2.0.0
       which: 2.0.2
 
+  currency-codes@2.2.0:
+    dependencies:
+      first-match: 0.0.1
+      nub: 0.0.0
+
   dayjs@1.11.13: {}
 
   debug@4.4.1:
@@ -6072,6 +6089,8 @@ snapshots:
   find-versions@5.1.0:
     dependencies:
       semver-regex: 4.0.5
+
+  first-match@0.0.1: {}
 
   flat-cache@4.0.1:
     dependencies:
@@ -7010,6 +7029,8 @@ snapshots:
   npm-run-path@4.0.1:
     dependencies:
       path-key: 3.1.1
+
+  nub@0.0.0: {}
 
   oauth@0.10.2: {}
 
