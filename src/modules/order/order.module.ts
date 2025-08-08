@@ -13,6 +13,7 @@ import { UserModule } from '../users/user.module';
 import { InventoryModule } from '../inventory/inventory.module';
 import { FindOrderByUserIdUseCase } from './application/use-cases/find/find-order-by-user-id.use-case';
 import { CancelOrderUseCase } from './application/use-cases/update/cancel-order.use-case';
+import { UpdateOrderStatusUseCase } from './application/use-cases/update/update-order.use-case';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { CancelOrderUseCase } from './application/use-cases/update/cancel-order.
     DeleteOrderUseCase,
     CancelOrderUseCase,
     FindOrderByUserIdUseCase,
+    UpdateOrderStatusUseCase,
     {
       provide: ORDER_REPOSITORY,
       useClass: OrderTypeOrmRepository,

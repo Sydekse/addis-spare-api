@@ -6,6 +6,12 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+class CompatibilityData {
+  make: string;
+  model: string;
+  year: number;
+}
+
 @Entity('products')
 export class ProductTypeOrmEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -29,13 +35,13 @@ export class ProductTypeOrmEntity {
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   price: number;
 
-  @Column('simple-array', { nullable: true })
+  @Column('simple-array', { nullable: true, default: [] })
   images: string[];
 
-  @Column('simple-array')
-  attributes: string[];
+  @Column('jsonb', { default: {} })
+  attributes: Record<string, any>;
 
-  @Column('simple-array', { nullable: true })
+  @Column('simple-array', { nullable: true, default: [] })
   tags: string[];
 
   @Column()
@@ -48,6 +54,12 @@ export class ProductTypeOrmEntity {
     nullable: true,
   })
   searchVector: string;
+
+  @Column({
+    name: 'compatibility',
+    type: 'jsonb',
+  })
+  compatibility: CompatibilityData[];
 
   @CreateDateColumn()
   createdAt: Date;

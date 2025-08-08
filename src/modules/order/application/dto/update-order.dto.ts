@@ -1,30 +1,8 @@
-import {
-  IsString,
-  IsInt,
-  Min,
-  IsOptional,
-  IsNotEmpty,
-  IsUUID,
-} from 'class-validator';
+import { IsNotEmpty, IsEnum } from 'class-validator';
+import { OrderStatus } from './create-order.dto';
 
-export class UpdateOrderDto {
+export class UpdateOrderStatusDto {
   @IsNotEmpty()
-  @IsUUID()
-  readonly productId: string;
-
-  @IsString()
-  @IsNotEmpty()
-  readonly location: string;
-
-  @IsInt()
-  @Min(0)
-  readonly quantity: number;
-
-  @IsInt()
-  @Min(0)
-  readonly reorderThreshold: number;
-
-  @IsOptional()
-  @IsUUID()
-  readonly supplierId?: string;
+  @IsEnum(OrderStatus)
+  status: OrderStatus;
 }

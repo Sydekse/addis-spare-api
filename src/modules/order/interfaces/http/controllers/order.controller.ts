@@ -22,6 +22,8 @@ import { FindOrderByUserIdUseCase } from 'src/modules/order/application/use-case
 import { FindOrderByIdUseCase } from 'src/modules/order/application/use-cases/find/find-order.use-case';
 import { Order } from 'src/modules/order/domain/entities/order.entity';
 import { v4 as uuidv4 } from 'uuid';
+import { UpdateOrderStatusDto } from 'src/modules/order/application/dto/update-order.dto';
+import { UpdateOrderStatusUseCase } from 'src/modules/order/application/use-cases/update/update-order.use-case';
 
 @Controller('orders')
 @UseGuards(JwtAuthGuard, ACGuard)
@@ -34,6 +36,7 @@ export class OrderController {
     private readonly findOrderByIdUseCase: FindOrderByIdUseCase,
     private readonly cancelOrderUseCase: CancelOrderUseCase,
     private readonly deleteOrderUseCase: DeleteOrderUseCase,
+    private readonly updateOrderStatusUseCase: UpdateOrderStatusUseCase,
   ) {}
 
   @Post()
@@ -43,7 +46,7 @@ export class OrderController {
     possession: 'own',
   })
   async create(@Req() req, @Body() dto: CreateOrderDto): Promise<Order> {
-    const userId = req.user.id || uuidv4();
+    const userId : string = req.user.id || uuidv4();
     return this.placeOrderUseCase.execute(userId, dto);
   }
 
@@ -65,6 +68,19 @@ export class OrderController {
   })
   async cancel(@Param('id') id: string): Promise<Order | null> {
     return this.cancelOrderUseCase.execute(id);
+  }
+
+  @Put(':id')
+  @UseRoles({
+    resource: 'order',
+    action: 'update',
+    possession: 'own',
+  })
+  async updateOrderStatus(
+    @Param('id') id: string,
+    dto: UpdateOrderStatusDto,
+  ): Promise<Order | null> {
+    return this.updateOrderStatusUseCase.execute(id, dto);
   }
 
   @Get(':id')

@@ -19,6 +19,67 @@ export class ProductTypeOrmRepository
   ) {
     super();
   }
+  async findCompatibleProducts(compatible: {
+    make: string;
+    model: string;
+    year: number;
+    useOr: boolean;
+  }): Promise<Product[]> {
+    const { make, model, year, useOr } = compatible;
+    const qb = this.repository.createQueryBuilder('product');
+
+    const conditions: string[] = [];
+    const params: Record<string, any> = {};
+
+    if (make) {
+      conditions.push(`comp->>'make' = :make`);
+      params.make = make;
+    }
+
+    if (model) {
+      conditions.push(`comp->>'model' = :model`);
+      params.model = model;
+    }
+
+    if (year !== -1) {
+      // it is not possible to have -ve year
+      conditions.push(`comp->>'year' = :year`);
+      params.year = year.toString();
+    }
+
+    let joiner = ' AND ';
+    if (useOr) {
+      console.log('here');
+      joiner = ' OR ';
+    }
+    const whereClause = `EXISTS (
+    SELECT 1 FROM jsonb_array_elements(product.compatibility) AS comp
+    WHERE ${conditions.join(joiner)}
+  )`;
+
+    qb.where(whereClause, params);
+
+    const products = await qb.getMany();
+
+    return products.map(
+      (entity) =>
+        new Product(
+          entity.id,
+          entity.name,
+          entity.description,
+          entity.sku,
+          entity.brand,
+          entity.category,
+          entity.price,
+          entity.images,
+          entity.attributes,
+          entity.tags,
+          entity.stockControlled,
+          entity.compatibility,
+        ),
+    );
+  }
+
   async filterProduct(filters: Filter[]): Promise<Product[]> {
     const alias = 'product';
 
@@ -50,6 +111,7 @@ export class ProductTypeOrmRepository
           entity.attributes,
           entity.tags,
           entity.stockControlled,
+          entity.compatibility,
         ),
     );
   }
@@ -82,6 +144,7 @@ export class ProductTypeOrmRepository
           entity.attributes,
           entity.tags,
           entity.stockControlled,
+          entity.compatibility,
         ),
     );
   }
@@ -101,6 +164,7 @@ export class ProductTypeOrmRepository
       entity.attributes,
       entity.tags,
       entity.stockControlled,
+      entity.compatibility,
     );
   }
 
@@ -120,6 +184,7 @@ export class ProductTypeOrmRepository
       entity.attributes,
       entity.tags,
       entity.stockControlled,
+      entity.compatibility,
     );
   }
 
@@ -139,6 +204,7 @@ export class ProductTypeOrmRepository
           entity.attributes,
           entity.tags,
           entity.stockControlled,
+          entity.compatibility,
         ),
     );
   }
@@ -156,6 +222,7 @@ export class ProductTypeOrmRepository
     entity.attributes = product.getAttributes();
     entity.tags = product.getTags();
     entity.stockControlled = product.getStockControlled();
+    entity.compatibility = product.getCompatibility();
     entity.createdAt = product.getCreatedAt();
     entity.updatedAt = product.getUpdatedAt();
 
@@ -188,6 +255,7 @@ export class ProductTypeOrmRepository
           entity.attributes,
           entity.tags,
           entity.stockControlled,
+          entity.compatibility,
         ),
     );
   }
@@ -210,6 +278,7 @@ export class ProductTypeOrmRepository
     entity.stockControlled = product.getStockControlled();
     entity.createdAt = product.getCreatedAt();
     entity.updatedAt = product.getUpdatedAt();
+    entity.compatibility = product.getCompatibility();
 
     await this.repository.save(entity);
   }
