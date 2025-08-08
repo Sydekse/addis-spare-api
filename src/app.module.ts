@@ -12,6 +12,7 @@ import { InventoryModule } from './modules/inventory/inventory.module';
 import { OrderModule } from './modules/order/order.module';
 import { RatingModule } from './modules/rating/rating.module';
 import { ReportModule } from './modules/report/report.module';
+import { ValidationModule } from './modules/validation/validation.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { ReportModule } from './modules/report/report.module';
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true, // Set to false in production
     }),
+    ValidationModule,
     ModuleModule,
     InventoryModule,
     ProductModule,
