@@ -11,6 +11,7 @@ import { ProductModule } from './modules/product/product.module';
 import { InventoryModule } from './modules/inventory/inventory.module';
 import { OrderModule } from './modules/order/order.module';
 import { RatingModule } from './modules/rating/rating.module';
+import { ReportModule } from './modules/report/report.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { RatingModule } from './modules/rating/rating.module';
     InventoryModule,
     ProductModule,
     OrderModule,
+    ReportModule,
     RatingModule,
     UserModule,
     AuthModule,

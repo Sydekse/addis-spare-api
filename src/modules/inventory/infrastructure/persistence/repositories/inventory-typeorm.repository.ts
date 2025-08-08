@@ -9,13 +9,45 @@ import { InventoryRepository } from '../../../domain/repositories/inventory.repo
 import { InventoryTypeOrmEntity } from '../typeorm/inventory-typeorm.entity';
 import { Inventory } from 'src/modules/inventory/domain/entities/inventory.entity';
 import { OrderInventory } from 'src/modules/order/infrastructure/persistence/typeorm/order-typeorm.entity';
+import { Filter } from 'src/modules/report/application/dto/create-report.dto';
+import { Filterable } from 'src/modules/report/infrastructure/persistence/repositories/filters-typeorm.repository';
 
 @Injectable()
-export class InventoryTypeOrmRepository implements InventoryRepository {
+export class InventoryTypeOrmRepository
+  extends Filterable
+  implements InventoryRepository
+{
   constructor(
     @InjectRepository(InventoryTypeOrmEntity)
     private readonly repository: Repository<InventoryTypeOrmEntity>,
-  ) {}
+  ) {
+    super();
+  }
+  async filterInventory(filters: Filter[]): Promise<Inventory[]> {
+    const schema = {
+      productId: 'string',
+      location: 'string',
+      quantity: 'number',
+      reorderTreshould: 'number',
+      supplierId: 'string',
+      lastUpdated: 'Date',
+    };
+    const alias = 'inventory';
+    const qb = this.repository.createQueryBuilder(alias);
+    this.applyFilters(qb, alias, filters, schema);
+    const inventories = await qb.getMany();
+    return inventories.map(
+      (entity) =>
+        new Inventory(
+          entity.id,
+          entity.productId,
+          entity.location,
+          entity.quantity,
+          entity.reorderThreshold,
+          entity.supplierId,
+        ),
+    );
+  }
   async restoreDeductedInventories(
     orderInventories: OrderInventory[],
     manager: EntityManager,

@@ -4,13 +4,52 @@ import { EntityManager, Repository } from 'typeorm';
 import { OrderRepository } from 'src/modules/order/domain/repositories/order.repository';
 import { Order } from 'src/modules/order/domain/entities/order.entity';
 import { OrderTypeOrmEntity } from '../typeorm/order-typeorm.entity';
+import { Filterable } from 'src/modules/report/infrastructure/persistence/repositories/filters-typeorm.repository';
+import { Filter } from 'src/modules/report/application/dto/create-report.dto';
 
 @Injectable()
-export class OrderTypeOrmRepository implements OrderRepository {
+export class OrderTypeOrmRepository
+  extends Filterable
+  implements OrderRepository
+{
   constructor(
     @InjectRepository(OrderTypeOrmEntity)
     private readonly repository: Repository<OrderTypeOrmEntity>,
-  ) {}
+  ) {
+    super();
+  }
+  async filterOrder(filters: Filter[]): Promise<Order[]> {
+    const alias = 'order';
+    const schema = {
+      userId: 'string',
+      subtotal: 'number',
+      tax: 'number',
+      shippingFee: 'number',
+      total: 'number',
+      status: 'string',
+      placedAt: 'Date',
+      updatedAt: 'Date',
+    };
+    const qb = this.repository.createQueryBuilder(alias);
+
+    this.applyFilters(qb, alias, filters, schema);
+
+    const orders = await qb.getMany();
+    return orders.map(
+      (entity) =>
+        new Order(
+          entity.id,
+          entity.userId,
+          entity.items,
+          entity.subtotal,
+          entity.tax,
+          entity.shippingFee,
+          entity.total,
+          entity.status,
+          entity.discounts,
+        ),
+    );
+  }
   async findByUserId(id: string): Promise<Order[]> {
     const orders = await this.repository.find({ where: { userId: id } });
     return orders.map(
