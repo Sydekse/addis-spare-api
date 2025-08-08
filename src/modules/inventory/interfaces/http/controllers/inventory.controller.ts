@@ -12,11 +12,11 @@ import { ACGuard, UseRoles } from 'nest-access-control';
 import { JwtAuthGuard } from 'src/modules/auth/infrastructure/jwt/jwt.guard';
 import { CreateInventoryDto } from 'src/modules/inventory/application/dto/create-inventory.dto';
 import { UpdateInventoryDto } from 'src/modules/inventory/application/dto/update-inventory.dto';
-import { FindAllInventoriesUseCase } from 'src/modules/inventory/application/use-cases/create-module/all-inventorys.use-case';
-import { CreateInventoryUseCase } from 'src/modules/inventory/application/use-cases/create-module/create-inventory.use-case';
-import { DeleteInventoryUseCase } from 'src/modules/inventory/application/use-cases/create-module/delete-inventory.use-case';
-import { FindInventoryByIdUseCase } from 'src/modules/inventory/application/use-cases/create-module/find-inventory.use-case';
-import { UpdateInventoryUseCase } from 'src/modules/inventory/application/use-cases/create-module/update-inventory.use-case';
+import { FindAllInventoriesUseCase } from 'src/modules/inventory/application/use-cases/find/all-inventorys.use-case';
+import { CreateInventoryUseCase } from 'src/modules/inventory/application/use-cases/create/create-inventory.use-case';
+import { DeleteInventoryUseCase } from 'src/modules/inventory/application/use-cases/delete/delete-inventory.use-case';
+import { FindInventoryByIdUseCase } from 'src/modules/inventory/application/use-cases/find/find-inventory.use-case';
+import { UpdateInventoryUseCase } from 'src/modules/inventory/application/use-cases/update/update-inventory.use-case';
 import { Inventory } from 'src/modules/inventory/domain/entities/inventory.entity';
 
 @Controller('inventories')
