@@ -7,7 +7,6 @@ import {
   PUSH_NOTIFICATION_SUBSCRIPTION_REPOSITORY,
   PushNotificationSubscriptionRepository,
 } from '../../domain/repositories/push-notification-subscription.repository';
-
 // Define PushSubscription shape if your repository doesn't use the built-in type
 import { PushSubscription } from 'web-push';
 
