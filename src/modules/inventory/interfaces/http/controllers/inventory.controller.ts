@@ -32,9 +32,9 @@ export class InventoryController {
 
   @Post()
   @UseRoles({
-    resource: "inventory",
-    action: "create",
-    possession: "any"
+    resource: 'inventory',
+    action: 'create',
+    possession: 'any',
   })
   async create(@Body() dto: CreateInventoryDto): Promise<Inventory> {
     return this.createInventoryUseCase.execute(dto);
@@ -42,9 +42,9 @@ export class InventoryController {
 
   @Get(':id')
   @UseRoles({
-    resource: "inventory",
-    action: "read",
-    possession: "any"
+    resource: 'inventory',
+    action: 'read',
+    possession: 'any',
   })
   async findOne(@Param('id') id: string): Promise<Inventory | null> {
     return this.findInventoryByIdUseCase.execute(id);
@@ -52,9 +52,9 @@ export class InventoryController {
 
   @Get()
   @UseRoles({
-    resource: "inventory",
-    action: "read",
-    possession: "any"
+    resource: 'inventory',
+    action: 'read',
+    possession: 'any',
   })
   async findAll(): Promise<Inventory[]> {
     return this.findAllInventoriesUseCase.execute();
@@ -62,9 +62,9 @@ export class InventoryController {
 
   @Put(':id')
   @UseRoles({
-    resource: "inventory",
-    action: "update",
-    possession: "any"
+    resource: 'inventory',
+    action: 'update',
+    possession: 'any',
   })
   async update(
     @Param('id') id: string,
@@ -75,9 +75,9 @@ export class InventoryController {
 
   @Delete(':id')
   @UseRoles({
-    resource: "invetory",
-    action: "delete",
-    possession: "any"
+    resource: 'invetory',
+    action: 'delete',
+    possession: 'any',
   })
   async delete(@Param('id') id: string): Promise<void> {
     return this.deleteInventoryUseCase.execute(id);

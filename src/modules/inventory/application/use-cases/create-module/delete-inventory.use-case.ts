@@ -18,6 +18,6 @@ export class DeleteInventoryUseCase {
       throw new NotFoundException('inventory not found');
     }
 
-    this.inventoryRepository.delete(id);
+    await this.inventoryRepository.delete(id);
   }
 }
