@@ -1,4 +1,5 @@
 import { AggregateRoot } from '@nestjs/cqrs';
+
 import { OrderUpdatedEvent } from '../events/order-updated.event';
 import { OrderCreatedEvent } from '../events/order-created.event';
 import { OrderStatus } from '../../application/dto/create-order.dto';
