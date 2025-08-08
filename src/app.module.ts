@@ -8,6 +8,7 @@ import { AccessControlModule } from 'nest-access-control';
 import roles from './modules/auth/infrastructure/access-control/access-control';
 import { ModuleModule } from './modules/module/module.module';
 import { ProductModule } from './modules/product/product.module';
+import { InventoryModule } from './modules/inventory/inventory.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { ProductModule } from './modules/product/product.module';
       synchronize: true, // Set to false in production
     }),
     ModuleModule,
+    InventoryModule,
     ProductModule,
     UserModule,
     AuthModule,
