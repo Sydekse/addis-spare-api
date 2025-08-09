@@ -75,7 +75,7 @@ export class InventoryController {
 
   @Delete(':id')
   @UseRoles({
-    resource: 'invetory',
+    resource: 'inventory',
     action: 'delete',
     possession: 'any',
   })
