@@ -17,7 +17,7 @@ import { FindMessageByIdUseCase } from '../../../application/use-cases/find/find
 import { DeleteMessageUseCase } from '../../../application/use-cases/delete/delete-message.use-case';
 import { FindAllMessagesUseCase } from '../../../application/use-cases/find/find-all-messages.use-case';
 import { FindMessageByThreadUseCase } from 'src/modules/message/application/use-cases/find/find-messages-by-thread.use-case';
-import { ACGuard } from 'nest-access-control';
+import { ACGuard, UseRoles } from 'nest-access-control';
 import { JwtAuthGuard } from 'src/modules/auth/infrastructure/jwt/jwt.guard';
 
 @Controller('messages')
@@ -33,11 +33,21 @@ export class MessageController {
   ) {}
 
   @Post()
+  @UseRoles({
+    resource: 'message',
+    action: 'create',
+    possession: 'any',
+  })
   async create(@Body() dto: CreateMessageDto): Promise<Message> {
     return this.createMessageUseCase.execute(dto);
   }
 
   @Get('thread/:conversationId')
+  @UseRoles({
+    resource: 'message',
+    action: 'read',
+    possession: 'any',
+  })
   async findByThread(
     @Param('conversationId') conversationId: string,
   ): Promise<Message[]> {
@@ -45,16 +55,31 @@ export class MessageController {
   }
 
   @Get(':id')
+  @UseRoles({
+    resource: 'message',
+    action: 'read',
+    possession: 'any',
+  })
   async findOne(@Param('id') id: string): Promise<Message> {
     return this.findMessageByIdUseCase.execute(id);
   }
 
   @Get()
+  @UseRoles({
+    resource: 'message',
+    action: 'read',
+    possession: 'any',
+  })
   async findAll(): Promise<Message[]> {
     return this.findAllMessagesUseCase.execute();
   }
 
   @Put(':id')
+  @UseRoles({
+    resource: 'message',
+    action: 'update',
+    possession: 'any',
+  })
   async update(
     @Param('id') id: string,
     @Body() dto: UpdateMessageDto,
@@ -63,6 +88,11 @@ export class MessageController {
   }
 
   @Delete(':id')
+  @UseRoles({
+    resource: 'message',
+    action: 'delete',
+    possession: 'any',
+  })
   async delete(@Param('id') id: string): Promise<void> {
     return this.deleteMessageUseCase.execute(id);
   }
