@@ -4,6 +4,6 @@ import { NotificationSender } from '../senders/notification-sender.service';
 
 export class SMSNotificationService extends NotificationSender {
   override send(notification: Notification, user: User): Promise<void> {
-    throw new Error('SMS notifications are not supported yet');
+    return Promise.reject(new Error('SMS notifications are not supported yet'));
   }
 }
