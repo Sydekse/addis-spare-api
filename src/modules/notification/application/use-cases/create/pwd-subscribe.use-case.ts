@@ -1,11 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
-import { Notification } from '../../../domain/entities/notification.entity';
-import {
-  NOTIFICATION_REPOSITORY,
-  NotificationRepository,
-} from '../../../domain/repositories/notification.repository';
-import { CreateNotificationDto } from '../../dto/create-notification.dto';
 import { PWDSubscribeDto } from '../../dto/pwd-subscribe.dto';
 import {
   PUSH_NOTIFICATION_SUBSCRIPTION_REPOSITORY,

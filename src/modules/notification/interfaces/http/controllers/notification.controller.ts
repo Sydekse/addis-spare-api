@@ -47,7 +47,7 @@ export class NotificationController {
     return this.createModuleUseCase.execute(dto);
   }
 
-  @Get(':userId')
+  @Get(':userId/in-app')
   @UseRoles({
     resource: 'notification',
     action: 'read',
@@ -77,12 +77,12 @@ export class NotificationController {
     return this.findAllNotificationsUseCase.execute();
   }
 
-  @Post()
+  @Post('pwd-subscribe')
   async subscribe(
     @Req() req,
     @Body() dto: PWDSubscribeDto,
   ): Promise<PushNotificationSubscription> {
-    const userId = req.user?.id;
+    const userId: string = req.user.id || '';
     return this.subscribeNotificationUseCase.execute(userId, dto);
   }
 
