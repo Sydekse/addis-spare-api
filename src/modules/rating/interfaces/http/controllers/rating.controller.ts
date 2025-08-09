@@ -11,7 +11,7 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { ACGuard } from 'nest-access-control';
+import { ACGuard, UseRoles } from 'nest-access-control';
 import { JwtAuthGuard } from 'src/modules/auth/infrastructure/jwt/jwt.guard';
 import { CreateRatingDto } from 'src/modules/rating/application/dto/create-rating.dto';
 import { UpdateRatingDto } from 'src/modules/rating/application/dto/update-rating.dto';
@@ -38,27 +38,52 @@ export class RatingController {
   ) {}
 
   @Post()
+  @UseRoles({
+    resource: 'rating',
+    possession: 'own',
+    action: 'create',
+  })
   async create(@Req() req, @Body() dto: CreateRatingDto): Promise<Rating> {
     const userId: string = req.user.id || uuidv4();
     return this.createRatingUseCase.execute(userId, dto);
   }
 
   @Get('for-product/:id')
+  @UseRoles({
+    resource: 'rating',
+    possession: 'any',
+    action: 'read',
+  })
   async forProduct(@Param('id') id: string): Promise<Rating[]> {
     return await this.findRatingsByProductUseCase.execute(id);
   }
 
   @Get(':id')
+  @UseRoles({
+    resource: 'rating',
+    possession: 'any',
+    action: 'read',
+  })
   async findOne(@Param('id') id: string): Promise<Rating | null> {
     return this.findRatingByIdUseCase.execute(id);
   }
 
   @Get()
+  @UseRoles({
+    resource: 'rating',
+    possession: 'any',
+    action: 'read',
+  })
   async findAll(): Promise<Rating[]> {
     return this.findAllRatingsUseCase.execute();
   }
 
   @Put(':id')
+  @UseRoles({
+    resource: 'rating',
+    possession: 'own',
+    action: 'update',
+  })
   async update(
     @Req() req,
     @Param('id') id: string,
@@ -69,6 +94,11 @@ export class RatingController {
   }
 
   @Delete(':id')
+  @UseRoles({
+    resource: 'rating',
+    possession: 'any',
+    action: 'delete',
+  })
   async delete(@Param('id') id: string) {
     return await this.deleteRatingUseCase.execute(id);
   }
