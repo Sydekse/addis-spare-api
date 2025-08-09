@@ -49,9 +49,6 @@ export class OrderDiscountDto {
 }
 
 export class CreateOrderDto {
-  // @IsUUID()
-  // userId: string;
-
   @IsArray()
   @ArrayMinSize(1)
   @ValidateNested({ each: true })
