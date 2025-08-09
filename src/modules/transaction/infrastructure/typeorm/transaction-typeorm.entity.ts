@@ -18,13 +18,21 @@ export class TransactionTypeOrmEntity {
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   amount: number;
 
-  @Column({ type: 'enum', enum: TransactionStatus, default: 'PENDING' })
+  @Column({
+    type: 'enum',
+    enum: TransactionStatus,
+    default: TransactionStatus.PENDING,
+  })
   status: TransactionStatus;
 
   @Column({ length: 3 })
   currency: string;
 
-  @Column({ type: 'enum', enum: TransactionType, default: 'CREDIT' })
+  @Column({
+    type: 'enum',
+    enum: TransactionType,
+    default: TransactionType.CAPTURE,
+  })
   type: TransactionType;
 
   @Column({ type: 'text' })

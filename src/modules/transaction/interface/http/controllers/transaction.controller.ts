@@ -19,11 +19,7 @@ export class PaymentController {
   async capture(
     @Body() dto: CreateTransactionDto,
   ): Promise<TransactionResponseDto> {
-    const transaction = await this.capturePaymentUseCase.execute(
-      dto.orderId,
-      dto.amount,
-      dto.currency,
-    );
+    const transaction = await this.capturePaymentUseCase.execute(dto);
     return this.mapToResponseDto(transaction);
   }
 

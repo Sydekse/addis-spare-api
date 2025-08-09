@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
-import { RefundTransactionDto } from 'src/modules/transaction/application/dto/refund-transaction.dto';
 import { TransactionRepository } from 'src/modules/transaction/domain/repository/transaction.repository';
 import { PaymentGatewayService } from 'src/modules/transaction/infrastructure/services/payment-gateway.service';
 import { Transaction } from 'src/modules/transaction/domain/entity/transaction.entity';
@@ -16,10 +15,9 @@ export class RefundPaymentUseCase {
     private readonly paymentGateway: PaymentGatewayService,
   ) {}
 
-  async execute(trans: RefundTransactionDto): Promise<Transaction> {
-    const originalTransaction = await this.transactionRepository.findById(
-      trans.originalTransactionId,
-    );
+  async execute(transactionID: string): Promise<Transaction> {
+    const originalTransaction =
+      await this.transactionRepository.findById(transactionID);
     if (!originalTransaction) {
       throw new Error('Original transaction not found');
     }

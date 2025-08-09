@@ -7,7 +7,6 @@ import {
   TransactionType,
 } from 'src/modules/transaction/domain/entity/enums';
 import { Transaction } from 'src/modules/transaction//domain/entity/transaction.entity';
-import { VoidPaymentDto } from '../dto/void-payment.dto';
 
 @Injectable()
 export class VoidPaymentUseCase {
@@ -16,13 +15,13 @@ export class VoidPaymentUseCase {
     private readonly paymentGateway: PaymentGatewayService,
   ) {}
 
-  async execute(payment: VoidPaymentDto): Promise<Transaction> {
-    const originalTransaction = await this.transactionRepository.findById(
-      payment.originalTransactionId,
-    );
+  async execute(transactionId: string): Promise<Transaction> {
+    const originalTransaction =
+      await this.transactionRepository.findById(transactionId);
     if (!originalTransaction) {
       throw new Error('Original transaction not found');
     }
+
     if (!originalTransaction.canVoid()) {
       throw new Error('Transaction cannot be voided');
     }
