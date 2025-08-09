@@ -3,8 +3,6 @@ import {
   CART_REPOSITORY,
   CartRepository,
 } from '../../domain/repositories/cart.repository';
-import { CartItemDto } from '../dto/item.dto';
-import { Cart } from '../../domain/entities/cart.entity';
 import { CartItem } from '../../domain/entities/cart-item.entity';
 import { AddToCartDto } from '../dto/add-to-cart.dto';
 

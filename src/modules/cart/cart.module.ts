@@ -8,6 +8,7 @@ import { RemoveFromCartUseCase } from './application/use-cases/remove-from-cart.
 import { FindCartByIdUseCase } from './application/use-cases/find-cart.use-case';
 import { CART_REPOSITORY } from './domain/repositories/cart.repository';
 import { CartTypeOrmRepository } from './infrastructure/repositories/cart-typeorm.repository';
+import { CheckoutUseCase } from './application/use-cases/checkout.use-case';
 
 @Module({
   imports: [TypeOrmModule.forFeature([CartTypeOrmEntity])],
@@ -17,6 +18,7 @@ import { CartTypeOrmRepository } from './infrastructure/repositories/cart-typeor
     AddToCartUseCase,
     RemoveFromCartUseCase,
     FindCartByIdUseCase,
+    CheckoutUseCase,
     {
       provide: 'CART_REPOSITORY',
       useClass: CartTypeOrmRepository,

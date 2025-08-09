@@ -1,9 +1,8 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, NotFoundException } from '@nestjs/common';
 import {
   CART_REPOSITORY,
   CartRepository,
 } from '../../domain/repositories/cart.repository';
-import { Order } from 'src/modules/order/domain/entities/order.entity';
 import {
   ORDER_REPOSITORY,
   OrderRepository,
@@ -21,14 +20,13 @@ export class CheckoutUseCase {
   async execute(cartId: string, userId: string) {
     const cart = await this.cartRepo.findById(cartId);
     if (!cart) throw new Error('Cart not found');
-    // Optionally check for expiry, because we already remove expired carts in a scheduled job
-    if (cart.getExpiresAt() < new Date()) throw new Error('Cart expired');
 
-    const order = new Order(cart.getId(), userId, cart.getItems(), new Date());
-    await this.orderRepo.save(order);
-    // Clear cart items
-    cart.clearItems();
-    await this.cartRepo.save(cart);
-    return order;
+    if (cart.getUserId() !== userId) {
+      throw new NotFoundException(
+        `Cart with ID ${cartId} not found for user ${userId}`,
+      );
+    }
+
+    // TODO: make sure to add redirection for creating an order
   }
 }
