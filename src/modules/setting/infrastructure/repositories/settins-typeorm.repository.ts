@@ -9,12 +9,16 @@ import {
   TaxRule,
   UserPermission,
 } from 'src/modules/setting/domain/entities/setting-data-types';
+import { InjectRepository } from '@nestjs/typeorm';
+import { SettingsRepository } from '../../domain/repositories/settings.repository';
+import { UserRole } from 'src/modules/users/domain/entity/user-data-types';
 
 @Injectable()
-export class SettingsTypeOrmRepository {
-  constructor(private readonly repository: Repository<SettingsTypeOrmEntity>) {
-    // Inject the TypeORM repository for settings
-  }
+export class SettingsTypeOrmRepository implements SettingsRepository {
+  constructor(
+    @InjectRepository(SettingsTypeOrmEntity)
+    private readonly repository: Repository<SettingsTypeOrmEntity>,
+  ) {}
 
   async findByUserId(userId: string): Promise<SystemSettings | null> {
     const user = await this.repository.findOne({ where: { userId } });
@@ -72,9 +76,11 @@ export class SettingsTypeOrmRepository {
 
   async updateUserPermissions(
     id: string,
-    permissions: UserPermission,
+    permissions: UserRole,
   ): Promise<void> {
-    await this.repository.update(id, { userPermissions: permissions });
+    await this.repository.update(id, {
+      userPermissions: { role: permissions },
+    });
   }
 
   async updateCurrencySettings(

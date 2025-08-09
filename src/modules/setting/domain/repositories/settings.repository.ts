@@ -1,4 +1,3 @@
-import { UserRole } from 'src/modules/users/domain/entity/user-data-types';
 import {
   CurrencySettings,
   DeliveryZone,
@@ -6,6 +5,7 @@ import {
 } from '../entities/setting-data-types';
 import { SystemSettings } from '../entities/settins.entity';
 import { TaxRule } from '../../application/dto/tax-rule.dto';
+import { UserRole } from 'src/modules/users/domain/entity/user-data-types';
 
 export const SETTINGS_REPOSITORY = Symbol.for('SettingsRepository');
 

@@ -1,17 +1,21 @@
-import { Injectable } from '@nestjs/common';
-import { SettingsRepository } from '../../domain/repositories/settings.repository';
-import { UserRole } from 'src/modules/users/domain/entity/user-data-types';
-import { UserPermission } from '../../domain/entities/setting-data-types';
+import { Inject, Injectable } from '@nestjs/common';
+import {
+  SETTINGS_REPOSITORY,
+  SettingsRepository,
+} from '../../domain/repositories/settings.repository';
 import { UserPermissionSettingUpdateDto } from '../dto/user-permission-setting-update.dto';
 
 @Injectable()
 export class ChangeUserPermissionSettingUseCase {
-  constructor(private readonly userRepository: SettingsRepository) {}
+  constructor(
+    @Inject(SETTINGS_REPOSITORY)
+    private readonly userRepository: SettingsRepository,
+  ) {}
 
   async execute(setting: UserPermissionSettingUpdateDto): Promise<void> {
     await this.userRepository.updateUserPermissions(
       setting.userId,
-      setting.userPermissions,
+      setting.userPermissions.role,
     );
   }
 }

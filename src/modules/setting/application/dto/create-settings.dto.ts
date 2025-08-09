@@ -1,8 +1,7 @@
-import { IsNotEmpty, Validate, ValidateNested } from 'class-validator';
+import { IsNotEmpty, ValidateNested } from 'class-validator';
 
 import { Type } from 'class-transformer';
 import { TaxRule } from './tax-rule.dto';
-import { UserRole } from 'src/modules/users/domain/entity/user-data-types';
 import { DeliveryZoneDto } from './delivery-zone.dto';
 import {
   CurrencySettings,

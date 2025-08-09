@@ -1,12 +1,17 @@
-import { Injectable } from '@nestjs/common';
-import { SettingsRepository } from '../../domain/repositories/settings.repository';
-import { TaxRule } from '../dto/tax-rule.dto';
+import { Inject, Injectable } from '@nestjs/common';
+import {
+  SETTINGS_REPOSITORY,
+  SettingsRepository,
+} from '../../domain/repositories/settings.repository';
 import { SystemSettings } from '../../domain/entities/settins.entity';
 import { CreateSettingDto } from '../dto/create-settings.dto';
 
 @Injectable()
 export class CreateSettingsUsecase {
-  constructor(private readonly settingsRepository: SettingsRepository) {}
+  constructor(
+    @Inject(SETTINGS_REPOSITORY)
+    private readonly settingsRepository: SettingsRepository,
+  ) {}
 
   async execute(settings: CreateSettingDto): Promise<SystemSettings> {
     const setting = SystemSettings.create(
