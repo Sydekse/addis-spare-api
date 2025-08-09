@@ -1,4 +1,4 @@
-import { AggregateRoot } from "@nestjs/cqrs";
+import { AggregateRoot } from '@nestjs/cqrs';
 
 export class CartItem extends AggregateRoot {
   private productId: string;
@@ -14,7 +14,7 @@ export class CartItem extends AggregateRoot {
     compatibilityNote: string,
     addedAt: Date,
   ) {
-      super();
+    super();
     this.productId = productId;
     this.quantity = quantity;
     this.price = price;

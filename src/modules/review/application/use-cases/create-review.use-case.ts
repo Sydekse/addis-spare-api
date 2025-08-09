@@ -1,7 +1,10 @@
 import { Inject, Injectable, ConflictException } from '@nestjs/common';
 import { Review } from 'src/modules/review/domain/entities/review.entity';
 import { CreateReviewDto } from 'src/modules/review/application/dto/create-review.dto';
-import { REVIEW_REPOSITORY, ReviewRepository } from 'src/modules/review/domain/repositories/review.repository';
+import {
+  REVIEW_REPOSITORY,
+  ReviewRepository,
+} from 'src/modules/review/domain/repositories/review.repository';
 
 @Injectable()
 export class CreateReviewUseCase {
@@ -19,7 +22,9 @@ export class CreateReviewUseCase {
       createReviewDto.productId,
     );
     if (existingReview) {
-      throw new ConflictException('User has already submitted a review for this product');
+      throw new ConflictException(
+        'User has already submitted a review for this product',
+      );
     }
 
     const review = Review.create(

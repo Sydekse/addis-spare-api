@@ -16,21 +16,31 @@ export class PaymentController {
 
   @Post('capture')
   @HttpCode(201)
-  async capture(@Body() dto: CreateTransactionDto): Promise<TransactionResponseDto> {
-    const transaction = await this.capturePaymentUseCase.execute(dto.orderId, dto.amount, dto.currency);
+  async capture(
+    @Body() dto: CreateTransactionDto,
+  ): Promise<TransactionResponseDto> {
+    const transaction = await this.capturePaymentUseCase.execute(
+      dto.orderId,
+      dto.amount,
+      dto.currency,
+    );
     return this.mapToResponseDto(transaction);
   }
 
   @Post('refund/:transactionId')
   @HttpCode(201)
-  async refund(@Param('transactionId') transactionId: string): Promise<TransactionResponseDto> {
+  async refund(
+    @Param('transactionId') transactionId: string,
+  ): Promise<TransactionResponseDto> {
     const transaction = await this.refundPaymentUseCase.execute(transactionId);
     return this.mapToResponseDto(transaction);
   }
 
   @Post('void/:transactionId')
   @HttpCode(201)
-  async void(@Param('transactionId') transactionId: string): Promise<TransactionResponseDto> {
+  async void(
+    @Param('transactionId') transactionId: string,
+  ): Promise<TransactionResponseDto> {
     const transaction = await this.voidPaymentUseCase.execute(transactionId);
     return this.mapToResponseDto(transaction);
   }

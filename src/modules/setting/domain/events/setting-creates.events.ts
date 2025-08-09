@@ -1,7 +1,5 @@
-import { SystemSettings } from "../entities/settins.entity";
+import { SystemSettings } from '../entities/settins.entity';
 
 export class SettingCreatedEvent {
-    constructor(
-        public  systemSettings: SystemSettings
-    ) {}
+  constructor(public systemSettings: SystemSettings) {}
 }

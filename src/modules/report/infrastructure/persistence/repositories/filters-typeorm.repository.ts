@@ -55,7 +55,7 @@ export abstract class Filterable {
           break;
 
         default:
-          throw new Error(`Unsupported filter type: ${filter.type || ""}`);
+          throw new Error(`Unsupported filter type: ${filter.type || ''}`);
       }
     });
   }

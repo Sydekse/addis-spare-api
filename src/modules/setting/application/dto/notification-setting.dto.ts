@@ -1,15 +1,15 @@
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty } from 'class-validator';
 
 export class NotificationSettingDto {
-    @IsNotEmpty()
-    orderConfirmation: boolean;
+  @IsNotEmpty()
+  orderConfirmation: boolean;
 
-    @IsNotEmpty()
-    shippingUpdates: boolean;
+  @IsNotEmpty()
+  shippingUpdates: boolean;
 
-    @IsNotEmpty()
-    promotional: boolean;
+  @IsNotEmpty()
+  promotional: boolean;
 
-    @IsNotEmpty()
-    lowStockAlerts: boolean;
+  @IsNotEmpty()
+  lowStockAlerts: boolean;
 }

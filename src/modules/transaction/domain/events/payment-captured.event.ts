@@ -1,7 +1,5 @@
-import { Transaction } from "../entity/transaction.entity";
+import { Transaction } from '../entity/transaction.entity';
 
 export class PaymentCapturedEvent {
-  constructor(
-    public transaction : Transaction
-  ) {}
+  constructor(public transaction: Transaction) {}
 }

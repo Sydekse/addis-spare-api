@@ -18,8 +18,13 @@ export class ReviewTypeOrmRepository implements ReviewRepository {
     return new Review(entity.userId, entity.productId, entity.body, entity.id);
   }
 
-  async findByUserIdAndProductId(userId: string, productId: string): Promise<Review | null> {
-    const entity = await this.repository.findOne({ where: { userId, productId } });
+  async findByUserIdAndProductId(
+    userId: string,
+    productId: string,
+  ): Promise<Review | null> {
+    const entity = await this.repository.findOne({
+      where: { userId, productId },
+    });
     if (!entity) return null;
     return new Review(entity.userId, entity.productId, entity.body, entity.id);
   }

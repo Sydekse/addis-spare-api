@@ -50,7 +50,7 @@ export class Review extends AggregateRoot {
     this.body = body;
     this.updatedAt = new Date();
   }
-  public delete() : void {
+  public delete(): void {
     this.body = '';
     this.updatedAt = new Date();
   }

@@ -38,13 +38,13 @@ export class ReportController {
     private readonly deleteReportUseCase: DeleteReportUseCase,
     private readonly findReportByIdUseCase: FindReportByIdUseCase,
     private readonly generateReportUseCase: GenerateReportUseCase,
-  ) { }
+  ) {}
 
   @Post()
   @UseRoles({
-    resource: "reviews",
-    possession: "own",
-    action: "create"
+    resource: 'report',
+    possession: 'own',
+    action: 'create',
   })
   @UsePipes(new ValidationPipe(), new ReportPipe())
   async create(@Req() req, @Body() dto: CreateReportDto): Promise<Report> {
@@ -54,9 +54,9 @@ export class ReportController {
 
   @Get(':id/generate')
   @UseRoles({
-    resource: "reviews",
-    possession: "own",
-    action: "read"
+    resource: 'report',
+    possession: 'own',
+    action: 'read',
   })
   async generate(
     @Param('id') id: string,
@@ -66,9 +66,9 @@ export class ReportController {
 
   @Get(':id')
   @UseRoles({
-    resource: "reviews",
-    possession: "own",
-    action: "read"
+    resource: 'report',
+    possession: 'own',
+    action: 'read',
   })
   async findOne(@Param('id') id: string): Promise<Report> {
     return this.findReportByIdUseCase.execute(id);
@@ -76,9 +76,9 @@ export class ReportController {
 
   @Get()
   @UseRoles({
-    resource: "reviews",
-    possession: "any",
-    action: "read"
+    resource: 'report',
+    possession: 'any',
+    action: 'read',
   })
   async findAll(): Promise<Report[]> {
     return this.findAllReportsUseCase.execute();
@@ -86,9 +86,9 @@ export class ReportController {
 
   @Put(':id')
   @UseRoles({
-    resource: "review",
-    possession: "own",
-    action: "update"
+    resource: 'review',
+    possession: 'own',
+    action: 'update',
   })
   async update(
     @Req() req,
@@ -102,9 +102,9 @@ export class ReportController {
 
   @Delete(':id')
   @UseRoles({
-    resource: "review",
-    possession: "own",
-    action: "delete"
+    resource: 'review',
+    possession: 'own',
+    action: 'delete',
   })
   async delete(@Req() req, @Param('id') id: string): Promise<void> {
     const userId: string = req.user.id || uuidv4();

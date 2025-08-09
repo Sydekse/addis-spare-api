@@ -1,7 +1,13 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { CART_REPOSITORY, CartRepository } from '../../domain/repositories/cart.repository';
+import {
+  CART_REPOSITORY,
+  CartRepository,
+} from '../../domain/repositories/cart.repository';
 import { Order } from 'src/modules/order/domain/entities/order.entity';
-import { ORDER_REPOSITORY, OrderRepository } from 'src/modules/order/domain/repositories/order.repository';
+import {
+  ORDER_REPOSITORY,
+  OrderRepository,
+} from 'src/modules/order/domain/repositories/order.repository';
 
 @Injectable()
 export class CheckoutUseCase {
@@ -18,12 +24,7 @@ export class CheckoutUseCase {
     // Optionally check for expiry, because we already remove expired carts in a scheduled job
     if (cart.getExpiresAt() < new Date()) throw new Error('Cart expired');
 
-    const order = new Order(
-      cart.getId(),
-      userId,
-      cart.getItems(),
-      new Date(),
-    );
+    const order = new Order(cart.getId(), userId, cart.getItems(), new Date());
     await this.orderRepo.save(order);
     // Clear cart items
     cart.clearItems();

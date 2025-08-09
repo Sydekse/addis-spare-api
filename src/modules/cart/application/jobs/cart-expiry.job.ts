@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 import { Inject } from '@nestjs/common';
-import { CART_REPOSITORY, CartRepository } from '../../domain/repositories/cart.repository';
+import {
+  CART_REPOSITORY,
+  CartRepository,
+} from '../../domain/repositories/cart.repository';
 
 @Injectable()
 export class CartExpiryJob {

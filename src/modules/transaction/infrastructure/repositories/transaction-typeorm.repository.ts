@@ -1,19 +1,16 @@
-import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { TransactionTypeOrmEntity } from "../typeorm/transaction-typeorm.entity";
-import { Repository } from "typeorm";
-import { Transaction } from "../../domain/entity/transaction.entity";
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { TransactionTypeOrmEntity } from '../typeorm/transaction-typeorm.entity';
+import { Repository } from 'typeorm';
+import { Transaction } from '../../domain/entity/transaction.entity';
 
 @Injectable()
-
 export class TransactionTypeOrmRepository {
-    constructor(
-        @InjectRepository(TransactionTypeOrmEntity)
-        private readonly repository: Repository<TransactionTypeOrmEntity>,
-        
-    ) {}
+  constructor(
+    @InjectRepository(TransactionTypeOrmEntity)
+    private readonly repository: Repository<TransactionTypeOrmEntity>,
+  ) {}
 
-    
   async save(transaction: Transaction): Promise<void> {
     const entity = this.repository.create({
       id: transaction.getId(),

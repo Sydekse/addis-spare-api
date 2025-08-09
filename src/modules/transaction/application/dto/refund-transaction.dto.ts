@@ -1,8 +1,7 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class RefundTransactionDto {
-    @IsString()
-    @IsNotEmpty()
-    originalTransactionId: string;
-    
+  @IsString()
+  @IsNotEmpty()
+  originalTransactionId: string;
 }

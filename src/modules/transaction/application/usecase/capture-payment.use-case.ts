@@ -4,7 +4,10 @@ import { v4 as uuidv4 } from 'uuid';
 import { PaymentGatewayService } from 'src/modules/transaction/infrastructure/services/payment-gateway.service';
 import { TransactionRepository } from 'src/modules/transaction/domain/repository/transaction.repository';
 import { Transaction } from 'src/modules/transaction/domain/entity/transaction.entity';
-import { TransactionStatus, TransactionType } from 'src/modules/transaction/domain/entity/enums';
+import {
+  TransactionStatus,
+  TransactionType,
+} from 'src/modules/transaction/domain/entity/enums';
 import { CreateTransactionDto } from '../dto/create-transaction.dto';
 
 @Injectable()
@@ -15,7 +18,7 @@ export class CapturePaymentUseCase {
     private readonly orderService: OrderService,
   ) {}
 
-  async execute(captureTrans : CreateTransactionDto): Promise<Transaction> {
+  async execute(captureTrans: CreateTransactionDto): Promise<Transaction> {
     const order = await this.orderService.getOrder(captureTrans.orderId);
     if (!order) {
       throw new Error('Order not found');
@@ -38,7 +41,8 @@ export class CapturePaymentUseCase {
 
     transaction.validateAgainstOrderTotal(order.total);
 
-    const gatewayResponse = await this.paymentGateway.capturePayment(transaction);
+    const gatewayResponse =
+      await this.paymentGateway.capturePayment(transaction);
     if (gatewayResponse.success) {
       transaction.complete();
     } else {

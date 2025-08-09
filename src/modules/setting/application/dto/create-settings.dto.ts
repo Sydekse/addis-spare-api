@@ -1,40 +1,43 @@
-import { IsNotEmpty, Validate, ValidateNested } from "class-validator";
+import { IsNotEmpty, Validate, ValidateNested } from 'class-validator';
 
-import { Type } from "class-transformer";
-import { TaxRule } from "./tax-rule.dto";
-import { UserRole } from "src/modules/users/domain/entity/user-data-types";
-import { DeliveryZoneDto } from "./delivery-zone.dto";
-import { CurrencySettings, DeliveryZone, NotificationSettings, UserPermission } from "../../domain/entities/setting-data-types";
-import { NotificationSettingDto } from "./notification-setting.dto";
-import { CurrencySettingsDto } from "./currency-setting.dto";
+import { Type } from 'class-transformer';
+import { TaxRule } from './tax-rule.dto';
+import { UserRole } from 'src/modules/users/domain/entity/user-data-types';
+import { DeliveryZoneDto } from './delivery-zone.dto';
+import {
+  CurrencySettings,
+  DeliveryZone,
+  NotificationSettings,
+  UserPermission,
+} from '../../domain/entities/setting-data-types';
+import { NotificationSettingDto } from './notification-setting.dto';
+import { CurrencySettingsDto } from './currency-setting.dto';
 
 export class CreateSettingDto {
-    @IsNotEmpty()
-    id: string;
-    @IsNotEmpty()
-    userId: string;
-    
+  @IsNotEmpty()
+  id: string;
+  @IsNotEmpty()
+  userId: string;
 
-    @ValidateNested()
-    @Type(() => TaxRule)
-    taxRules: TaxRule;
+  @ValidateNested()
+  @Type(() => TaxRule)
+  taxRules: TaxRule;
 
-    @IsNotEmpty()
-    deliveryZones: DeliveryZone; 
+  @IsNotEmpty()
+  deliveryZones: DeliveryZone;
 
-    @IsNotEmpty()
-    userPermissions: UserPermission;
+  @IsNotEmpty()
+  userPermissions: UserPermission;
 
-    @ValidateNested()
-    @Type(() => DeliveryZoneDto)
-    deliveryZone: DeliveryZone;
+  @ValidateNested()
+  @Type(() => DeliveryZoneDto)
+  deliveryZone: DeliveryZone;
 
-    @ValidateNested()
-    @Type(() => CurrencySettingsDto)
-    currencySettings: CurrencySettings;
+  @ValidateNested()
+  @Type(() => CurrencySettingsDto)
+  currencySettings: CurrencySettings;
 
-    @ValidateNested()
-    @Type(() => NotificationSettingDto)
-    notificationSettings: NotificationSettings;
-
+  @ValidateNested()
+  @Type(() => NotificationSettingDto)
+  notificationSettings: NotificationSettings;
 }

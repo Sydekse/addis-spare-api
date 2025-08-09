@@ -1,4 +1,4 @@
-import { TransactionStatus, TransactionType } from "./enums";
+import { TransactionStatus, TransactionType } from './enums';
 
 export class Transaction {
   constructor(
@@ -14,15 +14,33 @@ export class Transaction {
   ) {}
 
   // Getters
-  getId(): string { return this.id; }
-  getOrderId(): string { return this.orderId; }
-  getAmount(): number { return this.amount; }
-  getCurrency(): string { return this.currency; }
-  getType(): TransactionType { return this.type; }
-  getStatus(): TransactionStatus { return this.status; }
-  getGatewayResponse(): string { return this.gatewayResponse; }
-  getCreatedAt(): Date { return this.createdAt; }
-  getUpdatedAt(): Date { return this.updatedAt; }
+  getId(): string {
+    return this.id;
+  }
+  getOrderId(): string {
+    return this.orderId;
+  }
+  getAmount(): number {
+    return this.amount;
+  }
+  getCurrency(): string {
+    return this.currency;
+  }
+  getType(): TransactionType {
+    return this.type;
+  }
+  getStatus(): TransactionStatus {
+    return this.status;
+  }
+  getGatewayResponse(): string {
+    return this.gatewayResponse;
+  }
+  getCreatedAt(): Date {
+    return this.createdAt;
+  }
+  getUpdatedAt(): Date {
+    return this.updatedAt;
+  }
 
   // Business logic
   validateAgainstOrderTotal(orderTotal: number): void {
@@ -35,11 +53,17 @@ export class Transaction {
   }
 
   canRefund(): boolean {
-    return this.type === TransactionType.CAPTURE && this.status === TransactionStatus.COMPLETED;
+    return (
+      this.type === TransactionType.CAPTURE &&
+      this.status === TransactionStatus.COMPLETED
+    );
   }
 
   canVoid(): boolean {
-    return this.type === TransactionType.CAPTURE && this.status === TransactionStatus.PENDING;
+    return (
+      this.type === TransactionType.CAPTURE &&
+      this.status === TransactionStatus.PENDING
+    );
   }
 
   complete(): void {

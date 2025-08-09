@@ -2,7 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 import { TransactionRepository } from 'src/modules/transaction//domain/repository/transaction.repository';
 import { PaymentGatewayService } from 'src/modules/transaction//infrastructure/services/payment-gateway.service';
-import { TransactionStatus, TransactionType } from 'src/modules/transaction/domain/entity/enums';
+import {
+  TransactionStatus,
+  TransactionType,
+} from 'src/modules/transaction/domain/entity/enums';
 import { Transaction } from 'src/modules/transaction//domain/entity/transaction.entity';
 import { VoidPaymentDto } from '../dto/void-payment.dto';
 
@@ -14,7 +17,9 @@ export class VoidPaymentUseCase {
   ) {}
 
   async execute(payment: VoidPaymentDto): Promise<Transaction> {
-    const originalTransaction = await this.transactionRepository.findById(payment.originalTransactionId);
+    const originalTransaction = await this.transactionRepository.findById(
+      payment.originalTransactionId,
+    );
     if (!originalTransaction) {
       throw new Error('Original transaction not found');
     }
@@ -34,7 +39,8 @@ export class VoidPaymentUseCase {
       new Date(),
     );
 
-    const gatewayResponse = await this.paymentGateway.voidPayment(voidTransaction);
+    const gatewayResponse =
+      await this.paymentGateway.voidPayment(voidTransaction);
     if (gatewayResponse.success) {
       voidTransaction.complete();
     } else {

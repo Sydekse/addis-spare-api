@@ -9,6 +9,6 @@ export default new DataSource({
   database: 'addis_spare',
   entities: [__dirname + '/**/*.entity{.ts,.js}'],
   migrations: [__dirname + '/migrations/*{.ts,.js}'],
-  migrationsTableName: "migrations",
+  migrationsTableName: 'migrations',
   synchronize: false, // Always false in production/migrations
 });

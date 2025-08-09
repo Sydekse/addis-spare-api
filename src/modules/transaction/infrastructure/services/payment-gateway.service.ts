@@ -3,15 +3,21 @@ import { Transaction } from 'src/modules/transaction/domain/entity/transaction.e
 
 @Injectable()
 export class PaymentGatewayService {
-  async capturePayment(transaction: Transaction): Promise<{ success: boolean; message: string }> {
+  async capturePayment(
+    transaction: Transaction,
+  ): Promise<{ success: boolean; message: string }> {
     throw new Error('Method not implemented.');
   }
 
-  async refundPayment(transaction: Transaction): Promise<{ success: boolean; message: string }> {
+  async refundPayment(
+    transaction: Transaction,
+  ): Promise<{ success: boolean; message: string }> {
     throw new Error('Method not implemented.');
   }
 
-  async voidPayment(transaction: Transaction): Promise<{ success: boolean; message: string }> {
+  async voidPayment(
+    transaction: Transaction,
+  ): Promise<{ success: boolean; message: string }> {
     throw new Error('Method not implemented.');
   }
 }
