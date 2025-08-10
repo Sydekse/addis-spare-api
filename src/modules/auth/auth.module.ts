@@ -16,6 +16,7 @@ import { RefreshTokenUseCase } from './application/use-cases/refresh-token.use-c
 import { REFRESH_TOKEN_REPOSITORY } from './domain/repositories/refresh-token.repository';
 import { RefreshTokenTypeOrmEntity } from './infrastructure/persistence/typeorm/refresh-token-typeorm.entity';
 import { RefreshTokenTypeOrmRepository } from './infrastructure/persistence/repositories/refresh-token-typeorm.repository';
+import { NotificationModule } from '../notification/notification.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { RefreshTokenTypeOrmRepository } from './infrastructure/persistence/repo
     TypeOrmModule.forFeature([RefreshTokenTypeOrmEntity]),
     UserModule,
     JwtTokenModule,
+    NotificationModule,
   ],
   controllers: [AuthController],
   providers: [

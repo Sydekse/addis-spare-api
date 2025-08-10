@@ -9,8 +9,10 @@ import {
   RESET_TOKEN_REPOSITORY,
   ResetTokenRepository,
 } from '../../domain/repositories/reset-token.repository';
-import { SignInDto } from '../dto/sign-in.dto';
 import { BcryptHelper } from '../helpers/bcrypt.helpers';
+import { CreateNotificationDto, NotificationChannel, NotificationStatus } from 'src/modules/notification/application/dto/create-notification.dto';
+import { CreateNotificationUseCase } from 'src/modules/notification/application/use-cases/create/create-notification.use-case';
+import { ForgetPasswordDto } from '../dto/forget-password.dto';
 
 @Injectable()
 export class ForgetPasswordUseCase {
@@ -19,11 +21,12 @@ export class ForgetPasswordUseCase {
     private readonly tokenRepository: ResetTokenRepository,
     @Inject(USER_REPOSITORY)
     private readonly userRepository: UserRepository,
+    private readonly createNotificationUseCase: CreateNotificationUseCase,
   ) {}
 
   // TODO: can you improve this by using caching rather than generating new tokens or invalidate older tokens
   // or delte the older tokens?
-  async execute(dto: SignInDto): Promise<{ token: string; id: string }> {
+  async execute(dto: ForgetPasswordDto): Promise<{ token: string; id: string }> {
     const user = await this.userRepository.findByEmail(dto.email);
     if (!user) {
       throw new BadRequestException('user not found');
@@ -41,6 +44,32 @@ export class ForgetPasswordUseCase {
 
     await this.tokenRepository.save(resetToken);
 
+    const notificationDto = new CreateNotificationDto();
+    notificationDto.status = NotificationStatus.PENDING;
+    notificationDto.userId = user.getId();
+    notificationDto.channel = NotificationChannel.GMAIL;
+    notificationDto.relatedTo = {
+            entity: 'users',
+            id: user.getId(),
+        }
+    notificationDto.message = generateResetPasswordMessage(resetToken.getId());
+    notificationDto.subject = 'Password Reset Request';
+    await this.createNotificationUseCase.execute(notificationDto);
+
     return { token, id: resetToken.getId() };
   }
+}
+
+function generateResetPasswordMessage(token, expiry = '24 hours') {
+  return (
+    `Hello,\n\n` +
+    `We received a request to reset the password associated with your account. ` +
+    `Please use the following token to proceed with resetting your password:\n\n` +
+    `🔐 Token: ${token}\n\n` +
+    `⚠️ This token will expire in ${expiry}. If you did not request a password reset, you can safely ignore this message. ` +
+    `No changes will be made to your account without verification.\n\n` +
+    `If you encounter any issues or have questions, feel free to contact our support team.\n\n` +
+    `Thanks,\n` +
+    `The Support Team`
+  );
 }

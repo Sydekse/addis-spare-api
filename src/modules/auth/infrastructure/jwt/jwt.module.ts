@@ -10,8 +10,9 @@ import { UserModule } from 'src/modules/users/user.module';
     PassportModule,
     UserModule,
     NestJwtModule.register({
-      secret: process.env.JWT_SECRET || '',
+      secret: 'jwtSecret',
       signOptions: { expiresIn: '24h' },
+      verifyOptions: { ignoreExpiration: true },
     }),
   ],
   providers: [JwtTokenService, JwtStrategy],

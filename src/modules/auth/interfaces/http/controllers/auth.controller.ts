@@ -31,6 +31,7 @@ import {
   UserRepository,
 } from 'src/modules/users/domain/repository/user.repository';
 import { Response } from 'express';
+import { ForgetPasswordDto } from 'src/modules/auth/application/dto/forget-password.dto';
 
 @UsePipes(new ValidationPipe())
 @Controller('auth')
@@ -68,7 +69,7 @@ export class AuthController {
 
   @Post('forget-password')
   async generateResetToken(
-    @Body() dto: SignInDto,
+    @Body() dto: ForgetPasswordDto,
   ): Promise<{ token: string; id: string }> {
     return this.forgetPasswordUseCase.execute(dto);
   }
