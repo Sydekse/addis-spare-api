@@ -10,7 +10,11 @@ import {
   ResetTokenRepository,
 } from '../../domain/repositories/reset-token.repository';
 import { BcryptHelper } from '../helpers/bcrypt.helpers';
-import { CreateNotificationDto, NotificationChannel, NotificationStatus } from 'src/modules/notification/application/dto/create-notification.dto';
+import {
+  CreateNotificationDto,
+  NotificationChannel,
+  NotificationStatus,
+} from 'src/modules/notification/application/dto/create-notification.dto';
 import { CreateNotificationUseCase } from 'src/modules/notification/application/use-cases/create/create-notification.use-case';
 import { ForgetPasswordDto } from '../dto/forget-password.dto';
 
@@ -26,7 +30,9 @@ export class ForgetPasswordUseCase {
 
   // TODO: can you improve this by using caching rather than generating new tokens or invalidate older tokens
   // or delte the older tokens?
-  async execute(dto: ForgetPasswordDto): Promise<{ token: string; id: string }> {
+  async execute(
+    dto: ForgetPasswordDto,
+  ): Promise<{ token: string; id: string }> {
     const user = await this.userRepository.findByEmail(dto.email);
     if (!user) {
       throw new BadRequestException('user not found');
@@ -49,9 +55,9 @@ export class ForgetPasswordUseCase {
     notificationDto.userId = user.getId();
     notificationDto.channel = NotificationChannel.GMAIL;
     notificationDto.relatedTo = {
-            entity: 'users',
-            id: user.getId(),
-        }
+      entity: 'users',
+      id: user.getId(),
+    };
     notificationDto.message = generateResetPasswordMessage(resetToken.getId());
     notificationDto.subject = 'Password Reset Request';
     await this.createNotificationUseCase.execute(notificationDto);

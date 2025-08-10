@@ -41,11 +41,11 @@ export class NotificationController {
   ) {}
 
   @Post()
- // @UseRoles({
- //   resource: 'notification',
- //   action: 'create',
- //   possession: 'any',
- // })
+  // @UseRoles({
+  //   resource: 'notification',
+  //   action: 'create',
+  //   possession: 'any',
+  // })
   async create(@Body() dto: CreateNotificationDto): Promise<Notification> {
     return this.createModuleUseCase.execute(dto);
   }

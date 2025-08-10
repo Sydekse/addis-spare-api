@@ -16,7 +16,10 @@ import {
 } from '../../domain/repositories/refresh-token.repository';
 import { AuthTokenHelper } from '../helpers/refresh-token.helpers';
 import { AuthTokenResponse } from '../dto/auth-token.response.dto';
-import { NOTIFICATION_REPOSITORY, NotificationRepository } from 'src/modules/notification/domain/repositories/notification.repository';
+import {
+  NOTIFICATION_REPOSITORY,
+  NotificationRepository,
+} from 'src/modules/notification/domain/repositories/notification.repository';
 
 @Injectable()
 export class ResetPasswordUseCase {
