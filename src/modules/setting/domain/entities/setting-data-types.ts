@@ -1,22 +1,20 @@
-import { UserRole } from "src/modules/users/domain/entity/user-data-types";
-
+import { UserRole } from 'src/modules/users/domain/entity/user-data-types';
 
 export enum TaxType {
-    VAT = 'vat',
-    SALES = 'sales',
-    IMPORT = 'import',
+  VAT = 'vat',
+  SALES = 'sales',
+  IMPORT = 'import',
 }
 
-
 export interface TaxRule {
-  region: string; 
+  region: string;
   taxRate: number;
-  taxType: TaxType
+  taxType: TaxType;
   isActive: boolean;
 }
 
 export interface DeliveryZone {
-  zoneId: string; 
+  zoneId: string;
   zoneName: string;
   deliveryFee: number;
   estimatedDeliveryDays: number;

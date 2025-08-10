@@ -8,6 +8,8 @@ import {
   Put,
   Req,
   UseGuards,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { CreateNotificationUseCase } from '../../../application/use-cases/create/create-notification.use-case';
 import { CreateNotificationDto } from '../../../application/dto/create-notification.dto';
@@ -24,8 +26,9 @@ import { PWDSubscribeDto } from 'src/modules/notification/application/dto/pwd-su
 import { CreatePushNotificationUseCase } from 'src/modules/notification/application/use-cases/create/pwd-subscribe.use-case';
 import { JwtAuthGuard } from 'src/modules/auth/infrastructure/jwt/jwt.guard';
 
+@UsePipes(new ValidationPipe({ transform: true }))
 @Controller('notifications')
-@UseGuards(JwtAuthGuard, ACGuard)
+//@UseGuards(JwtAuthGuard, ACGuard)
 export class NotificationController {
   constructor(
     private readonly createModuleUseCase: CreateNotificationUseCase,
@@ -38,16 +41,16 @@ export class NotificationController {
   ) {}
 
   @Post()
-  @UseRoles({
-    resource: 'notification',
-    action: 'create',
-    possession: 'any',
-  })
+  // @UseRoles({
+  //   resource: 'notification',
+  //   action: 'create',
+  //   possession: 'any',
+  // })
   async create(@Body() dto: CreateNotificationDto): Promise<Notification> {
     return this.createModuleUseCase.execute(dto);
   }
 
-  @Get(':userId')
+  @Get(':userId/in-app')
   @UseRoles({
     resource: 'notification',
     action: 'read',
@@ -77,12 +80,12 @@ export class NotificationController {
     return this.findAllNotificationsUseCase.execute();
   }
 
-  @Post()
+  @Post('pwd-subscribe')
   async subscribe(
     @Req() req,
     @Body() dto: PWDSubscribeDto,
   ): Promise<PushNotificationSubscription> {
-    const userId = req.user?.id;
+    const userId: string = req.user.id || '';
     return this.subscribeNotificationUseCase.execute(userId, dto);
   }
 

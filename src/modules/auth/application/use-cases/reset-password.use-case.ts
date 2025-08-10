@@ -16,6 +16,10 @@ import {
 } from '../../domain/repositories/refresh-token.repository';
 import { AuthTokenHelper } from '../helpers/refresh-token.helpers';
 import { AuthTokenResponse } from '../dto/auth-token.response.dto';
+import {
+  NOTIFICATION_REPOSITORY,
+  NotificationRepository,
+} from 'src/modules/notification/domain/repositories/notification.repository';
 
 @Injectable()
 export class ResetPasswordUseCase {
@@ -27,6 +31,8 @@ export class ResetPasswordUseCase {
     @Inject(REFRESH_TOKEN_REPOSITORY)
     private readonly refreshTokenRepository: RefreshTokenRepository,
     private readonly jwtService: JwtTokenService,
+    @Inject(NOTIFICATION_REPOSITORY)
+    private readonly notificationRepository: NotificationRepository,
   ) {}
 
   async execute(dto: ResetPasswordDto): Promise<AuthTokenResponse> {

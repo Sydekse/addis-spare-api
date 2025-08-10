@@ -27,6 +27,10 @@ import {
   UserRepository,
 } from 'src/modules/users/domain/repository/user.repository';
 import { DataSource } from 'typeorm';
+import {
+  SETTINGS_REPOSITORY,
+  SettingsRepository,
+} from 'src/modules/setting/domain/repositories/settings.repository';
 
 @Injectable()
 export class PlaceOrderUseCase {
@@ -41,16 +45,25 @@ export class PlaceOrderUseCase {
     private readonly orderRepository: OrderRepository,
     @Inject(USER_REPOSITORY)
     private readonly userRepository: UserRepository,
+    @Inject(SETTINGS_REPOSITORY)
+    private readonly settingsRepository: SettingsRepository,
   ) {}
 
   async execute(id: string, dto: CreateOrderDto): Promise<Order> {
-    const TAX_RATE = 0.15;
-
     return this.dataSource.transaction(async (manager) => {
       const user = await this.userRepository.findById(id);
       if (!user) {
         throw new ForbiddenException('forbidden request');
       }
+
+      const userSettings = await this.settingsRepository.findByUserId(
+        user.getId(),
+      );
+      if (!userSettings) {
+        throw new BadRequestException('User settings not found');
+      }
+
+      const TAX_RATE = userSettings.getTaxRules().taxRate;
 
       let subtotal = 0;
       const orderItems: OrderItem[] = [];
@@ -99,6 +112,7 @@ export class PlaceOrderUseCase {
       let discountPrice = 0;
 
       if (dto.discounts) {
+        // TODO: but how are they really verified?
         for (const discount of dto.discounts) {
           discountPrice += discount.amount;
         }

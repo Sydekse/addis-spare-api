@@ -51,6 +51,6 @@ import { CreatePushNotificationUseCase } from './application/use-cases/create/pw
       useClass: PushNotificationSubscriptionTypeormRepository,
     },
   ],
-  exports: [NOTIFICATION_REPOSITORY],
+  exports: [NOTIFICATION_REPOSITORY, CreateNotificationUseCase],
 })
 export class NotificationModule {}

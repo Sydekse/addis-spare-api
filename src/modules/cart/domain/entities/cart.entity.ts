@@ -1,8 +1,6 @@
 import { AggregateRoot } from '@nestjs/cqrs';
 import { CartItem } from './cart-item.entity';
 
-
-
 export class Cart extends AggregateRoot {
   private id: string;
   private userId: string | null;

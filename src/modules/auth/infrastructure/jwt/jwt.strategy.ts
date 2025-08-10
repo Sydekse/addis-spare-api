@@ -23,9 +23,15 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     const userId: string = payload?.sub || '';
     const email: string = payload?.email || '';
     const user = await this.userRepository.findById(userId);
-    if (!user || user.getEmail() !== email)
+    if (!user || user.getEmail() !== email) {
       throw new UnauthorizedException('invalid jwt token');
+    }
 
-    return user;
+    console.log(payload);
+
+    return {
+      id: user.getId(),
+      role: user.getRole(),
+    };
   }
 }

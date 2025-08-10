@@ -1,12 +1,12 @@
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty } from 'class-validator';
 
 export class DeliveryZoneDto {
-    @IsNotEmpty()
-    primaryCurrency: string;
+  @IsNotEmpty()
+  primaryCurrency: string;
 
-    @IsNotEmpty()
-    exchangeRate: number;
+  @IsNotEmpty()
+  exchangeRate: number;
 
-    @IsNotEmpty()
-    exchangeRateUpdatedAt: Date;
+  @IsNotEmpty()
+  exchangeRateUpdatedAt: Date;
 }

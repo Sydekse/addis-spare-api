@@ -15,6 +15,7 @@ import { InventoryModule } from '../inventory/inventory.module';
 import { FindOrderByUserIdUseCase } from './application/use-cases/find/find-order-by-user-id.use-case';
 import { CancelOrderUseCase } from './application/use-cases/update/cancel-order.use-case';
 import { UpdateOrderStatusUseCase } from './application/use-cases/update/update-order.use-case';
+import { SettingsModule } from '../setting/settings.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { UpdateOrderStatusUseCase } from './application/use-cases/update/update-
     ProductModule,
     InventoryModule,
     UserModule,
+    SettingsModule,
   ],
   controllers: [OrderController],
   providers: [

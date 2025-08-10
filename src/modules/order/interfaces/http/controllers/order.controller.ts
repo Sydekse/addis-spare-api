@@ -46,7 +46,7 @@ export class OrderController {
     possession: 'own',
   })
   async create(@Req() req, @Body() dto: CreateOrderDto): Promise<Order> {
-    const userId : string = req.user.id || uuidv4();
+    const userId: string = req.user.id || uuidv4();
     return this.placeOrderUseCase.execute(userId, dto);
   }
 

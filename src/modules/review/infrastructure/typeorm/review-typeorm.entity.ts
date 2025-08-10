@@ -1,4 +1,11 @@
-import { Entity, Column, PrimaryColumn, Index, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryColumn,
+  Index,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity('reviews')
 @Index(['userId', 'productId'], { unique: true })

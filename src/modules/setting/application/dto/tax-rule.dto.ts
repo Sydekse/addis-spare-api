@@ -1,16 +1,16 @@
-import { IsNotEmpty } from "class-validator";
-import { TaxType } from "src/modules/setting/domain/entities/setting-data-types";
+import { IsNotEmpty } from 'class-validator';
+import { TaxType } from 'src/modules/setting/domain/entities/setting-data-types';
 
 export class TaxRule {
-    @IsNotEmpty()
-    region: string; 
+  @IsNotEmpty()
+  region: string;
 
-    @IsNotEmpty()
-    taxRate: number;
+  @IsNotEmpty()
+  taxRate: number;
 
-    @IsNotEmpty()
-    taxType: TaxType; 
+  @IsNotEmpty()
+  taxType: TaxType;
 
-    @IsNotEmpty()
-    isActive: boolean;
+  @IsNotEmpty()
+  isActive: boolean;
 }

@@ -40,13 +40,13 @@ export class ProductController {
     private readonly updateProductUseCase: UpdateProductUseCase,
     private readonly deleteProductUseCase: DeleteProductUseCase,
     private readonly filterProductsByCompatiblityUseCase: FilterCompatibleProductsUseCase,
-  ) { }
+  ) {}
 
   @Get('search')
   @UseRoles({
-    resource: "product",
-    possession: "any",
-    action: "read"
+    resource: 'product',
+    possession: 'any',
+    action: 'read',
   })
   async search(@Query('q') query: string): Promise<Product[]> {
     return this.productRepository.search(query);
@@ -54,9 +54,9 @@ export class ProductController {
 
   @Post()
   @UseRoles({
-    resource: "product",
-    possession: "any",
-    action: "create"
+    resource: 'product',
+    possession: 'any',
+    action: 'create',
   })
   async create(@Body() dto: CreateProductDto): Promise<Product> {
     const product = await this.productRepository.findBySKU(dto.sku);
@@ -66,9 +66,9 @@ export class ProductController {
 
   @Get('compatible')
   @UseRoles({
-    resource: "product",
-    possession: "any",
-    action: "read"
+    resource: 'product',
+    possession: 'any',
+    action: 'read',
   })
   async filterByCompatiblity(
     @Query()
@@ -85,9 +85,9 @@ export class ProductController {
 
   @Get(':id')
   @UseRoles({
-    resource: "product",
-    possession: "any",
-    action: "read"
+    resource: 'product',
+    possession: 'any',
+    action: 'read',
   })
   async findOne(@Param('id') id: string): Promise<Product> {
     const product = await this.productRepository.findById(id);
@@ -97,9 +97,9 @@ export class ProductController {
 
   @Get()
   @UseRoles({
-    resource: "product",
-    possession: "any",
-    action: "read"
+    resource: 'product',
+    possession: 'any',
+    action: 'read',
   })
   async findAll(@Query() query: Record<string, string>): Promise<Product[]> {
     return this.filterProductsUseCase.execute(query);
@@ -107,9 +107,9 @@ export class ProductController {
 
   @Put(':id')
   @UseRoles({
-    resource: "product",
-    possession: "any",
-    action: "update"
+    resource: 'product',
+    possession: 'any',
+    action: 'update',
   })
   async update(
     @Param('id') id: string,
@@ -120,9 +120,9 @@ export class ProductController {
 
   @Delete(':id')
   @UseRoles({
-    resource: "product",
-    possession: "any",
-    action: "delete"
+    resource: 'product',
+    possession: 'any',
+    action: 'delete',
   })
   async delete(@Param('id') id: string): Promise<void> {
     return this.deleteProductUseCase.execute(id);

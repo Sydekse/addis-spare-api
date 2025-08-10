@@ -1,7 +1,5 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
-import { OrderService } from 'src/modules/transaction/infrastructure/services/order.service';
 import { CapturePaymentUseCase } from 'src/modules/transaction/application/usecase/capture-payment.use-case';
 import { PaymentController } from 'src/modules/transaction/interface/http/controllers/transaction.controller';
 import { RefundPaymentUseCase } from 'src/modules/transaction/application/usecase/refund-payment.use-case';
@@ -19,7 +17,6 @@ import { TRANSACTION_REPOSITORY } from './domain/repository/transaction.reposito
     RefundPaymentUseCase,
     VoidPaymentUseCase,
     PaymentGatewayService,
-    OrderService,
     {
       provide: TRANSACTION_REPOSITORY,
       useClass: TransactionTypeOrmRepository,

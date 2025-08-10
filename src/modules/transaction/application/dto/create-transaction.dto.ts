@@ -1,4 +1,10 @@
-import { IsEnum, IsNumber, IsString, IsNotEmpty, Matches } from 'class-validator';
+import {
+  IsEnum,
+  IsNumber,
+  IsString,
+  IsNotEmpty,
+  Matches,
+} from 'class-validator';
 import { TransactionType } from 'src/modules/transaction/domain/entity/enums';
 
 export class CreateTransactionDto {

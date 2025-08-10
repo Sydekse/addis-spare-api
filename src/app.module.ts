@@ -16,6 +16,8 @@ import { ValidationModule } from './modules/validation/validation.module';
 import { NotificationModule } from './modules/notification/notification.module';
 import { CqrsModule } from '@nestjs/cqrs';
 import { MessageModule } from './modules/message/message.module';
+import { ConfigModule } from '@nestjs/config';
+import { SettingsModule } from './modules/setting/settings.module';
 
 @Module({
   imports: [
@@ -25,10 +27,14 @@ import { MessageModule } from './modules/message/message.module';
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: 'user',
+      password: 'postgres',
       database: 'addis_spare',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true, // Set to false in production
+    }),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
     }),
     ValidationModule,
     ModuleModule,
@@ -37,6 +43,7 @@ import { MessageModule } from './modules/message/message.module';
     ProductModule,
     OrderModule,
     ReportModule,
+    SettingsModule,
     RatingModule,
     UserModule,
     NotificationModule,
