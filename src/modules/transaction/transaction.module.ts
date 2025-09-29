@@ -18,7 +18,7 @@ import { StripeModule } from 'nestjs-stripe';
   imports: [
     TypeOrmModule.forFeature([TransactionTypeOrmEntity]),
     ChapaModule.register({
-      secretKey: process.env.SECRET_KEY || '',
+      secretKey: process.env.CHAPA_KEY || '',
     }),
     StripeModule.forRoot({
       apiKey: process.env.STRIPE_KEY || '',
