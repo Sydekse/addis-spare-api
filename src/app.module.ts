@@ -24,21 +24,34 @@ import { PaymentsModule } from './modules/transaction/transaction.module';
 @Module({
   imports: [
     AccessControlModule.forRoles(roles),
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        type: 'postgres',
-        host: config.get<string>('DB_HOST'),
-        port: 5342,
-        username: config.get<string>('DB_USERNAME'),
-        password: config.get<string>('DB_PASSWORD'),
-        database: config.get<string>('DB_NAME'),
-        entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: true,
-        ssl: { rejectUnauthorized: false }, // required for Supabase
-      }),
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: 'aws-1-eu-north-1.pooler.supabase.com',
+      port: 5432,
+      username: 'postgres.vrbbbgyrrznocxxagxvn',
+      password: 'zoCy1IDPqAWohYvS',
+      database: 'postgres',
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      synchronize: true,
+      ssl: {
+        rejectUnauthorized: false, // Supabase requires SSL
+      },
     }),
+    // TypeOrmModule.forRootAsync({
+    //   imports: [ConfigModule],
+    //   inject: [ConfigService],
+    //   useFactory: (config: ConfigService) => ({
+    //     type: 'postgres',
+    //     host: config.get<string>('DB_HOST'),
+    //     port: 5342,
+    //     username: config.get<string>('DB_USERNAME'),
+    //     password: config.get<string>('DB_PASSWORD'),
+    //     database: config.get<string>('DB_NAME'),
+    //     entities: [__dirname + '/**/*.entity{.ts,.js}'],
+    //     synchronize: true,
+    //     ssl: { rejectUnauthorized: false }, // required for Supabase
+    //   }),
+    // }),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
