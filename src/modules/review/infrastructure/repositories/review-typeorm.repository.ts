@@ -11,6 +11,22 @@ export class ReviewTypeOrmRepository implements ReviewRepository {
     @InjectRepository(ReviewTypeOrmEntity)
     private readonly repository: Repository<ReviewTypeOrmEntity>,
   ) {}
+  async findAll(): Promise<Review[]> {
+    const entities = await this.repository.find();
+    return entities.map(
+      (entity) =>
+        new Review(entity.userId, entity.productId, entity.body, entity.id),
+    );
+  }
+  async findByProductId(id: string): Promise<Review[]> {
+    const entities = await this.repository.find({
+      where: { productId: id },
+    });
+    return entities.map(
+      (entity) =>
+        new Review(entity.userId, entity.productId, entity.body, entity.id),
+    );
+  }
 
   async findById(id: string): Promise<Review | null> {
     const entity = await this.repository.findOne({ where: { id } });

@@ -5,6 +5,7 @@ import {
 } from '../../domain/repositories/settings.repository';
 import { SystemSettings } from '../../domain/entities/settins.entity';
 import { CreateSettingDto } from '../dto/create-settings.dto';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class CreateSettingsUsecase {
@@ -15,7 +16,7 @@ export class CreateSettingsUsecase {
 
   async execute(settings: CreateSettingDto): Promise<SystemSettings> {
     const setting = SystemSettings.create(
-      settings.id,
+      uuidv4(),
       settings.userId,
       settings.taxRules,
       settings.deliveryZones,

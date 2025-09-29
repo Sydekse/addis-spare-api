@@ -56,6 +56,12 @@ export class ProductTypeOrmEntity {
   searchVector: string;
 
   @Column({
+    nullable: false,
+    default: 'public',
+  })
+  status: 'private' | 'public';
+
+  @Column({
     name: 'compatibility',
     type: 'jsonb',
   })

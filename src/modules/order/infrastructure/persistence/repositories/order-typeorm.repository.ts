@@ -51,7 +51,12 @@ export class OrderTypeOrmRepository
     );
   }
   async findByUserId(id: string): Promise<Order[]> {
-    const orders = await this.repository.find({ where: { userId: id } });
+    const orders = await this.repository.find({
+      where: { userId: id },
+      order: {
+        placedAt: 'DESC',
+      },
+    });
     return orders.map(
       (entity) =>
         new Order(

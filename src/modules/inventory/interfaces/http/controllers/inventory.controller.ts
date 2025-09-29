@@ -18,9 +18,10 @@ import { DeleteInventoryUseCase } from 'src/modules/inventory/application/use-ca
 import { FindInventoryByIdUseCase } from 'src/modules/inventory/application/use-cases/find/find-inventory.use-case';
 import { UpdateInventoryUseCase } from 'src/modules/inventory/application/use-cases/update/update-inventory.use-case';
 import { Inventory } from 'src/modules/inventory/domain/entities/inventory.entity';
+import { FindInventoryByProductIdUseCase } from 'src/modules/inventory/application/use-cases/find/find-inventories-by-product.use-case';
 
 @Controller('inventories')
-@UseGuards(JwtAuthGuard, ACGuard)
+// @UseGuards(JwtAuthGuard, ACGuard)
 export class InventoryController {
   constructor(
     private readonly createInventoryUseCase: CreateInventoryUseCase,
@@ -28,15 +29,16 @@ export class InventoryController {
     private readonly findInventoryByIdUseCase: FindInventoryByIdUseCase,
     private readonly findAllInventoriesUseCase: FindAllInventoriesUseCase,
     private readonly deleteInventoryUseCase: DeleteInventoryUseCase,
+    private readonly findInventoriesByProductIdUseCase: FindInventoryByProductIdUseCase,
   ) {}
 
   @Post()
-  @UseRoles({
-    resource: 'inventory',
-    action: 'create',
-    possession: 'any',
-  })
-  async create(@Body() dto: CreateInventoryDto): Promise<Inventory> {
+  // @UseRoles({
+  //   resource: 'inventory',
+  //   action: 'create',
+  //   possession: 'any',
+  // })
+  async create(@Body() dto: CreateInventoryDto): Promise<any> {
     return this.createInventoryUseCase.execute(dto);
   }
 
@@ -46,18 +48,25 @@ export class InventoryController {
     action: 'read',
     possession: 'any',
   })
-  async findOne(@Param('id') id: string): Promise<Inventory | null> {
+  async findOne(@Param('id') id: string): Promise<any> {
     return this.findInventoryByIdUseCase.execute(id);
   }
 
   @Get()
-  @UseRoles({
-    resource: 'inventory',
-    action: 'read',
-    possession: 'any',
-  })
-  async findAll(): Promise<Inventory[]> {
+  // @UseRoles({
+  //   resource: 'inventory',
+  //   action: 'read',
+  //   possession: 'any',
+  // })
+  async findAll(): Promise<any[]> {
     return this.findAllInventoriesUseCase.execute();
+  }
+
+  @Get('/product/:id')
+  async getInventoriesForProduct(
+    @Param('id') id: string,
+  ): Promise<Inventory[]> {
+    return this.findInventoriesByProductIdUseCase.execute(id);
   }
 
   @Put(':id')

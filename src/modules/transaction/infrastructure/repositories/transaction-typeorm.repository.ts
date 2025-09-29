@@ -3,13 +3,34 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { TransactionTypeOrmEntity } from '../typeorm/transaction-typeorm.entity';
 import { Repository } from 'typeorm';
 import { Transaction } from '../../domain/entity/transaction.entity';
+import { TransactionRepository } from '../../domain/repository/transaction.repository';
 
 @Injectable()
-export class TransactionTypeOrmRepository {
+export class TransactionTypeOrmRepository implements TransactionRepository {
   constructor(
     @InjectRepository(TransactionTypeOrmEntity)
     private readonly repository: Repository<TransactionTypeOrmEntity>,
   ) {}
+  async findByGatewayMessage(msg: string): Promise<Transaction | null> {
+    const entity = await this.repository.findOne({
+      where: {
+        gatewayResponse: msg,
+      },
+    });
+    if (!entity) return null;
+    return new Transaction(
+      entity.id,
+      entity.orderId,
+      entity.amount,
+      entity.currency,
+      entity.type,
+      entity.status,
+      entity.userId,
+      entity.gatewayResponse,
+      entity.createdAt,
+      entity.updatedAt,
+    );
+  }
 
   async save(transaction: Transaction): Promise<void> {
     const entity = this.repository.create({
@@ -19,6 +40,7 @@ export class TransactionTypeOrmRepository {
       currency: transaction.getCurrency(),
       type: transaction.getType(),
       status: transaction.getStatus(),
+      userId: transaction.getUserId(),
       gatewayResponse: transaction.getGatewayResponse(),
       createdAt: transaction.getCreatedAt(),
       updatedAt: transaction.getUpdatedAt(),
@@ -36,6 +58,7 @@ export class TransactionTypeOrmRepository {
       entity.currency,
       entity.type,
       entity.status,
+      entity.userId,
       entity.gatewayResponse,
       entity.createdAt,
       entity.updatedAt,
@@ -53,6 +76,7 @@ export class TransactionTypeOrmRepository {
           entity.currency,
           entity.type,
           entity.status,
+          entity.userId,
           entity.gatewayResponse,
           entity.createdAt,
           entity.updatedAt,

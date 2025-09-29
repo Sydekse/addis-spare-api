@@ -1,6 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
-import { TransactionRepository } from 'src/modules/transaction//domain/repository/transaction.repository';
+import {
+  TRANSACTION_REPOSITORY,
+  TransactionRepository,
+} from 'src/modules/transaction//domain/repository/transaction.repository';
 import { PaymentGatewayService } from 'src/modules/transaction//infrastructure/services/payment-gateway.service';
 import {
   TransactionStatus,
@@ -11,6 +14,7 @@ import { Transaction } from 'src/modules/transaction//domain/entity/transaction.
 @Injectable()
 export class VoidPaymentUseCase {
   constructor(
+    @Inject(TRANSACTION_REPOSITORY)
     private readonly transactionRepository: TransactionRepository,
     private readonly paymentGateway: PaymentGatewayService,
   ) {}
@@ -33,6 +37,7 @@ export class VoidPaymentUseCase {
       originalTransaction.getCurrency(),
       TransactionType.VOID,
       TransactionStatus.PENDING,
+      originalTransaction.getUserId(),
       '',
       new Date(),
       new Date(),

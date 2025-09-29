@@ -83,7 +83,7 @@ export class OrderTypeOrmEntity {
 
   @IsNumber({ maxDecimalPlaces: 2 })
   @Min(0)
-  @Column('numeric', { precision: 10, scale: 2 })
+  @Column('numeric', { precision: 10, scale: 2, default: 0 })
   subtotal: number;
 
   @IsNumber({ maxDecimalPlaces: 2 })

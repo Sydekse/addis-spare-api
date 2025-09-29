@@ -1,19 +1,12 @@
-import { Repository } from 'typeorm';
 import {
   Filter,
   FilterTypeEnum,
 } from 'src/modules/report/application/dto/create-report.dto';
-import { ProductTypeOrmEntity } from 'src/modules/product/infrastructure/persistence/typeorm/product-typeorm.entity';
-import { OrderTypeOrmEntity } from 'src/modules/order/infrastructure/persistence/typeorm/order-typeorm.entity';
-import { InventoryTypeOrmEntity } from 'src/modules/inventory/infrastructure/persistence/typeorm/inventory-typeorm.entity';
+import { ObjectLiteral, SelectQueryBuilder } from 'typeorm';
 
 export abstract class Filterable {
-  protected applyFilters(
-    qb: ReturnType<
-      Repository<
-        ProductTypeOrmEntity | InventoryTypeOrmEntity | OrderTypeOrmEntity
-      >['createQueryBuilder']
-    >,
+  protected applyFilters<Entity extends ObjectLiteral>(
+    qb: SelectQueryBuilder<Entity>,
     alias: string,
     filters: Filter[],
     schema: Record<string, string>,
@@ -55,6 +48,7 @@ export abstract class Filterable {
           break;
 
         default:
+          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
           throw new Error(`Unsupported filter type: ${filter.type || ''}`);
       }
     });

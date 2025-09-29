@@ -38,42 +38,42 @@ export class RatingController {
   ) {}
 
   @Post()
-  @UseRoles({
-    resource: 'rating',
-    possession: 'own',
-    action: 'create',
-  })
+  // @UseRoles({
+  //   resource: 'rating',
+  //   possession: 'own',
+  //   action: 'create',
+  // })
   async create(@Req() req, @Body() dto: CreateRatingDto): Promise<Rating> {
     const userId: string = req.user.id || uuidv4();
     return this.createRatingUseCase.execute(userId, dto);
   }
 
   @Get('for-product/:id')
-  @UseRoles({
-    resource: 'rating',
-    possession: 'any',
-    action: 'read',
-  })
+  // @UseRoles({
+  //   resource: 'rating',
+  //   possession: 'any',
+  //   action: 'read',
+  // })
   async forProduct(@Param('id') id: string): Promise<Rating[]> {
     return await this.findRatingsByProductUseCase.execute(id);
   }
 
   @Get(':id')
-  @UseRoles({
-    resource: 'rating',
-    possession: 'any',
-    action: 'read',
-  })
+  // @UseRoles({
+  //   resource: 'rating',
+  //   possession: 'any',
+  //   action: 'read',
+  // })
   async findOne(@Param('id') id: string): Promise<Rating | null> {
     return this.findRatingByIdUseCase.execute(id);
   }
 
   @Get()
-  @UseRoles({
-    resource: 'rating',
-    possession: 'any',
-    action: 'read',
-  })
+  // @UseRoles({
+  //   resource: 'rating',
+  //   possession: 'any',
+  //   action: 'read',
+  // })
   async findAll(): Promise<Rating[]> {
     return this.findAllRatingsUseCase.execute();
   }

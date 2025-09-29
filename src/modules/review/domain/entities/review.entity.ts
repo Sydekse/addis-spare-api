@@ -1,4 +1,6 @@
 import { AggregateRoot } from '@nestjs/cqrs';
+import { Product } from 'src/modules/product/domain/entities/product.entity';
+import { User } from 'src/modules/users/domain/entity/user.entity';
 import { v4 as uuidv4 } from 'uuid';
 
 export class Review extends AggregateRoot {
@@ -8,8 +10,17 @@ export class Review extends AggregateRoot {
   private body: string;
   private createdAt: Date;
   private updatedAt: Date;
+  private product?: Product;
+  private user?: User;
 
-  constructor(userId: string, productId: string, body: string, id?: string) {
+  constructor(
+    userId: string,
+    productId: string,
+    body: string,
+    id?: string,
+    user?: User,
+    product?: Product,
+  ) {
     super();
     this.id = id || uuidv4();
     this.userId = userId;
@@ -17,6 +28,8 @@ export class Review extends AggregateRoot {
     this.body = body;
     this.createdAt = new Date();
     this.updatedAt = new Date();
+    this.user = user;
+    this.product = product;
   }
 
   public getId(): string {

@@ -6,7 +6,6 @@ import {
   NotificationSettings,
   UserPermission,
 } from '../../domain/entities/setting-data-types';
-import { UserRole } from 'src/modules/users/domain/entity/user-data-types';
 
 @Entity('settings')
 export class SettingsTypeOrmEntity {
@@ -25,7 +24,7 @@ export class SettingsTypeOrmEntity {
   @Column({ type: 'jsonb' })
   currencySettings: CurrencySettings;
 
-  @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
+  @Column({ type: 'jsonb' })
   userPermissions: UserPermission;
 
   @Column({ type: 'jsonb' })

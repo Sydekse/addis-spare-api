@@ -41,7 +41,10 @@ roles
   .updateAny('user')
   .deleteAny('user')
   .readAny('report')
-  .updateAny('review');
+  .updateAny('review')
+  .updateAny('message')
+  .readAny('message')
+  .readOwn('message');
 
 // Payment Gateway role
 roles.grant('payment-gateway').createAny('payment');

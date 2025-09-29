@@ -6,6 +6,7 @@ import {
   Delete,
   Body,
   Param,
+  Inject,
 } from '@nestjs/common';
 import { CreateUserDto } from 'src/modules/users/application/dto/users/create-user.dto';
 import { DeleteUserDto } from 'src/modules/users/application/dto/users/delete-user.dto';
@@ -16,6 +17,10 @@ import { DeleteUserUseCase } from 'src/modules/users/application/usecase/users/d
 import { FindUserUseCase } from 'src/modules/users/application/usecase/users/find-user.use-case';
 import { UpdateUserUseCase } from 'src/modules/users/application/usecase/users/update-user.use-case';
 import { User } from 'src/modules/users/domain/entity/user.entity';
+import {
+  USER_REPOSITORY,
+  UserRepository,
+} from 'src/modules/users/domain/repository/user.repository';
 
 @Controller('users')
 export class UserController {
@@ -24,6 +29,8 @@ export class UserController {
     private readonly updateUserUseCase: UpdateUserUseCase,
     private readonly findUserById: FindUserUseCase,
     private readonly deleteUserUseCase: DeleteUserUseCase,
+    @Inject(USER_REPOSITORY)
+    private readonly userRepository: UserRepository,
   ) {}
 
   @Post()
@@ -39,6 +46,11 @@ export class UserController {
   @Post('delete')
   async delete(@Body() dto: DeleteUserDto): Promise<void> {
     return await this.deleteUserUseCase.execute(dto);
+  }
+
+  @Get()
+  async allUsers(): Promise<User[]> {
+    return this.userRepository.findAll();
   }
 
   @Put(':id')

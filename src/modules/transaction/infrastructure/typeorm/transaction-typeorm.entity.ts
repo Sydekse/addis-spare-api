@@ -28,6 +28,9 @@ export class TransactionTypeOrmEntity {
   @Column({ length: 3 })
   currency: string;
 
+  @Column()
+  userId: string;
+
   @Column({
     type: 'enum',
     enum: TransactionType,

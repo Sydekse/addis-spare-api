@@ -29,6 +29,6 @@ export class AuthTokenHelper {
     const refreshToken = BcryptHelper.encodeb64(
       refToken.getId() + ':' + newToken,
     );
-    return { accessToken, refreshToken };
+    return { accessToken, refreshToken, user };
   }
 }

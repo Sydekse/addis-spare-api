@@ -26,7 +26,6 @@ import { UpdateOrderStatusDto } from 'src/modules/order/application/dto/update-o
 import { UpdateOrderStatusUseCase } from 'src/modules/order/application/use-cases/update/update-order.use-case';
 
 @Controller('orders')
-@UseGuards(JwtAuthGuard, ACGuard)
 @UsePipes(new ValidationPipe())
 export class OrderController {
   constructor(
@@ -40,22 +39,23 @@ export class OrderController {
   ) {}
 
   @Post()
-  @UseRoles({
-    resource: 'order',
-    action: 'create',
-    possession: 'own',
-  })
+  @UseGuards(JwtAuthGuard, ACGuard)
+  // @UseRoles({
+  //   resource: 'order',
+  //   action: 'create',
+  //   possession: 'own',
+  // })
   async create(@Req() req, @Body() dto: CreateOrderDto): Promise<Order> {
     const userId: string = req.user.id || uuidv4();
     return this.placeOrderUseCase.execute(userId, dto);
   }
 
   @Get('byUser/:id')
-  @UseRoles({
-    resource: 'order',
-    action: 'read',
-    possession: 'own',
-  })
+  // @UseRoles({
+  //   resource: 'order',
+  //   action: 'read',
+  //   possession: 'own',
+  // })
   async findOrderByUserId(@Param('id') id: string): Promise<Order[]> {
     return this.findOrdersByUserIdUseCase.execute(id);
   }
@@ -84,11 +84,11 @@ export class OrderController {
   }
 
   @Get(':id')
-  @UseRoles({
-    resource: 'order',
-    action: 'read',
-    possession: 'own',
-  })
+  // @UseRoles({
+  //   resource: 'order',
+  //   action: 'read',
+  //   possession: 'own',
+  // })
   async findOne(@Param('id') id: string): Promise<Order | null> {
     return this.findOrderByIdUseCase.execute(id);
   }

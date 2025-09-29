@@ -30,7 +30,7 @@ import { ACGuard, UseRoles } from 'nest-access-control';
 
 @Controller('products')
 @UsePipes(new ValidationPipe())
-@UseGuards(JwtAuthGuard, ACGuard)
+// @UseGuards(JwtAuthGuard, ACGuard)
 export class ProductController {
   constructor(
     private readonly createProductUseCase: CreateProductUseCase,
@@ -43,21 +43,21 @@ export class ProductController {
   ) {}
 
   @Get('search')
-  @UseRoles({
-    resource: 'product',
-    possession: 'any',
-    action: 'read',
-  })
+  // @UseRoles({
+  //   resource: 'product',
+  //   possession: 'any',
+  //   action: 'read',
+  // })
   async search(@Query('q') query: string): Promise<Product[]> {
     return this.productRepository.search(query);
   }
 
   @Post()
-  @UseRoles({
-    resource: 'product',
-    possession: 'any',
-    action: 'create',
-  })
+  // @UseRoles({
+  //   resource: 'product',
+  //   possession: 'any',
+  //   action: 'create',
+  // })
   async create(@Body() dto: CreateProductDto): Promise<Product> {
     const product = await this.productRepository.findBySKU(dto.sku);
     if (product) throw new BadRequestException('sku must be unique');
@@ -65,11 +65,11 @@ export class ProductController {
   }
 
   @Get('compatible')
-  @UseRoles({
-    resource: 'product',
-    possession: 'any',
-    action: 'read',
-  })
+  // @UseRoles({
+  //   resource: 'product',
+  //   possession: 'any',
+  //   action: 'read',
+  // })
   async filterByCompatiblity(
     @Query()
     query: {
@@ -84,11 +84,11 @@ export class ProductController {
   }
 
   @Get(':id')
-  @UseRoles({
-    resource: 'product',
-    possession: 'any',
-    action: 'read',
-  })
+  // @UseRoles({
+  //   resource: 'product',
+  //   possession: 'any',
+  //   action: 'read',
+  // })
   async findOne(@Param('id') id: string): Promise<Product> {
     const product = await this.productRepository.findById(id);
     if (!product) throw Error('product not found!');
@@ -96,21 +96,21 @@ export class ProductController {
   }
 
   @Get()
-  @UseRoles({
-    resource: 'product',
-    possession: 'any',
-    action: 'read',
-  })
+  // @UseRoles({
+  //   resource: 'product',
+  //   possession: 'any',
+  //   action: 'read',
+  // })
   async findAll(@Query() query: Record<string, string>): Promise<Product[]> {
     return this.filterProductsUseCase.execute(query);
   }
 
   @Put(':id')
-  @UseRoles({
-    resource: 'product',
-    possession: 'any',
-    action: 'update',
-  })
+  // @UseRoles({
+  //   resource: 'product',
+  //   possession: 'any',
+  //   action: 'update',
+  // })
   async update(
     @Param('id') id: string,
     @Body() dto: UpdateProductDto,
@@ -119,11 +119,11 @@ export class ProductController {
   }
 
   @Delete(':id')
-  @UseRoles({
-    resource: 'product',
-    possession: 'any',
-    action: 'delete',
-  })
+  // @UseRoles({
+  //   resource: 'product',
+  //   possession: 'any',
+  //   action: 'delete',
+  // })
   async delete(@Param('id') id: string): Promise<void> {
     return this.deleteProductUseCase.execute(id);
   }

@@ -16,21 +16,28 @@ import { ValidationModule } from './modules/validation/validation.module';
 import { NotificationModule } from './modules/notification/notification.module';
 import { CqrsModule } from '@nestjs/cqrs';
 import { MessageModule } from './modules/message/message.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SettingsModule } from './modules/setting/settings.module';
+import { ReviewsModule } from './modules/review/review.module';
+import { PaymentsModule } from './modules/transaction/transaction.module';
 
 @Module({
   imports: [
     AccessControlModule.forRoles(roles),
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'postgres',
-      database: 'addis_spare',
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true, // Set to false in production
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        type: 'postgres',
+        host: config.get<string>('DB_HOST'),
+        port: 5342,
+        username: config.get<string>('DB_USERNAME'),
+        password: config.get<string>('DB_PASSWORD'),
+        database: config.get<string>('DB_NAME'),
+        entities: [__dirname + '/**/*.entity{.ts,.js}'],
+        synchronize: true,
+        ssl: { rejectUnauthorized: false }, // required for Supabase
+      }),
     }),
     ConfigModule.forRoot({
       isGlobal: true,
@@ -38,6 +45,7 @@ import { SettingsModule } from './modules/setting/settings.module';
     }),
     ValidationModule,
     ModuleModule,
+    PaymentsModule,
     MessageModule,
     InventoryModule,
     ProductModule,
@@ -47,6 +55,7 @@ import { SettingsModule } from './modules/setting/settings.module';
     RatingModule,
     UserModule,
     NotificationModule,
+    ReviewsModule,
     AuthModule,
     CqrsModule,
   ],

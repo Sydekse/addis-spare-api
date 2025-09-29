@@ -6,6 +6,7 @@ export interface UserContact {
 }
 
 export enum UserRole {
-  USER = 'user',
+  USER = 'customer',
+  SUPPLIER = 'supplier',
   ADMIN = 'admin',
 }

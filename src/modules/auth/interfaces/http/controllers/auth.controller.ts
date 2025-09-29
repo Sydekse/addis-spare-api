@@ -10,6 +10,7 @@ import {
   ValidationPipe,
   Query,
   Res,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthTokenResponse } from 'src/modules/auth/application/dto/auth-token.response.dto';
@@ -32,6 +33,7 @@ import {
 } from 'src/modules/users/domain/repository/user.repository';
 import { Response } from 'express';
 import { ForgetPasswordDto } from 'src/modules/auth/application/dto/forget-password.dto';
+import { v4 as uuidv4 } from 'uuid';
 
 @UsePipes(new ValidationPipe())
 @Controller('auth')
@@ -91,8 +93,12 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Get('me')
   async getme(@Req() req): Promise<User | null> {
-    const userId: string = req.user.userId || '';
-    return this.userRepository.findById(userId);
+    const userId: string = req.user.userId || uuidv4();
+    console.log(req.user);
+    const user = await this.userRepository.findById(userId);
+    console.log(user);
+    if (!user) throw new UnauthorizedException('user not found');
+    return user;
   }
 
   @Get('signout')

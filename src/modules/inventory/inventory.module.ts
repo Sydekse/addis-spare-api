@@ -13,6 +13,7 @@ import { ProductModule } from '../product/product.module';
 import { LowStockEvent } from './domain/events/low-stock.event';
 import { LowStockHandler } from './domain/events/handler/low-stock-event.handler';
 import { CqrsModule } from '@nestjs/cqrs';
+import { FindInventoryByProductIdUseCase } from './application/use-cases/find/find-inventories-by-product.use-case';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { CqrsModule } from '@nestjs/cqrs';
     FindAllInventoriesUseCase,
     LowStockEvent,
     LowStockHandler,
+    FindInventoryByProductIdUseCase,
     {
       provide: INVENTORY_REPOSITORY,
       useClass: InventoryTypeOrmRepository,

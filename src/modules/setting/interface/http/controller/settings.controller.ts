@@ -12,12 +12,14 @@ import { ChangeDeliveryZoneSettingUseCase } from 'src/modules/setting/applicatio
 import { ChangeNotificationSettingUseCase } from 'src/modules/setting/application/usecase/change-notification-setting.use-case';
 import { ChangeTaxSettingsUsecase } from 'src/modules/setting/application/usecase/change-tax-settings.user-case';
 import { ChangeUserPermissionSettingUseCase } from 'src/modules/setting/application/usecase/change-user-permission-setting.use-case';
+import { CreateSettingsUsecase } from 'src/modules/setting/application/usecase/create-settings.use-case';
+import { SystemSettings } from 'src/modules/setting/domain/entities/settins.entity';
 import { User } from 'src/modules/users/domain/entity/user.entity';
 
 @Controller('settings')
 export class SettingsController {
   constructor(
-    private readonly createSettings: ChangeCurrencySettingUseCase,
+    private readonly createSettings: CreateSettingsUsecase,
     private readonly changeCurrencySettings: ChangeCurrencySettingUseCase,
     private readonly changeDeliveryZones: ChangeDeliveryZoneSettingUseCase,
     private readonly changeNotificationSettings: ChangeNotificationSettingUseCase,
@@ -26,7 +28,7 @@ export class SettingsController {
   ) {}
 
   @Post('create')
-  async updateSettings(@Body() dto: CreateSettingDto): Promise<void> {
+  async updateSettings(@Body() dto: CreateSettingDto): Promise<SystemSettings> {
     return await this.createSettings.execute(dto);
   }
 

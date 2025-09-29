@@ -4,6 +4,30 @@ import { UserUpdatedEvent } from '../events/user-updated.event';
 import { UserDeletedEvent } from '../events/user-deleted.event';
 import { UserContact, UserRole } from './user-data-types';
 
+export class SupplierDetails {
+  public businessName: string;
+  public businessType: string;
+  public taxId: string;
+  public establishedYear: string;
+  public numberOfEmployees: string;
+  public website: string;
+
+  public contactPersonName: string;
+  public contactEmail: string;
+  public contactPhone: string;
+  public street: string;
+  public building: string;
+  public city: string;
+  public country: string;
+
+  public businessDescription: string;
+  public specializations: string[];
+
+  public licenseType: string;
+  public licenseNumber: string;
+  public uploadedFiles: string[];
+}
+
 export class User extends AggregateRoot {
   private id: string;
   private email: string;
@@ -11,6 +35,7 @@ export class User extends AggregateRoot {
   private passwordHash: string;
   private contact: UserContact | null;
   private role: UserRole;
+  private supplierDetails: SupplierDetails | null;
   private createdAt: Date;
   private updatedAt: Date;
 
@@ -20,7 +45,8 @@ export class User extends AggregateRoot {
     name: string,
     passwordHash: string,
     contact: UserContact | null,
-    role: UserRole | null = null,
+    role: UserRole = UserRole.USER,
+    supplierDetails: SupplierDetails | null = null,
   ) {
     super();
     this.id = id;
@@ -29,6 +55,7 @@ export class User extends AggregateRoot {
     this.role = role ? role : UserRole.USER;
     this.passwordHash = passwordHash;
     this.contact = contact;
+    this.supplierDetails = supplierDetails;
     this.createdAt = new Date();
     this.updatedAt = new Date();
   }
@@ -58,13 +85,17 @@ export class User extends AggregateRoot {
     return this.updatedAt;
   }
 
+  public getSupplierDetails(): SupplierDetails | null {
+    return this.supplierDetails;
+  }
+
   public static create(
     id: string,
     email: string,
     name: string,
     passwordHash: string,
     contact: UserContact | null,
-    role: UserRole | null = null,
+    role: UserRole = UserRole.USER,
   ): User {
     const user = new User(id, email, name, passwordHash, contact, role);
     user.apply(new UserCreatedEvent(user));

@@ -12,6 +12,20 @@ export class UserTypeOrmRepository implements UserRepository {
     @InjectRepository(UserTypeOrmEntity)
     private readonly repository: Repository<UserTypeOrmEntity>,
   ) {}
+  async findAll(): Promise<User[]> {
+    const users = await this.repository.find();
+    return users.map(
+      (user) =>
+        new User(
+          user.id,
+          user.email,
+          user.name,
+          user.passwordHash,
+          user.contact as UserContact,
+          user.role,
+        ),
+    );
+  }
 
   async findByEmail(email: string): Promise<User | null> {
     const user = await this.repository.findOne({ where: { email } });
@@ -23,6 +37,7 @@ export class UserTypeOrmRepository implements UserRepository {
       user.name,
       user.passwordHash,
       user.contact as UserContact,
+      user.role,
     );
   }
 
@@ -36,6 +51,7 @@ export class UserTypeOrmRepository implements UserRepository {
       user.name,
       user.passwordHash,
       user.contact as UserContact,
+      user.role,
     );
   }
   async save(user: User): Promise<void> {
