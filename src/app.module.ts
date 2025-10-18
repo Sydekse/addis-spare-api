@@ -26,17 +26,27 @@ import { PaymentsModule } from './modules/transaction/transaction.module';
     AccessControlModule.forRoles(roles),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'aws-1-eu-north-1.pooler.supabase.com',
+      host: 'localhost',
       port: 5432,
-      username: 'postgres.vrbbbgyrrznocxxagxvn',
-      password: 'zoCy1IDPqAWohYvS',
-      database: 'postgres',
+      username: 'postgres',
+      password: 'postgres',
+      database: 'addis_spare',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true,
-      ssl: {
-        rejectUnauthorized: false, // Supabase requires SSL
-      },
+      synchronize: true, // Set to false in production
     }),
+    // TypeOrmModule.forRoot({
+    //   type: 'postgres',
+    //   host: 'localhost',
+    //   port: 5432,
+    //   username: 'postgres',
+    //   password: 'postgres',
+    //   database: 'addis_spare',
+    //   entities: [__dirname + '/**/*.entity{.ts,.js}'],
+    //   synchronize: true,
+    //   ssl: {
+    //     rejectUnauthorized: false, // Supabase requires SSL
+    //   },
+    // }),
     // TypeOrmModule.forRootAsync({
     //   imports: [ConfigModule],
     //   inject: [ConfigService],

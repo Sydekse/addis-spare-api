@@ -19,9 +19,10 @@ import { FindAllMessagesUseCase } from '../../../application/use-cases/find/find
 import { FindMessageByThreadUseCase } from 'src/modules/message/application/use-cases/find/find-messages-by-thread.use-case';
 import { ACGuard, UseRoles } from 'nest-access-control';
 import { JwtAuthGuard } from 'src/modules/auth/infrastructure/jwt/jwt.guard';
+import { FindConversationsUseCase } from 'src/modules/message/application/use-cases/find/find-conversation.use-case';
 
 @Controller('messages')
-@UseGuards(JwtAuthGuard, ACGuard)
+// @UseGuards(JwtAuthGuard, ACGuard)
 export class MessageController {
   constructor(
     private readonly createMessageUseCase: CreateMessageUseCase,
@@ -30,24 +31,25 @@ export class MessageController {
     private readonly findAllMessagesUseCase: FindAllMessagesUseCase,
     private readonly findMessagesByThreadUseCase: FindMessageByThreadUseCase,
     private readonly deleteMessageUseCase: DeleteMessageUseCase,
+    private readonly findConversationUseCase: FindConversationsUseCase,
   ) {}
 
   @Post()
-  @UseRoles({
-    resource: 'message',
-    action: 'create',
-    possession: 'any',
-  })
+  // @UseRoles({
+  //   resource: 'message',
+  //   action: 'create',
+  //   possession: 'any',
+  // })
   async create(@Body() dto: CreateMessageDto): Promise<Message> {
     return this.createMessageUseCase.execute(dto);
   }
 
   @Get('thread/:conversationId')
-  @UseRoles({
-    resource: 'message',
-    action: 'read',
-    possession: 'any',
-  })
+  // @UseRoles({
+  //   resource: 'message',
+  //   action: 'read',
+  //   possession: 'any',
+  // })
   async findByThread(
     @Param('conversationId') conversationId: string,
   ): Promise<Message[]> {
@@ -55,31 +57,36 @@ export class MessageController {
   }
 
   @Get(':id')
-  @UseRoles({
-    resource: 'message',
-    action: 'read',
-    possession: 'any',
-  })
+  // @UseRoles({
+  //   resource: 'message',
+  //   action: 'read',
+  //   possession: 'any',
+  // })
   async findOne(@Param('id') id: string): Promise<Message> {
     return this.findMessageByIdUseCase.execute(id);
   }
 
   @Get()
-  @UseRoles({
-    resource: 'message',
-    action: 'read',
-    possession: 'any',
-  })
+  // @UseRoles({
+  //   resource: 'message',
+  //   action: 'read',
+  //   possession: 'any',
+  // })
   async findAll(): Promise<Message[]> {
     return this.findAllMessagesUseCase.execute();
   }
 
+  @Get('/conversation/:id')
+  async getConversation(@Param('id') id: string) {
+    return this.findConversationUseCase.execute(id);
+  }
+
   @Put(':id')
-  @UseRoles({
-    resource: 'message',
-    action: 'update',
-    possession: 'any',
-  })
+  // @UseRoles({
+  //   resource: 'message',
+  //   action: 'update',
+  //   possession: 'any',
+  // })
   async update(
     @Param('id') id: string,
     @Body() dto: UpdateMessageDto,
@@ -88,11 +95,11 @@ export class MessageController {
   }
 
   @Delete(':id')
-  @UseRoles({
-    resource: 'message',
-    action: 'delete',
-    possession: 'any',
-  })
+  // @UseRoles({
+  //   resource: 'message',
+  //   action: 'delete',
+  //   possession: 'any',
+  // })
   async delete(@Param('id') id: string): Promise<void> {
     return this.deleteMessageUseCase.execute(id);
   }

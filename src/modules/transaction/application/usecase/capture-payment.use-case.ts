@@ -1,4 +1,9 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 import { PaymentGatewayService } from 'src/modules/transaction/infrastructure/services/payment-gateway.service';
 import {
@@ -71,9 +76,10 @@ export class CapturePaymentUseCase {
       transaction.initiate(gatewayResponse.message);
     } else {
       transaction.fail(gatewayResponse.message);
+      await this.transactionRepository.save(transaction);
+      throw new BadRequestException(gatewayResponse.message);
     }
 
-    await this.transactionRepository.save(transaction);
     return transaction;
   }
 }

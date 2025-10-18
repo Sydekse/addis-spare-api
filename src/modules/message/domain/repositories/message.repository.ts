@@ -14,4 +14,6 @@ export interface MessageRepository {
   findByThread(conversationId: string): Promise<Message[]>;
 
   delete(id: string): Promise<void>;
+
+  findConversations(userId: string): Promise<Message[]>;
 }

@@ -24,10 +24,10 @@ export class PaymentGatewayService {
         tx_ref,
         callback_url:
           'https://webhook.site/861304c1-9b12-423c-9814-06a1db53e6c8',
-        return_url: 'https://webhook.site/861304c1-9b12-423c-9814-06a1db53e6c8',
+        return_url: `https://addis-spare-api.onrender.com/`,
         customization: {
-          title: 'Test Title',
-          description: 'Test Description',
+          title: 'Order Payment',
+          description: 'Please complete your checkout for your order.',
         },
       });
       if (response.status === 'success') {

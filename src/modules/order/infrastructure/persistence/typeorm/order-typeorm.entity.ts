@@ -70,53 +70,33 @@ export class OrderTypeOrmEntity {
   @JoinColumn({ name: 'userId' })
   user: UserTypeOrmEntity;
 
-  @IsUUID()
   @Column('uuid')
   userId: string;
 
-  @IsArray()
-  @ArrayMinSize(1)
-  @ValidateNested({ each: true })
-  @Type(() => OrderItem)
   @Column('jsonb')
   items: OrderItem[];
 
-  @IsNumber({ maxDecimalPlaces: 2 })
-  @Min(0)
   @Column('numeric', { precision: 10, scale: 2, default: 0 })
   subtotal: number;
 
-  @IsNumber({ maxDecimalPlaces: 2 })
-  @Min(0)
-  @Column('numeric', { precision: 10, scale: 2 })
+  @Column('numeric', { precision: 10, scale: 2, default: 0 })
   tax: number;
 
-  @IsNumber({ maxDecimalPlaces: 2 })
-  @Min(0)
-  @Column('numeric', { precision: 10, scale: 2 })
+  @Column('numeric', { precision: 10, scale: 2, default: 0 })
   shippingFee: number;
 
-  @IsOptional()
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => OrderDiscount)
   @Column('jsonb', { nullable: true })
   discounts?: OrderDiscount[];
 
-  @IsNumber({ maxDecimalPlaces: 2 })
-  @Min(0)
-  @Column('numeric', { precision: 10, scale: 2 })
+  @Column('numeric', { precision: 10, scale: 2, default: 0 })
   total: number;
 
-  @IsEnum(OrderStatus)
-  @Column({ type: 'enum', enum: OrderStatus })
+  @Column({ type: 'enum', enum: OrderStatus, default: OrderStatus.PENDING })
   status: OrderStatus;
 
-  @IsDate()
   @CreateDateColumn()
   placedAt: Date;
 
-  @IsDate()
   @UpdateDateColumn()
   updatedAt: Date;
 }

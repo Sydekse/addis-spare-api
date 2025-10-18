@@ -11,6 +11,19 @@ export class MessageTypeormRepository implements MessageRepository {
     @InjectRepository(MessageTypeormEntity)
     private readonly repository: Repository<MessageTypeormEntity>,
   ) {}
+  async findConversations(userId: string): Promise<Message[]> {
+    // Find all messages where the user is either sender or recipient
+    const entities = await this.repository
+      .createQueryBuilder('message')
+      .where('message.senderId = :userId OR message.recipientId = :userId', {
+        userId,
+      })
+      .orderBy('message.sentAt', 'ASC') // optional: sort oldest → newest
+      .getMany();
+
+    // Convert TypeORM entities to domain Message entities
+    return entities.map((entity) => this.newMessage(entity));
+  }
 
   async findById(id: string): Promise<Message | null> {
     const entity = await this.repository.findOne({ where: { id } });
@@ -32,7 +45,7 @@ export class MessageTypeormRepository implements MessageRepository {
     const entity = new MessageTypeormEntity();
     entity.id = message.getId();
     entity.conversationId = message.getConversationId();
-    entity.senderId = message.getConversationId();
+    entity.senderId = message.getSenderId();
     entity.recipientId = message.getRecipientId();
     entity.body = message.getBody();
     entity.attachments = message.getAttachments();
@@ -50,7 +63,7 @@ export class MessageTypeormRepository implements MessageRepository {
 
     entity.id = message.getId();
     entity.conversationId = message.getConversationId();
-    entity.senderId = message.getConversationId();
+    entity.senderId = message.getSenderId();
     entity.recipientId = message.getRecipientId();
     entity.body = message.getBody();
     entity.attachments = message.getAttachments();

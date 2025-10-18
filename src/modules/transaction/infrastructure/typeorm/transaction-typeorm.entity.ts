@@ -15,7 +15,7 @@ export class TransactionTypeOrmEntity {
   @Column({ length: 100 })
   orderId: string;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
   amount: number;
 
   @Column({
@@ -25,7 +25,7 @@ export class TransactionTypeOrmEntity {
   })
   status: TransactionStatus;
 
-  @Column({ length: 3 })
+  @Column({ length: 3, default: 'ETB' })
   currency: string;
 
   @Column()

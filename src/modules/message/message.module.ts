@@ -10,15 +10,18 @@ import { FindMessageByIdUseCase } from './application/use-cases/find/find-by-id.
 import { FindAllMessagesUseCase } from './application/use-cases/find/find-all-messages.use-case';
 import { MESSAGE_REPOSITORY } from './domain/repositories/message.repository';
 import { FindMessageByThreadUseCase } from './application/use-cases/find/find-messages-by-thread.use-case';
+import { FindConversationsUseCase } from './application/use-cases/find/find-conversation.use-case';
+import { UserModule } from '../users/user.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([MessageTypeormEntity])],
+  imports: [TypeOrmModule.forFeature([MessageTypeormEntity]), UserModule],
   controllers: [MessageController],
   providers: [
     CreateMessageUseCase,
     UpdateMessageUseCase,
     FindMessageByThreadUseCase,
     DeleteMessageUseCase,
+    FindConversationsUseCase,
     FindMessageByIdUseCase,
     FindAllMessagesUseCase,
     {
