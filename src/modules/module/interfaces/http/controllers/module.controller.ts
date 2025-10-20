@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Controller,
   Get,
@@ -22,28 +23,25 @@ export class ModuleController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string): Promise<Module> {
+  findOne(@Param('id') id: string): Module {
     // TODO: Implement findOne use case
     throw new Error('Not implemented');
   }
 
   @Get()
-  async findAll(): Promise<Module[]> {
+  findAll(): Module[] {
     // TODO: Implement findAll use case
     throw new Error('Not implemented');
   }
 
   @Put(':id')
-  async update(
-    @Param('id') id: string,
-    @Body() dto: UpdateModuleDto,
-  ): Promise<Module> {
+  update(@Param('id') id: string, @Body() dto: UpdateModuleDto): Module {
     // TODO: Implement update use case
     throw new Error('Not implemented');
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: string): Promise<void> {
+  delete(@Param('id') id: string): void {
     // TODO: Implement delete use case
     throw new Error('Not implemented');
   }

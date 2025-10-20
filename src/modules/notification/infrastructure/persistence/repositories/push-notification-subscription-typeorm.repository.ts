@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { NotificationTypeOrmEntity } from '../typeorm/notification-type-orm.entity';
 import { PushNotificationSubscriptionRepository } from 'src/modules/notification/domain/repositories/push-notification-subscription.repository';
 import { PushNotificationSubscription } from 'src/modules/notification/domain/entities/push-notification-subscription.repository';
 import { PushNotificationSubscriptionTypeOrmEntity } from '../typeorm/push-notification-subscription-type-orm.entity';

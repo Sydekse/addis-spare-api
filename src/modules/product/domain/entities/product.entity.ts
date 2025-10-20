@@ -18,6 +18,7 @@ export class Product extends AggregateRoot {
   private price: number;
   private images: string[];
   private attributes: Record<string, any>;
+  private supplierId: string;
   private tags: string[];
   private stockControlled: boolean;
   private createdAt: Date;
@@ -37,12 +38,14 @@ export class Product extends AggregateRoot {
     tags: string[],
     stockControlled: boolean,
     compatibility: CompatibilityData[],
+    supplierId: string,
   ) {
     super();
     this.id = id;
     this.name = name;
     this.description = description;
     this.sku = sku;
+    this.supplierId = supplierId;
     this.compatibility = compatibility;
     this.brand = brand;
     this.category = category;
@@ -53,6 +56,10 @@ export class Product extends AggregateRoot {
     this.stockControlled = stockControlled;
     this.createdAt = new Date();
     this.updatedAt = new Date();
+  }
+
+  public getSupplierId(): string {
+    return this.supplierId;
   }
 
   public getId(): string {
@@ -152,6 +159,7 @@ export class Product extends AggregateRoot {
     tags: string[],
     stockControlled: boolean,
     compatibility: CompatibilityData[],
+    supplierId: string,
   ): Product {
     const product = new Product(
       id,
@@ -166,6 +174,7 @@ export class Product extends AggregateRoot {
       tags,
       stockControlled,
       compatibility,
+      supplierId,
     );
     product.apply(new ProductCreatedEvent(product));
     return product;

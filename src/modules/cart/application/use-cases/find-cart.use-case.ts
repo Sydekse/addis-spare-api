@@ -14,7 +14,7 @@ class FindCartByIdUseCase {
   async execute(cartId: FindCartByIdDto) {
     const cart = await this.cartRepository.findById(cartId.id);
     if (!cart) {
-      throw new Error(`Cart with ID ${cartId} not found`);
+      throw new Error(`Cart with ID ${cartId.id} not found`);
     }
     return cart;
   }
@@ -28,7 +28,7 @@ class FindCartByUserIdUseCase {
   async execute(userId: FindCartByUserDto) {
     const cart = await this.cartRepository.findByUserId(userId.userId);
     if (!cart) {
-      throw new Error(`Cart for user ID ${userId} not found`);
+      throw new Error(`Cart for user ID ${userId.userId} not found`);
     }
     return cart;
   }

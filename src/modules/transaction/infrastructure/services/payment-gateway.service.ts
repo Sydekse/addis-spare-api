@@ -44,6 +44,7 @@ export class PaymentGatewayService {
   }
 
   refundPayment(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     transaction: Transaction,
   ): Promise<{ success: boolean; message: string }> {
     throw new Error('Method not implemented.');

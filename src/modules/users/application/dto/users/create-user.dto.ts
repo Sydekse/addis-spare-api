@@ -5,11 +5,11 @@ import {
   IsString,
   MaxLength,
   MinLength,
-  Matches,
   ValidateNested,
   IsEnum,
 } from 'class-validator';
 import { ContactDto } from './user-contact.dto';
+import { SupplierDetailsDto } from './supplier-details.dto';
 import { UserRole } from 'src/modules/users/domain/entity/user-data-types';
 export class CreateUserDto {
   @IsNotEmpty()
@@ -51,4 +51,8 @@ export class CreateUserDto {
   @ValidateNested()
   @Type(() => ContactDto)
   contact: ContactDto;
+
+  @ValidateNested()
+  @Type(() => SupplierDetailsDto)
+  supplierDetails?: SupplierDetailsDto;
 }

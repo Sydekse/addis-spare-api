@@ -7,18 +7,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import {
-  IsUUID,
-  IsNumber,
-  Min,
-  IsArray,
-  ArrayMinSize,
-  ValidateNested,
-  IsOptional,
-  IsEnum,
-  IsDate,
-} from 'class-validator';
-import { Type } from 'class-transformer';
+import { IsUUID, IsNumber, Min } from 'class-validator';
 import { UserTypeOrmEntity } from 'src/modules/users/infrastructure/typeorm/user-typeorm.entity';
 import { OrderStatus } from 'src/modules/order/application/dto/create-order.dto';
 

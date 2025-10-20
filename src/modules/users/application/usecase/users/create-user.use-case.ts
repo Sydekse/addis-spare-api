@@ -21,6 +21,8 @@ export class CreateUserUseCase {
       createUserDto.passwordHash,
       createUserDto.contact,
       createUserDto.role,
+      false,
+      createUserDto.supplierDetails ?? null,
     );
     await this.userRepository.save(user);
     return user;

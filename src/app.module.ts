@@ -16,7 +16,7 @@ import { ValidationModule } from './modules/validation/validation.module';
 import { NotificationModule } from './modules/notification/notification.module';
 import { CqrsModule } from '@nestjs/cqrs';
 import { MessageModule } from './modules/message/message.module';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { SettingsModule } from './modules/setting/settings.module';
 import { ReviewsModule } from './modules/review/review.module';
 import { PaymentsModule } from './modules/transaction/transaction.module';
@@ -26,14 +26,18 @@ import { PaymentsModule } from './modules/transaction/transaction.module';
     AccessControlModule.forRoles(roles),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
+      host: 'aws-1-eu-north-1.pooler.supabase.com',
       port: 5432,
-      username: 'postgres',
-      password: 'postgres',
-      database: 'addis_spare',
+      username: 'postgres.vrbbbgyrrznocxxagxvn',
+      password: 'zoCy1IDPqAWohYvS',
+      database: 'postgres',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true, // Set to false in production
+      synchronize: true,
+      ssl: {
+        rejectUnauthorized: false, // Supabase requires SSL
+      },
     }),
+
     // TypeOrmModule.forRoot({
     //   type: 'postgres',
     //   host: 'localhost',

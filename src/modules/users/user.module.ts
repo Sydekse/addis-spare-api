@@ -8,6 +8,9 @@ import { FindUserUseCase } from './application/usecase/users/find-user.use-case'
 import { UpdateUserUseCase } from './application/usecase/users/update-user.use-case';
 import { UserTypeOrmRepository } from './infrastructure/repositories/user-typeorm.repository';
 import { USER_REPOSITORY } from './domain/repository/user.repository';
+import { FillSupplierDetailsUseCase } from './application/usecase/users/fill-supplier-details.use-case';
+import { GetSuppliersUseCase } from './application/usecase/users/get-suppliers.use-case';
+import { VerifySupplierUseCase } from './application/usecase/users/verify-supplier.use-case';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserTypeOrmEntity])],
@@ -17,6 +20,9 @@ import { USER_REPOSITORY } from './domain/repository/user.repository';
     DeleteUserUseCase,
     FindUserUseCase,
     UpdateUserUseCase,
+    VerifySupplierUseCase,
+    FillSupplierDetailsUseCase,
+    GetSuppliersUseCase,
     {
       provide: USER_REPOSITORY,
       useClass: UserTypeOrmRepository,

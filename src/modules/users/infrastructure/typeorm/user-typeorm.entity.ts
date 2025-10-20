@@ -5,7 +5,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { UserRole } from '../../domain/entity/user-data-types';
+import { UserRole, SupplierDetails } from '../../domain/entity/user-data-types';
 
 @Entity('users')
 export class UserTypeOrmEntity {
@@ -28,11 +28,17 @@ export class UserTypeOrmEntity {
     country: string;
   } | null;
 
+  @Column({ type: 'boolean', default: false })
+  isOnboarded: boolean;
+
   @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
   role: UserRole;
 
   @CreateDateColumn()
   createdAt: Date;
+
+  @Column({ type: 'jsonb', nullable: true })
+  supplierDetails: SupplierDetails | null;
 
   @UpdateDateColumn()
   updatedAt: Date;

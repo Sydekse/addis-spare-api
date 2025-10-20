@@ -28,7 +28,7 @@ import { JwtAuthGuard } from 'src/modules/auth/infrastructure/jwt/jwt.guard';
 
 @UsePipes(new ValidationPipe({ transform: true }))
 @Controller('notifications')
-//@UseGuards(JwtAuthGuard, ACGuard)
+@UseGuards(JwtAuthGuard, ACGuard)
 export class NotificationController {
   constructor(
     private readonly createModuleUseCase: CreateNotificationUseCase,
@@ -41,11 +41,11 @@ export class NotificationController {
   ) {}
 
   @Post()
-  // @UseRoles({
-  //   resource: 'notification',
-  //   action: 'create',
-  //   possession: 'any',
-  // })
+  @UseRoles({
+    resource: 'notification',
+    action: 'create',
+    possession: 'any',
+  })
   async create(@Body() dto: CreateNotificationDto): Promise<Notification> {
     return this.createModuleUseCase.execute(dto);
   }

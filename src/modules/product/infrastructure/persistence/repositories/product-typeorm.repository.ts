@@ -76,6 +76,7 @@ export class ProductTypeOrmRepository
           entity.tags,
           entity.stockControlled,
           entity.compatibility,
+          entity.supplierId,
         ),
     );
   }
@@ -112,6 +113,7 @@ export class ProductTypeOrmRepository
           entity.tags,
           entity.stockControlled,
           entity.compatibility,
+          entity.supplierId,
         ),
     );
   }
@@ -145,6 +147,7 @@ export class ProductTypeOrmRepository
           entity.tags,
           entity.stockControlled,
           entity.compatibility,
+          entity.supplierId,
         ),
     );
   }
@@ -165,6 +168,7 @@ export class ProductTypeOrmRepository
       entity.tags,
       entity.stockControlled,
       entity.compatibility,
+      entity.supplierId,
     );
   }
 
@@ -185,6 +189,7 @@ export class ProductTypeOrmRepository
       entity.tags,
       entity.stockControlled,
       entity.compatibility,
+      entity.supplierId,
     );
   }
 
@@ -205,6 +210,7 @@ export class ProductTypeOrmRepository
           entity.tags,
           entity.stockControlled,
           entity.compatibility,
+          entity.supplierId,
         ),
     );
   }
@@ -223,6 +229,7 @@ export class ProductTypeOrmRepository
     entity.tags = product.getTags();
     entity.stockControlled = product.getStockControlled();
     entity.compatibility = product.getCompatibility();
+    entity.supplierId = product.getSupplierId();
     entity.createdAt = product.getCreatedAt();
     entity.updatedAt = product.getUpdatedAt();
 
@@ -256,6 +263,7 @@ export class ProductTypeOrmRepository
           entity.tags,
           entity.stockControlled,
           entity.compatibility,
+          entity.supplierId,
         ),
     );
   }
@@ -278,6 +286,7 @@ export class ProductTypeOrmRepository
     entity.stockControlled = product.getStockControlled();
     entity.createdAt = product.getCreatedAt();
     entity.updatedAt = product.getUpdatedAt();
+    entity.supplierId = product.getSupplierId();
     entity.compatibility = product.getCompatibility();
 
     await this.repository.save(entity);

@@ -40,6 +40,7 @@ export class SignUpUseCase {
       passwordHash,
       null,
       dto.role,
+      false,
     );
     await this.userRepository.save(user);
 

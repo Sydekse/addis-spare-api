@@ -47,6 +47,9 @@ export class ProductTypeOrmEntity {
   @Column()
   stockControlled: boolean;
 
+  @Column()
+  supplierId: string;
+
   @Column({
     name: 'search_vector',
     type: 'tsvector',

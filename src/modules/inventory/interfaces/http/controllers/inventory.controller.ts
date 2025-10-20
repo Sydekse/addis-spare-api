@@ -21,7 +21,6 @@ import { Inventory } from 'src/modules/inventory/domain/entities/inventory.entit
 import { FindInventoryByProductIdUseCase } from 'src/modules/inventory/application/use-cases/find/find-inventories-by-product.use-case';
 
 @Controller('inventories')
-// @UseGuards(JwtAuthGuard, ACGuard)
 export class InventoryController {
   constructor(
     private readonly createInventoryUseCase: CreateInventoryUseCase,
@@ -33,21 +32,22 @@ export class InventoryController {
   ) {}
 
   @Post()
-  // @UseRoles({
-  //   resource: 'inventory',
-  //   action: 'create',
-  //   possession: 'any',
-  // })
+  @UseGuards(JwtAuthGuard, ACGuard)
+  @UseRoles({
+    resource: 'inventory',
+    action: 'create',
+    possession: 'any',
+  })
   async create(@Body() dto: CreateInventoryDto): Promise<any> {
     return this.createInventoryUseCase.execute(dto);
   }
 
   @Get(':id')
-  @UseRoles({
-    resource: 'inventory',
-    action: 'read',
-    possession: 'any',
-  })
+  // @UseRoles({
+  //   resource: 'inventory',
+  //   action: 'read',
+  //   possession: 'any',
+  // })
   async findOne(@Param('id') id: string): Promise<any> {
     return this.findInventoryByIdUseCase.execute(id);
   }

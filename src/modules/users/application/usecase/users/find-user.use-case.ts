@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import {
   USER_REPOSITORY,
   UserRepository,
@@ -12,8 +12,12 @@ export class FindUserUseCase {
     private readonly userRepository: UserRepository,
   ) {}
 
-  async execute(userToFind: FindUserDto): Promise<User | null> {
+  async execute(userToFind: FindUserDto): Promise<User> {
     const user = await this.userRepository.findById(userToFind.id);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
     return user;
   }
 }

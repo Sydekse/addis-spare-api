@@ -4,7 +4,6 @@ import {
   InventoryRepository,
 } from 'src/modules/inventory/domain/repositories/inventory.repository';
 import { Inventory } from 'src/modules/inventory/domain/entities/inventory.entity';
-import { PRODUCT_REPOSITORY } from 'src/modules/product/domain/repositories/product.repository';
 
 @Injectable()
 export class FindInventoryByIdUseCase {

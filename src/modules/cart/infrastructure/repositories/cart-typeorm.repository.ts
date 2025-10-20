@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserTypeOrmEntity } from 'src/modules/users/infrastructure/typeorm/user-typeorm.entity';
 import { LessThan, Repository } from 'typeorm';
 import { Cart } from 'src/modules/cart/domain/entities/cart.entity';
 import { CartTypeOrmEntity } from '../typeorm/cart-typeorm.entity';

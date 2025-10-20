@@ -15,6 +15,10 @@ export class CreateMessageUseCase {
   ) {}
 
   async execute(dto: CreateMessageDto): Promise<Message> {
+    if (dto.conversationId === null || dto.conversationId.trim() === '') {
+      dto.conversationId = uuidv4();
+    }
+
     const message = Message.create(
       uuidv4(),
       dto.conversationId,

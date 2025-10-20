@@ -8,6 +8,7 @@ import {
   ValidationPipe,
   Get,
 } from '@nestjs/common';
+import { chapaWebhookResponseDto } from 'src/modules/transaction/application/dto/chapa-webhook-response.dto';
 import { CreateTransactionDto } from 'src/modules/transaction/application/dto/create-transaction.dto';
 import { TransactionResponseDto } from 'src/modules/transaction/application/dto/transaction-responce.dto';
 import { CapturePaymentUseCase } from 'src/modules/transaction/application/usecase/capture-payment.use-case';
@@ -54,7 +55,7 @@ export class PaymentController {
   }
 
   @Get('payout/success')
-  async chapaWebhookHandler(@Body() dto) {
+  async chapaWebhookHandler(@Body() dto: chapaWebhookResponseDto) {
     return this.verifyPaymentUseCase.execute(dto);
   }
 

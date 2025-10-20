@@ -2,31 +2,7 @@ import { AggregateRoot } from '@nestjs/cqrs';
 import { UserCreatedEvent } from '../events/user-created.event';
 import { UserUpdatedEvent } from '../events/user-updated.event';
 import { UserDeletedEvent } from '../events/user-deleted.event';
-import { UserContact, UserRole } from './user-data-types';
-
-export class SupplierDetails {
-  public businessName: string;
-  public businessType: string;
-  public taxId: string;
-  public establishedYear: string;
-  public numberOfEmployees: string;
-  public website: string;
-
-  public contactPersonName: string;
-  public contactEmail: string;
-  public contactPhone: string;
-  public street: string;
-  public building: string;
-  public city: string;
-  public country: string;
-
-  public businessDescription: string;
-  public specializations: string[];
-
-  public licenseType: string;
-  public licenseNumber: string;
-  public uploadedFiles: string[];
-}
+import { UserContact, UserRole, SupplierDetails } from './user-data-types';
 
 export class User extends AggregateRoot {
   private id: string;
@@ -38,6 +14,7 @@ export class User extends AggregateRoot {
   private supplierDetails: SupplierDetails | null;
   private createdAt: Date;
   private updatedAt: Date;
+  private isOnboarded: boolean;
 
   constructor(
     id: string,
@@ -46,6 +23,7 @@ export class User extends AggregateRoot {
     passwordHash: string,
     contact: UserContact | null,
     role: UserRole = UserRole.USER,
+    isOnboarded: boolean,
     supplierDetails: SupplierDetails | null = null,
   ) {
     super();
@@ -55,14 +33,37 @@ export class User extends AggregateRoot {
     this.role = role ? role : UserRole.USER;
     this.passwordHash = passwordHash;
     this.contact = contact;
+    this.isOnboarded = isOnboarded;
     this.supplierDetails = supplierDetails;
     this.createdAt = new Date();
     this.updatedAt = new Date();
   }
 
+  public onboard() {
+    this.isOnboarded = true;
+    this.apply(new UserUpdatedEvent(this));
+  }
+
+  public getIsOnboarded(): boolean {
+    return this.isOnboarded;
+  }
+
+  public fillSupplierDetails(supplierDetails: SupplierDetails): void {
+    this.supplierDetails = supplierDetails;
+    this.apply(new UserUpdatedEvent(this));
+  }
+
   public getId(): string {
     return this.id;
   }
+
+  public verifySupplier() {
+    if (this.supplierDetails) {
+      this.supplierDetails.isVerified = true;
+    }
+    this.apply(new UserUpdatedEvent(this));
+  }
+
   public getEmail(): string {
     return this.email;
   }
@@ -96,8 +97,19 @@ export class User extends AggregateRoot {
     passwordHash: string,
     contact: UserContact | null,
     role: UserRole = UserRole.USER,
+    isOnboarded: boolean,
+    supplierDetails: SupplierDetails | null = null,
   ): User {
-    const user = new User(id, email, name, passwordHash, contact, role);
+    const user = new User(
+      id,
+      email,
+      name,
+      passwordHash,
+      contact,
+      role,
+      isOnboarded,
+      supplierDetails,
+    );
     user.apply(new UserCreatedEvent(user));
     return user;
   }
@@ -108,12 +120,16 @@ export class User extends AggregateRoot {
     passwordHash: string,
     contact: UserContact | null,
     role: UserRole | null,
+    supplierDetails: SupplierDetails | null = null,
   ): void {
     this.email = email;
     this.name = name;
     this.role = role ? role : this.role; // If role is null, keep the current role
     this.passwordHash = passwordHash;
     this.contact = contact;
+    if (supplierDetails !== undefined && supplierDetails !== null) {
+      this.supplierDetails = supplierDetails;
+    }
     this.updatedAt = new Date();
     this.apply(new UserUpdatedEvent(this));
   }

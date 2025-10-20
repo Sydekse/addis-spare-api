@@ -14,17 +14,18 @@ export class UserTypeOrmRepository implements UserRepository {
   ) {}
   async findAll(): Promise<User[]> {
     const users = await this.repository.find();
-    return users.map(
-      (user) =>
-        new User(
-          user.id,
-          user.email,
-          user.name,
-          user.passwordHash,
-          user.contact as UserContact,
-          user.role,
-        ),
-    );
+    return users.map((user) => {
+      return new User(
+        user.id,
+        user.email,
+        user.name,
+        user.passwordHash,
+        user.contact as UserContact,
+        user.role,
+        user.isOnboarded,
+        user.supplierDetails ?? null,
+      );
+    });
   }
 
   async findByEmail(email: string): Promise<User | null> {
@@ -38,6 +39,8 @@ export class UserTypeOrmRepository implements UserRepository {
       user.passwordHash,
       user.contact as UserContact,
       user.role,
+      user.isOnboarded,
+      user.supplierDetails ?? null,
     );
   }
 
@@ -52,6 +55,8 @@ export class UserTypeOrmRepository implements UserRepository {
       user.passwordHash,
       user.contact as UserContact,
       user.role,
+      user.isOnboarded,
+      user.supplierDetails ?? null,
     );
   }
   async save(user: User): Promise<void> {
@@ -61,7 +66,9 @@ export class UserTypeOrmRepository implements UserRepository {
     userEntity.name = user.getName();
     userEntity.passwordHash = user.getPasswordHash();
     userEntity.contact = user.getContact();
+    userEntity.supplierDetails = user.getSupplierDetails() ?? null;
     userEntity.role = user.getRole() ?? UserRole.USER;
+    userEntity.isOnboarded = user.getIsOnboarded();
     await this.repository.save(userEntity);
   }
   async update(user: User): Promise<void> {
@@ -79,6 +86,15 @@ export class UserTypeOrmRepository implements UserRepository {
     }
     if (user.getContact() !== undefined) {
       entity.contact = user.getContact();
+    }
+
+    entity.isOnboarded = user.getIsOnboarded();
+
+    if (
+      user.getSupplierDetails() !== undefined &&
+      user.getSupplierDetails() !== null
+    ) {
+      entity.supplierDetails = user.getSupplierDetails();
     }
     if (user.getPasswordHash() !== '' && user.getPasswordHash() !== undefined) {
       entity.passwordHash = user.getPasswordHash();

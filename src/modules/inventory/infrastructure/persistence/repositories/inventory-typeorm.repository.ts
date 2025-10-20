@@ -40,6 +40,7 @@ export class InventoryTypeOrmRepository
       entity.tags,
       entity.stockControlled,
       entity.compatibility,
+      entity.supplierId,
     );
   };
 

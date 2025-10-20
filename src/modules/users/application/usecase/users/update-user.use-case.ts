@@ -1,5 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { User } from 'src/modules/users/domain/entity/user.entity';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import {
   USER_REPOSITORY,
   UserRepository,
@@ -14,14 +13,20 @@ export class UpdateUserUseCase {
   ) {}
 
   async execute(userToUpdate: UpdateUserDto): Promise<void> {
-    const user = User.create(
-      userToUpdate.id,
-      userToUpdate.email,
+    const user = await this.userRepository.findById(userToUpdate.id);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    user.update(
+      user.getEmail(),
       userToUpdate.name,
-      userToUpdate.passwordHash,
+      user.getPasswordHash(),
       userToUpdate.contact,
-      userToUpdate.role,
+      user.getRole(),
+      user.getSupplierDetails(),
     );
+
     await this.userRepository.update(user);
   }
 }

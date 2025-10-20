@@ -9,9 +9,10 @@ import { FilterProductsUseCase } from './application/use-cases/find/find-product
 import { UpdateProductUseCase } from './application/use-cases/update/update-product.use-case';
 import { FilterCompatibleProductsUseCase } from './application/use-cases/find/filter-product-by-compatiblity.use-case';
 import { DeleteProductUseCase } from './application/use-cases/delete/delete-product.use-case';
+import { UserModule } from '../users/user.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ProductTypeOrmEntity])],
+  imports: [TypeOrmModule.forFeature([ProductTypeOrmEntity]), UserModule],
   controllers: [ProductController],
   providers: [
     CreateProductUseCase,

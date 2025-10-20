@@ -12,6 +12,7 @@ import {
   UsePipes,
   BadRequestException,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { CreateProductUseCase } from '../../../application/use-cases/create/create-product.use-case';
 import { CreateProductDto } from '../../../application/dto/create-product.dto';
@@ -26,11 +27,11 @@ import { UpdateProductUseCase } from 'src/modules/product/application/use-cases/
 import { FilterCompatibleProductsUseCase } from 'src/modules/product/application/use-cases/find/filter-product-by-compatiblity.use-case';
 import { DeleteProductUseCase } from 'src/modules/product/application/use-cases/delete/delete-product.use-case';
 import { JwtAuthGuard } from 'src/modules/auth/infrastructure/jwt/jwt.guard';
+import { v4 as uuidv4 } from 'uuid';
 import { ACGuard, UseRoles } from 'nest-access-control';
 
 @Controller('products')
 @UsePipes(new ValidationPipe())
-// @UseGuards(JwtAuthGuard, ACGuard)
 export class ProductController {
   constructor(
     private readonly createProductUseCase: CreateProductUseCase,
@@ -53,15 +54,18 @@ export class ProductController {
   }
 
   @Post()
-  // @UseRoles({
-  //   resource: 'product',
-  //   possession: 'any',
-  //   action: 'create',
-  // })
-  async create(@Body() dto: CreateProductDto): Promise<Product> {
+  @UseGuards(JwtAuthGuard, ACGuard)
+  @UseRoles({
+    resource: 'product',
+    possession: 'any',
+    action: 'create',
+  })
+  async create(@Req() req, @Body() dto: CreateProductDto): Promise<Product> {
+    const id = req?.user.id || uuidv4();
+    console.log(req?.user);
     const product = await this.productRepository.findBySKU(dto.sku);
     if (product) throw new BadRequestException('sku must be unique');
-    return this.createProductUseCase.execute(dto);
+    return this.createProductUseCase.execute(id, dto);
   }
 
   @Get('compatible')
@@ -106,6 +110,7 @@ export class ProductController {
   }
 
   @Put(':id')
+  @UseGuards(JwtAuthGuard)
   // @UseRoles({
   //   resource: 'product',
   //   possession: 'any',
@@ -119,11 +124,7 @@ export class ProductController {
   }
 
   @Delete(':id')
-  // @UseRoles({
-  //   resource: 'product',
-  //   possession: 'any',
-  //   action: 'delete',
-  // })
+  @UseGuards(JwtAuthGuard)
   async delete(@Param('id') id: string): Promise<void> {
     return this.deleteProductUseCase.execute(id);
   }

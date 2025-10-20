@@ -1,8 +1,6 @@
-import { Body, Controller, Param, Post } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { CreateSettingDto } from 'src/modules/setting/application/dto/create-settings.dto';
-import { CurrencySettingsDto } from 'src/modules/setting/application/dto/currency-setting.dto';
 import { DeliveryZoneUpdateDto } from 'src/modules/setting/application/dto/delivery-zone-update.dto';
-import { DeliveryZoneDto } from 'src/modules/setting/application/dto/delivery-zone.dto';
 import { ChangeNotificationDto } from 'src/modules/setting/application/dto/notification-setting-updated.dto';
 import { UpdateCurrencySettingsDto } from 'src/modules/setting/application/dto/update-currency-setting.dto';
 import { UpdateTaxSettingsDto } from 'src/modules/setting/application/dto/update-tax-settins.dto';
@@ -14,7 +12,6 @@ import { ChangeTaxSettingsUsecase } from 'src/modules/setting/application/usecas
 import { ChangeUserPermissionSettingUseCase } from 'src/modules/setting/application/usecase/change-user-permission-setting.use-case';
 import { CreateSettingsUsecase } from 'src/modules/setting/application/usecase/create-settings.use-case';
 import { SystemSettings } from 'src/modules/setting/domain/entities/settins.entity';
-import { User } from 'src/modules/users/domain/entity/user.entity';
 
 @Controller('settings')
 export class SettingsController {
