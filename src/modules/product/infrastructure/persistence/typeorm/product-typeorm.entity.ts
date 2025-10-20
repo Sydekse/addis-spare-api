@@ -47,7 +47,7 @@ export class ProductTypeOrmEntity {
   @Column()
   stockControlled: boolean;
 
-  @Column()
+  @Column({ default: '' })
   supplierId: string;
 
   @Column({
