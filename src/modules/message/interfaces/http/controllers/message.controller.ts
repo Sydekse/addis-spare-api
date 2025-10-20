@@ -22,7 +22,7 @@ import { JwtAuthGuard } from 'src/modules/auth/infrastructure/jwt/jwt.guard';
 import { FindConversationsUseCase } from 'src/modules/message/application/use-cases/find/find-conversation.use-case';
 
 @Controller('messages')
-@UseGuards(JwtAuthGuard, ACGuard)
+@UseGuards(JwtAuthGuard)
 export class MessageController {
   constructor(
     private readonly createMessageUseCase: CreateMessageUseCase,
@@ -35,21 +35,21 @@ export class MessageController {
   ) {}
 
   @Post()
-  @UseRoles({
-    resource: 'message',
-    action: 'create',
-    possession: 'any',
-  })
+  // @UseRoles({
+  //   resource: 'message',
+  //   action: 'create',
+  //   possession: 'any',
+  // })
   async create(@Body() dto: CreateMessageDto): Promise<Message> {
     return this.createMessageUseCase.execute(dto);
   }
 
   @Get('thread/:conversationId')
-  @UseRoles({
-    resource: 'message',
-    action: 'read',
-    possession: 'any',
-  })
+  // @UseRoles({
+  //   resource: 'message',
+  //   action: 'read',
+  //   possession: 'any',
+  // })
   async findByThread(
     @Param('conversationId') conversationId: string,
   ): Promise<Message[]> {
@@ -57,21 +57,21 @@ export class MessageController {
   }
 
   @Get(':id')
-  @UseRoles({
-    resource: 'message',
-    action: 'read',
-    possession: 'any',
-  })
+  // @UseRoles({
+  //   resource: 'message',
+  //   action: 'read',
+  //   possession: 'any',
+  // })
   async findOne(@Param('id') id: string): Promise<Message> {
     return this.findMessageByIdUseCase.execute(id);
   }
 
   @Get()
-  @UseRoles({
-    resource: 'message',
-    action: 'read',
-    possession: 'any',
-  })
+  // @UseRoles({
+  //   resource: 'message',
+  //   action: 'read',
+  //   possession: 'any',
+  // })
   async findAll(): Promise<Message[]> {
     return this.findAllMessagesUseCase.execute();
   }
@@ -82,11 +82,11 @@ export class MessageController {
   }
 
   @Put(':id')
-  @UseRoles({
-    resource: 'message',
-    action: 'update',
-    possession: 'any',
-  })
+  // @UseRoles({
+  //   resource: 'message',
+  //   action: 'update',
+  //   possession: 'any',
+  // })
   async update(
     @Param('id') id: string,
     @Body() dto: UpdateMessageDto,
@@ -95,11 +95,11 @@ export class MessageController {
   }
 
   @Delete(':id')
-  @UseRoles({
-    resource: 'message',
-    action: 'delete',
-    possession: 'any',
-  })
+  // @UseRoles({
+  //   resource: 'message',
+  //   action: 'delete',
+  //   possession: 'any',
+  // })
   async delete(@Param('id') id: string): Promise<void> {
     return this.deleteMessageUseCase.execute(id);
   }
