@@ -28,7 +28,6 @@ import { FilterCompatibleProductsUseCase } from 'src/modules/product/application
 import { DeleteProductUseCase } from 'src/modules/product/application/use-cases/delete/delete-product.use-case';
 import { JwtAuthGuard } from 'src/modules/auth/infrastructure/jwt/jwt.guard';
 import { v4 as uuidv4 } from 'uuid';
-import { ACGuard, UseRoles } from 'nest-access-control';
 
 @Controller('products')
 @UsePipes(new ValidationPipe())
@@ -54,12 +53,12 @@ export class ProductController {
   }
 
   @Post()
-  @UseGuards(JwtAuthGuard, ACGuard)
-  @UseRoles({
-    resource: 'product',
-    possession: 'any',
-    action: 'create',
-  })
+  @UseGuards(JwtAuthGuard)
+  // @UseRoles({
+  //   resource: 'product',
+  //   possession: 'any',
+  //   action: 'create',
+  // })
   async create(@Req() req, @Body() dto: CreateProductDto): Promise<Product> {
     const id = req?.user.id || uuidv4();
     console.log(req?.user);
