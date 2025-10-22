@@ -67,7 +67,7 @@ export class CapturePaymentUseCase {
     );
 
     // transaction.validateAgainstOrderTotal(order.total);
-
+    console.log('CapturePaymentUseCase called with:', captureTrans, transaction);
     const gatewayResponse = await this.paymentGateway.capturePayment(
       transaction,
       user,

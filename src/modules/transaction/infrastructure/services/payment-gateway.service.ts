@@ -10,7 +10,7 @@ export class PaymentGatewayService {
     transaction: Transaction,
     user: User,
   ): Promise<{ success: boolean; message: string }> {
-    // const callback_url = `https://addis-spare-api.onrender.com/transactions/validate/${transaction.getId()}`;
+    const callback_url = `https://addis-spare-api.onrender.com/payments/validate/${transaction.getId()}`;
     try {
       const tx_ref = await this.chapaService.generateTransactionReference();
       const response = await this.chapaService.initialize({
@@ -21,11 +21,10 @@ export class PaymentGatewayService {
             : user.getName(),
         email: user.getEmail(),
         currency: transaction.getCurrency(),
-        amount: `${transaction.getAmount()}`,
+        amount: `${Math.max(300, transaction.getAmount())}`,
         tx_ref,
-        callback_url:
-          'https://webhook.site/861304c1-9b12-423c-9814-06a1db53e6c8',
-        return_url: `https://addis-spare-api.onrender.com/`,
+        callback_url,
+        return_url: `https://addis.sydek.dev`,
         customization: {
           title: 'Order Payment',
           description: 'Please complete your checkout for your order.',
