@@ -11,6 +11,7 @@ export class PaymentGatewayService {
     user: User,
   ): Promise<{ success: boolean; message: string }> {
     const callback_url = `https://addis-spare-api.onrender.com/payments/validate/${transaction.getId()}`;
+    console.log('Callback URL:', callback_url);
     try {
       const tx_ref = await this.chapaService.generateTransactionReference();
       const response = await this.chapaService.initialize({
