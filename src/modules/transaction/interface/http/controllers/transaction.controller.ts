@@ -36,6 +36,13 @@ export class PaymentController {
     return this.mapToResponseDto(transaction);
   }
 
+  @Post('validate/:transactionId')
+  async validate(
+    @Param('transactionId') transactionId: string,
+  ) { 
+    return 'ok';
+  }
+
   @Post('refund/:transactionId')
   @HttpCode(201)
   async refund(
