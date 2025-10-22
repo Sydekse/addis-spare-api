@@ -39,7 +39,7 @@ export class OrderController {
   ) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard, ACGuard)
+  @UseGuards(JwtAuthGuard)
   // @UseRoles({
   //   resource: 'order',
   //   action: 'create',
@@ -61,21 +61,21 @@ export class OrderController {
   }
 
   @Put(':id/cancel')
-  @UseRoles({
-    resource: 'order',
-    action: 'update',
-    possession: 'own',
-  })
+  // @UseRoles({
+  //   resource: 'order',
+  //   action: 'update',
+  //   possession: 'own',
+  // })
   async cancel(@Param('id') id: string): Promise<Order | null> {
     return this.cancelOrderUseCase.execute(id);
   }
 
   @Put(':id')
-  @UseRoles({
-    resource: 'order',
-    action: 'update',
-    possession: 'own',
-  })
+  // @UseRoles({
+  //   resource: 'order',
+  //   action: 'update',
+  //   possession: 'own',
+  // })
   async updateOrderStatus(
     @Param('id') id: string,
     dto: UpdateOrderStatusDto,
@@ -94,21 +94,21 @@ export class OrderController {
   }
 
   @Get()
-  @UseRoles({
-    resource: 'order',
-    action: 'read',
-    possession: 'any',
-  })
+  // @UseRoles({
+  //   resource: 'order',
+  //   action: 'read',
+  //   possession: 'any',
+  // })
   async findAll(): Promise<Order[]> {
     return this.findAllOrdersUseCase.execute();
   }
 
   @Delete(':id')
-  @UseRoles({
-    resource: 'invetory',
-    action: 'delete',
-    possession: 'any',
-  })
+  // @UseRoles({
+  //   resource: 'invetory',
+  //   action: 'delete',
+  //   possession: 'any',
+  // })
   async delete(@Param('id') id: string): Promise<void> {
     return this.deleteOrderUseCase.execute(id);
   }

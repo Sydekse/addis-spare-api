@@ -32,12 +32,12 @@ export class InventoryController {
   ) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard, ACGuard)
-  @UseRoles({
-    resource: 'inventory',
-    action: 'create',
-    possession: 'any',
-  })
+  @UseGuards(JwtAuthGuard)
+  // @UseRoles({
+  //   resource: 'inventory',
+  //   action: 'create',
+  //   possession: 'any',
+  // })
   async create(@Body() dto: CreateInventoryDto): Promise<any> {
     return this.createInventoryUseCase.execute(dto);
   }
@@ -70,11 +70,11 @@ export class InventoryController {
   }
 
   @Put(':id')
-  @UseRoles({
-    resource: 'inventory',
-    action: 'update',
-    possession: 'any',
-  })
+  // @UseRoles({
+  //   resource: 'inventory',
+  //   action: 'update',
+  //   possession: 'any',
+  // })
   async update(
     @Param('id') id: string,
     @Body() dto: UpdateInventoryDto,
@@ -83,11 +83,11 @@ export class InventoryController {
   }
 
   @Delete(':id')
-  @UseRoles({
-    resource: 'inventory',
-    action: 'delete',
-    possession: 'any',
-  })
+  // @UseRoles({
+  //   resource: 'inventory',
+  //   action: 'delete',
+  //   possession: 'any',
+  // })
   async delete(@Param('id') id: string): Promise<void> {
     return this.deleteInventoryUseCase.execute(id);
   }

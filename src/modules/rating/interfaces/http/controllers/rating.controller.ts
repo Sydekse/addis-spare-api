@@ -25,7 +25,7 @@ import { Rating } from 'src/modules/rating/domain/entities/rating.entity';
 import { v4 as uuidv4 } from 'uuid';
 
 @Controller('ratings')
-@UseGuards(JwtAuthGuard, ACGuard)
+@UseGuards(JwtAuthGuard)
 @UsePipes(new ValidationPipe())
 export class RatingController {
   constructor(
@@ -79,11 +79,11 @@ export class RatingController {
   }
 
   @Put(':id')
-  @UseRoles({
-    resource: 'rating',
-    possession: 'own',
-    action: 'update',
-  })
+  // @UseRoles({
+  //   resource: 'rating',
+  //   possession: 'own',
+  //   action: 'update',
+  // })
   async update(
     @Req() req,
     @Param('id') id: string,
@@ -94,11 +94,11 @@ export class RatingController {
   }
 
   @Delete(':id')
-  @UseRoles({
-    resource: 'rating',
-    possession: 'any',
-    action: 'delete',
-  })
+  // @UseRoles({
+  //   resource: 'rating',
+  //   possession: 'any',
+  //   action: 'delete',
+  // })
   async delete(@Param('id') id: string) {
     return await this.deleteRatingUseCase.execute(id);
   }

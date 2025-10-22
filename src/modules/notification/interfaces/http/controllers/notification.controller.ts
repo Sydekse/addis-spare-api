@@ -28,7 +28,7 @@ import { JwtAuthGuard } from 'src/modules/auth/infrastructure/jwt/jwt.guard';
 
 @UsePipes(new ValidationPipe({ transform: true }))
 @Controller('notifications')
-@UseGuards(JwtAuthGuard, ACGuard)
+@UseGuards(JwtAuthGuard)
 export class NotificationController {
   constructor(
     private readonly createModuleUseCase: CreateNotificationUseCase,
@@ -41,41 +41,41 @@ export class NotificationController {
   ) {}
 
   @Post()
-  @UseRoles({
-    resource: 'notification',
-    action: 'create',
-    possession: 'any',
-  })
+  // @UseRoles({
+  //   resource: 'notification',
+  //   action: 'create',
+  //   possession: 'any',
+  // })
   async create(@Body() dto: CreateNotificationDto): Promise<Notification> {
     return this.createModuleUseCase.execute(dto);
   }
 
   @Get(':userId/in-app')
-  @UseRoles({
-    resource: 'notification',
-    action: 'read',
-    possession: 'own',
-  })
+  // @UseRoles({
+  //   resource: 'notification',
+  //   action: 'read',
+  //   possession: 'own',
+  // })
   async getInApp(@Param('userId') userId: string) {
     return this.findInAppNotificationForUserUseCase.execute(userId);
   }
 
   @Get(':id')
-  @UseRoles({
-    resource: 'notification',
-    action: 'read',
-    possession: 'any',
-  })
+  // @UseRoles({
+  //   resource: 'notification',
+  //   action: 'read',
+  //   possession: 'any',
+  // })
   async findOne(@Param('id') id: string): Promise<Notification> {
     return this.findNotificationByIdUseCase.execute(id);
   }
 
   @Get()
-  @UseRoles({
-    resource: 'notification',
-    action: 'read',
-    possession: 'any',
-  })
+  // @UseRoles({
+  //   resource: 'notification',
+  //   action: 'read',
+  //   possession: 'any',
+  // })
   async findAll(): Promise<Notification[]> {
     return this.findAllNotificationsUseCase.execute();
   }
@@ -90,11 +90,11 @@ export class NotificationController {
   }
 
   @Put(':id')
-  @UseRoles({
-    resource: 'notification',
-    action: 'update',
-    possession: 'any',
-  })
+  // @UseRoles({
+  //   resource: 'notification',
+  //   action: 'update',
+  //   possession: 'any',
+  // })
   async update(
     @Param('id') id: string,
     @Body() dto: UpdateNotificationDto,
@@ -103,11 +103,11 @@ export class NotificationController {
   }
 
   @Delete(':id')
-  @UseRoles({
-    resource: 'notification',
-    action: 'delete',
-    possession: 'any',
-  })
+  // @UseRoles({
+  //   resource: 'notification',
+  //   action: 'delete',
+  //   possession: 'any',
+  // })
   async delete(@Param('id') id: string): Promise<void> {
     return this.deleteNotificationUseCase.execute(id);
   }
