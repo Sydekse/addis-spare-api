@@ -15,6 +15,8 @@ import { RefreshToken } from '../../domain/entities/refresh-tokens.entity';
 import { AuthTokenResponse } from '../dto/auth-token.response.dto';
 import { AuthTokenHelper } from '../helpers/refresh-token.helpers';
 import { BcryptHelper } from '../helpers/bcrypt.helpers';
+import { SETTINGS_REPOSITORY, SettingsRepository } from 'src/modules/setting/domain/repositories/settings.repository';
+import { SystemSettings } from 'src/modules/setting/domain/entities/settins.entity';
 
 @Injectable()
 export class SignUpUseCase {
@@ -23,6 +25,8 @@ export class SignUpUseCase {
     private readonly userRepository: UserRepository,
     @Inject(REFRESH_TOKEN_REPOSITORY)
     private readonly refreshTokenRepository: RefreshTokenRepository,
+    @Inject(SETTINGS_REPOSITORY)
+    private readonly userSettingsRepository: SettingsRepository,
     private readonly jwtService: JwtTokenService,
   ) {}
 
@@ -43,6 +47,20 @@ export class SignUpUseCase {
       false,
     );
     await this.userRepository.save(user);
+
+    const userSettings = await this.userSettingsRepository.find();
+    const defaultSetting = userSettings[0];
+    const userSetting = SystemSettings.create(
+      uuidv4(),
+      user.getId(),
+      defaultSetting.getTaxRules(),
+      defaultSetting.getDeliveryZones(),
+      defaultSetting.getUserPermissions(),
+      defaultSetting.getCurrencySettings(),
+      defaultSetting.getNotificationSettings()
+    );
+
+    await this.userSettingsRepository.save(userSetting);
 
     const refreshTokenEnt = RefreshToken.create(
       uuidv4(),

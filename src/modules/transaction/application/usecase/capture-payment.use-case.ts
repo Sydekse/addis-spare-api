@@ -67,13 +67,16 @@ export class CapturePaymentUseCase {
     );
 
     // transaction.validateAgainstOrderTotal(order.total);
-    console.log('CapturePaymentUseCase called with:', captureTrans, transaction);
+    // console.log('CapturePaymentUseCase called with:', captureTrans, transaction);
     const gatewayResponse = await this.paymentGateway.capturePayment(
       transaction,
       user,
     );
     if (gatewayResponse.success) {
       transaction.initiate(gatewayResponse.message);
+      order.changeStatus(OrderStatus.PAID);
+      await this.orderRepository.update(order);
+      await this.transactionRepository.save(transaction);
     } else {
       transaction.fail(gatewayResponse.message);
       await this.transactionRepository.save(transaction);

@@ -13,6 +13,7 @@ export class Inventory extends AggregateRoot {
   private supplierId?: string;
   private lastUpdated: Date;
   private product?: Product;
+  private reorderThreshold: number;
 
   constructor(
     id: string,
@@ -29,6 +30,7 @@ export class Inventory extends AggregateRoot {
     this.location = location;
     this.quantity = quantity;
     this.reorderTreshould = reorderTreshould;
+    this.reorderThreshold = this.reorderThreshold;
     this.supplierId = supplierId;
     this.product = product;
     this.lastUpdated = new Date();
