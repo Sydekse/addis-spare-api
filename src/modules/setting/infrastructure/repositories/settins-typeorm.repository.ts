@@ -18,18 +18,21 @@ export class SettingsTypeOrmRepository implements SettingsRepository {
   constructor(
     @InjectRepository(SettingsTypeOrmEntity)
     private readonly repository: Repository<SettingsTypeOrmEntity>,
-  ) { }
+  ) {}
   async find(): Promise<SystemSettings[]> {
     const entities = await this.repository.find();
-    return entities.map(e => new SystemSettings(
-      e.id,
-      e.userId,
-      e.taxRules,
-      e.deliveryZones,
-      e.userPermissions,
-      e.currencySettings,
-      e.notificationSettings,
-    ))
+    return entities.map(
+      (e) =>
+        new SystemSettings(
+          e.id,
+          e.userId,
+          e.taxRules,
+          e.deliveryZones,
+          e.userPermissions,
+          e.currencySettings,
+          e.notificationSettings,
+        ),
+    );
   }
 
   async findByUserId(userId: string): Promise<SystemSettings | null> {

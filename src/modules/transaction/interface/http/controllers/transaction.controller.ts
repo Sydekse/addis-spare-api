@@ -40,7 +40,7 @@ export class PaymentController {
   async validate(
     @Param('transactionId') transactionId: string,
     @Body() dto: any,
-  ) { 
+  ) {
     console.log(`The webhook responds with: `, dto, transactionId);
     return 'ok';
   }

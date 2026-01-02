@@ -20,7 +20,7 @@ export interface SettingsRepository {
     id: string,
     currencySettings: CurrencySettings,
   ): Promise<void>;
-  find(): Promise<SystemSettings[]>
+  find(): Promise<SystemSettings[]>;
   updateNotificationSettings(
     id: string,
     notificationSettings: NotificationSettings,

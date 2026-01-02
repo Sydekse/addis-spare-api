@@ -15,7 +15,10 @@ import { RefreshToken } from '../../domain/entities/refresh-tokens.entity';
 import { AuthTokenResponse } from '../dto/auth-token.response.dto';
 import { AuthTokenHelper } from '../helpers/refresh-token.helpers';
 import { BcryptHelper } from '../helpers/bcrypt.helpers';
-import { SETTINGS_REPOSITORY, SettingsRepository } from 'src/modules/setting/domain/repositories/settings.repository';
+import {
+  SETTINGS_REPOSITORY,
+  SettingsRepository,
+} from 'src/modules/setting/domain/repositories/settings.repository';
 import { SystemSettings } from 'src/modules/setting/domain/entities/settins.entity';
 
 @Injectable()

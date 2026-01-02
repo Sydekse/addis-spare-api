@@ -199,7 +199,7 @@ export class InventoryTypeOrmRepository
     entity.supplierId = inventory.getSupplierId();
     entity.lastUpdated = inventory.getLastUpdated();
     entity.quantity = inventory.getQuantity();
-    entity.reorderThreshold = inventory.getReorderTreshould();
+    entity.reorderThreshold = inventory.getReorderThreshold();
     entity.location = inventory.getLocation();
 
     await this.repository.save(entity);
@@ -216,7 +216,7 @@ export class InventoryTypeOrmRepository
     entity.supplierId = inventory.getSupplierId();
     entity.lastUpdated = inventory.getLastUpdated();
     entity.quantity = inventory.getQuantity();
-    entity.reorderThreshold = inventory.getReorderTreshould();
+    entity.reorderThreshold = inventory.getReorderThreshold();
     entity.location = inventory.getLocation();
 
     await this.repository.save(entity);
