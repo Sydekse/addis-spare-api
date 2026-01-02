@@ -9,7 +9,6 @@ export class Inventory extends AggregateRoot {
   private productId: string;
   private location: string;
   private quantity: number;
-  private reorderTreshould: number;
   private supplierId?: string;
   private lastUpdated: Date;
   private product?: Product;
@@ -20,7 +19,7 @@ export class Inventory extends AggregateRoot {
     productId: string,
     location: string,
     quantity: number,
-    reorderTreshould: number,
+    reorderThreshold: number,
     supplierId?: string,
     product?: Product,
   ) {
@@ -29,8 +28,7 @@ export class Inventory extends AggregateRoot {
     this.productId = productId;
     this.location = location;
     this.quantity = quantity;
-    this.reorderTreshould = reorderTreshould;
-    this.reorderThreshold = this.reorderThreshold;
+    this.reorderThreshold = reorderThreshold;
     this.supplierId = supplierId;
     this.product = product;
     this.lastUpdated = new Date();
@@ -52,8 +50,8 @@ export class Inventory extends AggregateRoot {
     return this.quantity;
   }
 
-  public getReorderTreshould(): number {
-    return this.reorderTreshould;
+  public getReorderThreshold(): number {
+    return this.reorderThreshold;
   }
 
   public getSupplierId(): string | undefined {
@@ -68,16 +66,16 @@ export class Inventory extends AggregateRoot {
     productId: string,
     location: string,
     quantity: number,
-    reorderTreshould: number,
+    reorderThreshold: number,
     supplierId?: string,
   ): Inventory {
     this.productId = productId;
     this.location = location;
     this.quantity = quantity;
-    this.reorderTreshould = reorderTreshould;
+    this.reorderThreshold = reorderThreshold;
     this.supplierId = supplierId;
     this.lastUpdated = new Date();
-    if (this.reorderTreshould >= this.quantity) {
+    if (this.reorderThreshold >= this.quantity) {
       this.apply(new LowStockEvent(this));
     }
     this.apply(new InventoryUpdatedEvent(this));
@@ -89,7 +87,7 @@ export class Inventory extends AggregateRoot {
     productId: string,
     location: string,
     quantity: number,
-    reorderTreshould: number,
+    reorderThreshold: number,
     supplierId?: string,
   ): Inventory {
     const inventory = new Inventory(
@@ -97,7 +95,7 @@ export class Inventory extends AggregateRoot {
       productId,
       location,
       quantity,
-      reorderTreshould,
+      reorderThreshold,
       supplierId,
     );
     inventory.apply(new InventoryCreatedEvent(inventory));

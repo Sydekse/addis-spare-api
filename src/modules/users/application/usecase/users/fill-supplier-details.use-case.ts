@@ -22,7 +22,7 @@ export class FillSupplierDetailsUseCase {
   async execute(
     id: string,
     supplierDetails: SupplierDetailsDto,
-    update: boolean = false,
+    update: boolean = true,
   ): Promise<User> {
     const user = await this.userRepository.findById(id);
     if (!user) {
@@ -34,10 +34,9 @@ export class FillSupplierDetailsUseCase {
     }
 
     if (!update) {
-      supplierDetails.isVerified = false;
+      supplierDetails.isVerified = true;
     } else {
-      supplierDetails.isVerified =
-        user.getSupplierDetails()?.isVerified || false;
+      supplierDetails.isVerified = true;
     }
     user.fillSupplierDetails(supplierDetails);
     user.onboard();
