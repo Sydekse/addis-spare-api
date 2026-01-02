@@ -4,8 +4,10 @@ import {
   DeliveryZone,
   NotificationSettings,
   TaxRule,
+  TaxType,
   UserPermission,
 } from './setting-data-types';
+import { UserRole } from '../../../users/domain/entity/user-data-types';
 
 export class SystemSettings extends AggregateRoot {
   private id: string;
@@ -108,5 +110,56 @@ export class SystemSettings extends AggregateRoot {
   ): void {
     this.notificationSettings = notificationSettings;
     this.updatedAt = new Date();
+  }
+
+  public static getDefault(id: string, userId: string): SystemSettings {
+    const defaultTaxRules: TaxRule = {
+      region: 'ET',
+      taxRate: 15,
+      taxType: TaxType.VAT,
+      isActive: true,
+    };
+
+    const defaultDeliveryZones: DeliveryZone = {
+      zoneId: 'default-zone',
+      zoneName: 'Default Zone',
+      deliveryFee: 0,
+      estimatedDeliveryDays: 3,
+      supportedAreas: [],
+    };
+
+    const defaultUserPermissions: UserPermission = {
+      role: UserRole.ADMIN,
+      permissions: {
+        canManageProducts: true,
+        canProcessOrders: true,
+        canManageUsers: true,
+        canConfigureSystem: true,
+      },
+    };
+
+    const defaultCurrencySettings: CurrencySettings = {
+      primaryCurrency: 'ETB',
+      secondaryCurrency: null,
+      exchangeRate: null,
+      exchangeRateUpdatedAt: null,
+    };
+
+    const defaultNotificationSettings: NotificationSettings = {
+      orderConfirmation: true,
+      shippingUpdates: true,
+      promotional: false,
+      lowStockAlerts: true,
+    };
+
+    return new SystemSettings(
+      id,
+      userId,
+      defaultTaxRules,
+      defaultDeliveryZones,
+      defaultUserPermissions,
+      defaultCurrencySettings,
+      defaultNotificationSettings,
+    );
   }
 }

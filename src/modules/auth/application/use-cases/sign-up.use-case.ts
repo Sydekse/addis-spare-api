@@ -48,17 +48,7 @@ export class SignUpUseCase {
     );
     await this.userRepository.save(user);
 
-    const userSettings = await this.userSettingsRepository.find();
-    const defaultSetting = userSettings[0];
-    const userSetting = SystemSettings.create(
-      uuidv4(),
-      user.getId(),
-      defaultSetting.getTaxRules(),
-      defaultSetting.getDeliveryZones(),
-      defaultSetting.getUserPermissions(),
-      defaultSetting.getCurrencySettings(),
-      defaultSetting.getNotificationSettings()
-    );
+    const userSetting = SystemSettings.getDefault(uuidv4(), user.getId());
 
     await this.userSettingsRepository.save(userSetting);
 
