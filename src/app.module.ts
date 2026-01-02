@@ -26,15 +26,15 @@ import { PaymentsModule } from './modules/transaction/transaction.module';
     AccessControlModule.forRoles(roles),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'aws-1-eu-north-1.pooler.supabase.com',
+      host: 'dpg-d5bkq0chg0os73dmind0-a.oregon-postgres.render.com',
       port: 5432,
-      username: 'postgres.vrbbbgyrrznocxxagxvn',
-      password: 'zoCy1IDPqAWohYvS',
-      database: 'postgres',
+      username: 'addisspare',
+      password: 'Qv2aE2rCIaxTujXkcQpCjcS4svuPSzYc',
+      database: 'addisspare',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
       ssl: {
-        rejectUnauthorized: false, // Supabase requires SSL
+        rejectUnauthorized: false,
       },
     }),
 
